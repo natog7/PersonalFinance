@@ -1,0 +1,17 @@
+[
+    {
+        "name": "C#",
+        "version": "2.23.11",
+        "autoUpdate": true
+    },
+    {
+        "name": "C# Dev Kit",
+        "version": "0.33.7",
+        "autoUpdate": true
+    },
+    {
+        "name": "Pylance",
+        "version": "1.1.358",
+        "autoUpdate": true
+    }
+]
