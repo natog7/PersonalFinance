@@ -114,7 +114,6 @@ PostgreSQL Database
 ### API Documentation
 
 - **[Scalar](https://github.com/scalar/scalar)** (v2.12.24) - Modern API documentation UI
-- **[OpenAPI/Swagger](https://learn.microsoft.com/en-us/aspnet/core/web-api/openapi)** - API specification
 
 ### Development Tools
 
@@ -598,30 +597,6 @@ Immutable objects like `Money` ensure type safety and encapsulation.
 - `appsettings.Development.json` - Development overrides
 - `appsettings.Production.json` - Production settings (if present)
 
-## Contributing
-
-Contributions are welcome! Please follow these guidelines:
-
-1. **Fork** the repository
-2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
-3. **Commit** your changes with clear messages (`git commit -m 'Add amazing feature'`)
-4. **Push** to the branch (`git push origin feature/amazing-feature`)
-5. **Open** a Pull Request
-
-### Code Style
-
-- Follow C# coding conventions
-- Use meaningful variable and method names
-- Add XML documentation comments to public members
-- Ensure all tests pass before opening a PR
-
-### Testing Requirements
-
-- Add unit tests for new business logic
-- Add integration tests for repository/database operations
-- Add functional tests for API endpoints
-- Maintain or improve code coverage
-
 ## License
 
 This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
@@ -634,11 +609,3 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 - [MediatR Documentation](https://github.com/jbogard/MediatR/wiki)
 - [FluentValidation Documentation](https://fluentvalidation.net/)
 - [ASP.NET Core Best Practices](https://docs.microsoft.com/en-us/aspnet/core/introduction-to-aspnet-core)
-
-## Support
-
-For questions, issues, or suggestions:
-
-- Open an **Issue** on GitHub
-- Create a **Discussion** for questions
-- Check existing issues before creating a new one
