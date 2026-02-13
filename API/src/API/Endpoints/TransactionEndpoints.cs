@@ -24,11 +24,12 @@ public static class TransactionEndpoints
 			.Produces(StatusCodes.Status200OK)
 			.Produces(StatusCodes.Status404NotFound);
 
-		group.MapGet("/", GetTransactions)
+		group.MapPost("/filter/", GetTransactions)
             .WithName("Get Transactions")
-            .Produces(StatusCodes.Status200OK);
+            .Produces(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status400BadRequest);
 
-        group.MapGet("/balance-projection/{categoryId}", GetBalanceProjection)
+		group.MapGet("/balance-projection/{categoryId}", GetBalanceProjection)
             .WithName("Get Balance Projection")
             .Produces(StatusCodes.Status200OK);
     }

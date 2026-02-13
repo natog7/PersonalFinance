@@ -14,7 +14,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 // Add services
 builder.Services
-    .AddMediatR(typeof(CreateTransactionCommand).Assembly)
+    .AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(CreateTransactionCommand).Assembly))
     .AddValidatorsFromAssemblyContaining<CreateTransactionCommand>()
     .AddInfrastructure(connectionString);
 
@@ -30,8 +30,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Add OpenAPI (Swagger)
-//builder.Services.AddOpenApi();
+builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
