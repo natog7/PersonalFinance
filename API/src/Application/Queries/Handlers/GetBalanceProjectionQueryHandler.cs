@@ -1,5 +1,6 @@
 using PersonalFinanceAPI.Application.Repositories;
 using PersonalFinanceAPI.Domain.Enums;
+using PersonalFinanceAPI.Domain.ValueObjects;
 
 namespace PersonalFinanceAPI.Application.Queries.Handlers;
 
@@ -23,17 +24,7 @@ public class GetBalanceProjectionQueryHandler : IRequestHandler<GetBalanceProjec
         if (request.MonthCount <= 0)
             throw new ArgumentException("Month count must be greater than zero.", nameof(request.MonthCount));
 
-        var result = new GetBalanceProjectionResult { CategoryId = request.CategoryId };
-
-        // Get budget information for the category
-        //var budget = await _dbContext.Budgets
-        //    .FirstOrDefaultAsync(b => b.CategoryId == request.CategoryId && b.IsActive, cancellationToken);
-
-        //if (budget is null)
-        //    return result; // Return empty projections if no active budget
-
-        // Get all confirmed transactions for the category
-        var transactions = await _repository.GetByCategoryAsync(request.CategoryId, cancellationToken);
+        var result = new GetBalanceProjectionResult();
 
         // Calculate monthly projections
         for (int i = 0; i < request.MonthCount; i++)
@@ -43,9 +34,10 @@ public class GetBalanceProjectionQueryHandler : IRequestHandler<GetBalanceProjec
             var month = projectionDate.Month;
 
             // Get transactions for this month
-            var monthTransactions = transactions
-                .Where(t => t.Date.Year == year && t.Date.Month == month)
-                .ToList();
+            var monthTransactions = await _repository.GetFilterAsync(new GetTransactionsQuery()
+            {
+                Date = DateOnlyPeriod.Create(new DateOnly(year, month, 1), new DateOnly(year, month, DateTime.DaysInMonth(year, month)))
+            }, cancellationToken);
 
             // Calculate balance: Income - Expense
             var income = monthTransactions
