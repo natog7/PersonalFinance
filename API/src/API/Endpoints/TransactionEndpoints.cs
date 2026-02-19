@@ -29,10 +29,11 @@ public static class TransactionEndpoints
             .Produces(StatusCodes.Status200OK)
 			.Produces(StatusCodes.Status400BadRequest);
 
-		group.MapGet("/balance-projection/{categoryId}", GetBalanceProjection)
+		group.MapPost("/balance-projection/", GetBalanceProjection)
             .WithName("Get Balance Projection")
-            .Produces(StatusCodes.Status200OK);
-    }
+            .Produces(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status400BadRequest);
+	}
 
     private static async Task<IResult> CreateTransaction(
         CreateTransactionCommand command,
@@ -84,13 +85,12 @@ public static class TransactionEndpoints
 	}
 
 	private static async Task<IResult> GetBalanceProjection(
-        Guid categoryId,
+        [AsParameters] GetBalanceProjectionQuery query,
         IMediator mediator,
         CancellationToken cancellationToken)
     {
         try
         {
-            var query = new GetBalanceProjectionQuery { CategoryId = categoryId };
             var result = await mediator.Send(query, cancellationToken);
             return Results.Ok(result);
         }
