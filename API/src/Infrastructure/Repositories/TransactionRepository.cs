@@ -1,5 +1,6 @@
 using PersonalFinanceAPI.Infrastructure.Persistence;
 using PersonalFinanceAPI.Application.Repositories;
+using PersonalFinanceAPI.Application.Queries;
 
 namespace PersonalFinanceAPI.Infrastructure.Repositories;
 
@@ -51,36 +52,33 @@ public class TransactionRepository : ITransactionRepository
         }
 	}
 
-	public async Task<List<Transaction>> GetByCategoryAsync(
-		Guid categoryId,
-		CancellationToken cancellationToken = default)
+	public async Task<List<Transaction>> GetFilterAsync(GetTransactionsQuery filters, CancellationToken cancellationToken = default)
 	{
-		return await _dbContext.Transactions
-			.AsNoTracking()
-			.Where(t => t.CategoryId == categoryId)
-			.OrderByDescending(t => t.Date)
-			.ToListAsync(cancellationToken);
-	}
-
-	public async Task<List<Transaction>> GetByDateRangeAsync(
-		DateOnly startDate,
-		DateOnly endDate,
-		CancellationToken cancellationToken = default)
-	{
-		return await _dbContext.Transactions
-			.AsNoTracking()
-			.Where(t => t.Date >= startDate && t.Date <= endDate)
-			.OrderByDescending(t => t.Date)
-			.ToListAsync(cancellationToken);
-	}
-
-	public async Task<Transaction?> GetByIdempotencyHashAsync(
-		string hash,
-		CancellationToken cancellationToken = default)
-	{
-		return await _dbContext.Transactions
-			.AsNoTracking()
-			.FirstOrDefaultAsync(t => t.IdempotencyHash == hash, cancellationToken);
+		var query = _dbContext.Transactions.AsNoTracking().AsQueryable();
+		if (!string.IsNullOrEmpty(filters.Title))
+		{
+			query = query.Where(t => t.Title.Contains(filters.Title));
+		}
+		if (filters.Date is not null)
+		{
+			if(filters.Date.End is not null)
+			{
+				query = query.Where(t => t.Date >= filters.Date.Start && t.Date <= filters.Date.End);
+			}
+			else
+			{
+				query = query.Where(t => t.Date == filters.Date.Start);
+			}
+		}
+		if(filters.Type is not null)
+		{
+			query = query.Where(t => t.Type == filters.Type);
+		}
+		if(filters.CategoryIds is not null && filters.CategoryIds.Any())
+		{
+			query = query.Where(t => filters.CategoryIds.Contains(t.CategoryId));
+		}
+		return await query.Include(t => t.Category).OrderByDescending(t => t.Date).ToListAsync(cancellationToken);
 	}
 
 	public async Task<int> GetCountAsync(CancellationToken cancellationToken = default)
@@ -91,5 +89,5 @@ public class TransactionRepository : ITransactionRepository
     public IQueryable<Transaction> GetQueryable()
     {
         return _dbContext.Transactions.Include(t => t.Category).AsQueryable();
-    }
+	}
 }
