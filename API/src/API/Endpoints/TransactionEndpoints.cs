@@ -82,7 +82,7 @@ public static class TransactionEndpoints
     }
 
     private static async Task<IResult> GetTransactions(
-        [AsParameters] GetTransactionsQuery query,
+        GetTransactionsQuery query,
         ClaimsPrincipal user,
         IMediator mediator,
         CancellationToken cancellationToken)
@@ -101,7 +101,7 @@ public static class TransactionEndpoints
     }
 
     private static async Task<IResult> GetBalanceProjection(
-        [AsParameters] GetBalanceProjectionQuery query,
+        GetBalanceProjectionQuery query,
         ClaimsPrincipal user,
         IMediator mediator,
         CancellationToken cancellationToken)
