@@ -11,8 +11,3 @@ public class GetTransactionsQuery : IRequest<GetTransactionsResult>
 	public TransactionType? Type { get; set; }
 	public List<Guid>? CategoryIds { get; set; }
 }
-
-public class GetTransactionsResult
-{
-    public List<TransactionDto> Transactions { get; set; } = new();
-}

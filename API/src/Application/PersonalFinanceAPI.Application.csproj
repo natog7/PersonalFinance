@@ -22,7 +22,6 @@
   <ItemGroup>
     <Folder Include="Features\RecurrentTransactions\" />
     <Folder Include="Features\Transactions\" />
-    <Folder Include="Queries\" />
     <Folder Include="Queries\Handlers\" />
   </ItemGroup>
 

@@ -1,31 +1,7 @@
-using MediatR;
 using PersonalFinanceAPI.Application.Services;
 using PersonalFinanceAPI.Application.Repositories;
-using PersonalFinanceAPI.Domain.Entities;
 
 namespace PersonalFinanceAPI.Application.Features.Auth.Queries;
-
-public class LoginQuery : IRequest<LoginResponse?>
-{
-    public string Email { get; set; } = string.Empty;
-    public string Password { get; set; } = string.Empty;
-}
-
-public class LoginResponse
-{
-    public Guid UserId { get; set; }
-    public string Email { get; set; } = string.Empty;
-    public string FullName { get; set; } = string.Empty;
-    public TokenDto Token { get; set; } = new();
-}
-
-public class TokenDto
-{
-    public string AccessToken { get; set; } = string.Empty;
-    public string RefreshToken { get; set; } = string.Empty;
-    public int ExpiresIn { get; set; } = 3600;
-    public string TokenType { get; set; } = "Bearer";
-}
 
 public class LoginQueryHandler : IRequestHandler<LoginQuery, LoginResponse?>
 {

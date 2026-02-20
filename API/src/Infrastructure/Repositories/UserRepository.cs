@@ -5,16 +5,11 @@ using PersonalFinanceAPI.Application.Repositories;
 
 namespace PersonalFinanceAPI.Infrastructure.Repositories;
 
-public class UserRepository : IUserRepository
+public class UserRepository : BaseRepository, IUserRepository
 {
-    private readonly ApplicationDbContext _dbContext;
+	public UserRepository(ApplicationDbContext dbContext) : base(dbContext) { }
 
-    public UserRepository(ApplicationDbContext dbContext)
-    {
-        _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
-    }
-
-    public async Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+	public async Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
         return await _dbContext.Users
             .AsNoTracking()

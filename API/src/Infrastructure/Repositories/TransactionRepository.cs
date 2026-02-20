@@ -8,14 +8,9 @@ namespace PersonalFinanceAPI.Infrastructure.Repositories;
 /// Repository implementation for Transaction aggregate root.
 /// Provides CRUD operations and specialized queries.
 /// </summary>
-public class TransactionRepository : ITransactionRepository
+public class TransactionRepository : BaseRepository, ITransactionRepository
 {
-    private readonly ApplicationDbContext _dbContext;
-
-    public TransactionRepository(ApplicationDbContext dbContext)
-    {
-        _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
-    }
+	public TransactionRepository(ApplicationDbContext dbContext) : base(dbContext) { }
 
     public async Task<Transaction?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
