@@ -9,6 +9,7 @@ using PersonalFinanceAPI.Application.Features.Transactions;
 using PersonalFinanceAPI.Application.Features.Auth.Commands;
 using FluentValidation;
 using Scalar.AspNetCore;
+using PersonalFinanceAPI.Application.Features.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 

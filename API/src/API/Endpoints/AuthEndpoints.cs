@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using PersonalFinanceAPI.Application.Features.Auth;
 using PersonalFinanceAPI.Application.Features.Auth.Commands;
 using PersonalFinanceAPI.Application.Features.Auth.Queries;
 
