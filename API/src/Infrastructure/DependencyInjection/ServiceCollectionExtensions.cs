@@ -1,7 +1,10 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using PersonalFinanceAPI.Infrastructure.Persistence;
 using PersonalFinanceAPI.Infrastructure.Repositories;
+using PersonalFinanceAPI.Infrastructure.Security;
 using PersonalFinanceAPI.Application.Repositories;
+using PersonalFinanceAPI.Application.Services;
 
 namespace PersonalFinanceAPI.Infrastructure.DependencyInjection;
 
@@ -29,6 +32,11 @@ public static class ServiceCollectionExtensions
 
         // Register Repositories
         services.AddScoped<ITransactionRepository, TransactionRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
+
+        // Register Security Services
+        services.AddScoped<IPasswordHasher, BcryptPasswordHasher>();
+        services.AddScoped<Application.Services.ITokenService, JwtTokenService>();
 
         return services;
     }

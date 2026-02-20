@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using PersonalFinanceAPI.Domain.Entities;
 using PersonalFinanceAPI.Domain.Enums;
 
 namespace PersonalFinanceAPI.Infrastructure.Persistence;
@@ -11,16 +13,53 @@ public class ApplicationDbContext : DbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
-    public DbSet<Transaction> Transactions { get; set; } = null!;
+	public DbSet<User> Users { get; set; } = null!;
+	public DbSet<Transaction> Transactions { get; set; } = null!;
     public DbSet<Category> Categories { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
+        ConfigureUser(modelBuilder);
         ConfigureTransaction(modelBuilder);
         ConfigureRecurrentTransaction(modelBuilder);
-		ConfigureCategory(modelBuilder);
+        ConfigureCategory(modelBuilder);
+    }
+
+    private static void ConfigureUser(ModelBuilder modelBuilder)
+    {
+        var builder = modelBuilder.Entity<User>();
+
+        builder.HasKey(u => u.Id);
+
+        builder.Property(u => u.Email)
+            .IsRequired()
+            .HasMaxLength(256)
+            .IsUnicode(false);
+
+        builder.HasIndex(u => u.Email)
+            .IsUnique();
+
+        builder.Property(u => u.Nickname)
+            .IsRequired()
+            .HasMaxLength(256);
+
+        builder.Property(u => u.PasswordHash)
+            .IsRequired();
+
+        builder.Property(u => u.Role)
+            .HasConversion(
+                v => v.ToString(),
+                v => Enum.Parse<UserRole>(v))
+            .IsRequired();
+
+        builder.Property(u => u.IsActive)
+            .HasDefaultValue(true);
+
+        builder.Property(u => u.CreatedAt)
+            .IsRequired()
+            .HasDefaultValueSql("CURRENT_TIMESTAMP");
     }
 
     private static void ConfigureTransaction(ModelBuilder modelBuilder)

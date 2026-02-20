@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -6,16 +6,6 @@
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Application.UnitTests\**" />
-    <EmbeddedResource Remove="Application.UnitTests\**" />
-    <None Remove="Application.UnitTests\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Infrastructure.UnitTests\Infrastructure.UnitTests.csproj" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="6.0.4" />
@@ -28,11 +18,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Using Include="Xunit" />
+    <ProjectReference Include="../../../src/Infrastructure/PersonalFinanceAPI.Infrastructure.csproj" />
+    <ProjectReference Include="../../../src/Application/PersonalFinanceAPI.Application.csproj" />
+    <ProjectReference Include="../../../src/Domain/PersonalFinanceAPI.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Infrastructure.UnitTests\Security\" />
+    <Using Include="Xunit" />
   </ItemGroup>
 
 </Project>
