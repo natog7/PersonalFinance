@@ -426,6 +426,3 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
-/API/QUICKSTART.md
-/API/AUTHENTICATION.md
-/API/IMPLEMENTATION_SUMMARY.md

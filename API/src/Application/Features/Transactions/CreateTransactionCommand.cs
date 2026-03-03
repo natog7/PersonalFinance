@@ -1,3 +1,5 @@
+using PersonalFinanceAPI.Domain.Enums;
+
 namespace PersonalFinanceAPI.Application.Features.Transactions;
 
 /// <summary>

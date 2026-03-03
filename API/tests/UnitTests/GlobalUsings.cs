@@ -1,0 +1,13 @@
+global using Xunit;
+global using Moq;
+global using PersonalFinanceAPI.Domain.Entities;
+global using PersonalFinanceAPI.Domain.Enums;
+global using PersonalFinanceAPI.Domain.ValueObjects;
+global using PersonalFinanceAPI.Application.Features.Transactions;
+global using PersonalFinanceAPI.Application.Features.RecurrentTransactions;
+global using PersonalFinanceAPI.Application.Features.Auth;
+global using PersonalFinanceAPI.Application.Queries;
+global using PersonalFinanceAPI.Application.Queries.Handlers;
+global using PersonalFinanceAPI.Application.Repositories;
+global using PersonalFinanceAPI.Application.Services;
+global using FluentValidation;

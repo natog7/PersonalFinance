@@ -14,12 +14,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Infrastructure.UnitTests\Infrastructure.UnitTests.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="6.0.4" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
+    <PackageReference Include="Moq" Version="4.20.71" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -29,10 +26,23 @@
 
   <ItemGroup>
     <Using Include="Xunit" />
+    <Using Include="Moq" />
+    <Using Include="PersonalFinanceAPI.Domain.Entities" />
+    <Using Include="PersonalFinanceAPI.Domain.Enums" />
+    <Using Include="PersonalFinanceAPI.Domain.ValueObjects" />
+    <Using Include="PersonalFinanceAPI.Application.Features.Transactions" />
+    <Using Include="PersonalFinanceAPI.Application.Features.RecurrentTransactions" />
+    <Using Include="PersonalFinanceAPI.Application.Features.Auth.Commands" />
+    <Using Include="PersonalFinanceAPI.Application.Features.Auth.Queries" />
+    <Using Include="PersonalFinanceAPI.Application.Queries" />
+    <Using Include="PersonalFinanceAPI.Application.Queries.Handlers" />
+    <Using Include="PersonalFinanceAPI.Application.Repositories" />
+    <Using Include="PersonalFinanceAPI.Application.Services" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Infrastructure.UnitTests\Security\" />
+    <ProjectReference Include="..\..\src\Application\PersonalFinanceAPI.Application.csproj" />
+    <ProjectReference Include="..\..\src\Domain\PersonalFinanceAPI.Domain.csproj" />
   </ItemGroup>
 
 </Project>
