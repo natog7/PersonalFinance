@@ -125,7 +125,7 @@ public class RegisterCommandValidatorTests
 		{
 			Email = "test@example.com",
 			Password = "SecurePassword123!",
-			FullName = new string('a', 256)
+			FullName = new string('a', 257)
 		};
 
 		// Act

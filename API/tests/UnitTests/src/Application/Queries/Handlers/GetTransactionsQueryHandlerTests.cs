@@ -112,12 +112,19 @@ public class GetTransactionsQueryHandlerTests
 	public async Task Handle_WithMultipleTransactions_ReturnsAllAsDtos()
 	{
 		// Arrange
+		var categories = Enumerable.Range(1, 5).Select(i => Category.Create($"Category {i}")).ToList();
 		var transactions = Enumerable.Range(1, 5)
 			.Select(i => Transaction.Create($"Transaction {i}", Money.Create(100m * i, "BRL"),
 				DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-i)),
 				i % 2 == 0 ? TransactionType.Income : TransactionType.Expense,
-				Guid.NewGuid()))
+				categories[i - 1].Id))
 			.ToList();
+
+		for (int i = 0; i < transactions.Count; i++)
+		{
+			var prop = typeof(Transaction).GetProperty("Category", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic);
+			prop?.SetValue(transactions[i], categories[i]);
+		}
 
 		_mockRepository.Setup(r => r.GetFilterAsync(It.IsAny<GetTransactionsQuery>(), It.IsAny<CancellationToken>()))
 			.ReturnsAsync(transactions);
