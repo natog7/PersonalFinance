@@ -89,8 +89,8 @@ public class CreateRecurrentTransactionCommandHandlerTests
 		};
 
 		RecurrentTransaction? capturedTransaction = null;
-		_mockRepository.Setup(r => r.AddAsync(It.IsAny<RecurrentTransaction>(), It.IsAny<CancellationToken>()))
-			.Callback<RecurrentTransaction, CancellationToken>((t, _) => capturedTransaction = t)
+		_mockRepository.Setup(r => r.AddAsync(It.IsAny<Transaction>(), It.IsAny<CancellationToken>()))
+			.Callback<Transaction, CancellationToken>((t, _) => capturedTransaction = (RecurrentTransaction)t)
 			.Returns(Task.CompletedTask);
 
 		// Act
@@ -159,8 +159,8 @@ public class CreateRecurrentTransactionCommandHandlerTests
 		};
 
 		RecurrentTransaction? capturedTransaction = null;
-		_mockRepository.Setup(r => r.AddAsync(It.IsAny<RecurrentTransaction>(), It.IsAny<CancellationToken>()))
-			.Callback<RecurrentTransaction, CancellationToken>((t, _) => capturedTransaction = t)
+		_mockRepository.Setup(r => r.AddAsync(It.IsAny<Transaction>(), It.IsAny<CancellationToken>()))
+			.Callback<Transaction, CancellationToken>((t, _) => capturedTransaction = (RecurrentTransaction)t)
 			.Returns(Task.CompletedTask);
 
 		// Act

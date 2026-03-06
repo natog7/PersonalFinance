@@ -16,12 +16,14 @@ public class GetTransactionQueryHandlerTests
 	{
 		// Arrange
 		var transactionId = Guid.NewGuid();
-		var categoryId = Guid.NewGuid();
-		var transaction = Transaction.Create("Test Transaction", Money.Create(100m, "BRL"),
-			DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-1)), TransactionType.Income, categoryId);
-		
 		var category = Category.Create("Test Category");
+		var transaction = Transaction.Create("Test Transaction", Money.Create(100m, "BRL"),
+			DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-1)), TransactionType.Income, category.Id);
 		
+
+		var prop = typeof(Transaction).GetProperty("Category");
+		prop?.SetValue(transaction, category);
+
 		// Setup mock to return the transaction with category
 		_mockRepository.Setup(r => r.GetByIdAsync(transactionId, It.IsAny<CancellationToken>()))
 			.ReturnsAsync(transaction);
@@ -88,9 +90,12 @@ public class GetTransactionQueryHandlerTests
 	public async Task Handle_MapsTransactionToDto()
 	{
 		// Arrange
-		var categoryId = Guid.NewGuid();
+		var category = Category.Create("Category");
 		var transaction = Transaction.Create("Salary", Money.Create(5000m, "BRL"),
-			DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-1)), TransactionType.Income, categoryId);
+			DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-1)), TransactionType.Income, category.Id);
+
+		var prop = typeof(Transaction).GetProperty("Category");
+		prop?.SetValue(transaction, category);
 
 		_mockRepository.Setup(r => r.GetByIdAsync(transaction.Id, It.IsAny<CancellationToken>()))
 			.ReturnsAsync(transaction);
@@ -106,7 +111,7 @@ public class GetTransactionQueryHandlerTests
 		Assert.Equal("Salary", result.Title);
 		Assert.Equal(5000m, result.Amount);
 		Assert.Equal("BRL", result.Currency);
-		Assert.Equal(categoryId, result.CategoryId);
+		Assert.Equal(category.Id, result.CategoryId);
 		Assert.Equal((int)TransactionType.Income, result.Type);
 		Assert.False(result.IsRecurrent);
 	}
@@ -115,11 +120,14 @@ public class GetTransactionQueryHandlerTests
 	public async Task Handle_WithRecurrentTransaction_SetsIsRecurrentTrue()
 	{
 		// Arrange
-		var categoryId = Guid.NewGuid();
+		var category = Category.Create("Category");
 		var transaction = RecurrentTransaction.Create("Monthly Rent", Money.Create(1500m, "BRL"),
 			DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-1)),
 			DateOnly.FromDateTime(DateTime.UtcNow.AddMonths(12)),
-			TransactionType.Expense, categoryId, RecurrentPeriod.Monthly);
+			TransactionType.Expense, category.Id, RecurrentPeriod.Monthly);
+
+		var prop = typeof(Transaction).GetProperty("Category");
+		prop?.SetValue(transaction, category);
 
 		_mockRepository.Setup(r => r.GetByIdAsync(transaction.Id, It.IsAny<CancellationToken>()))
 			.ReturnsAsync(transaction);

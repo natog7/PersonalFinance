@@ -15,16 +15,20 @@ public class GetTransactionsQueryHandlerTests
 	public async Task Handle_WithTransactions_ReturnsTransactionDtos()
 	{
 		// Arrange
-		var categoryId1 = Guid.NewGuid();
-		var categoryId2 = Guid.NewGuid();
+		var categories = Enumerable.Range(1, 2).Select(i => Category.Create($"Category {i}")).ToList();
 		
 		var transactions = new List<Transaction>
 		{
 			Transaction.Create("Salary", Money.Create(5000m, "BRL"),
-				DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-1)), TransactionType.Income, categoryId1),
+				DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-1)), TransactionType.Income, categories[0].Id),
 			Transaction.Create("Grocery", Money.Create(150m, "BRL"),
-				DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-2)), TransactionType.Expense, categoryId2)
+				DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-2)), TransactionType.Expense, categories[1].Id)
 		};
+		for (int i = 0; i < transactions.Count; i++)
+		{
+			var prop = typeof(Transaction).GetProperty("Category");
+			prop?.SetValue(transactions[i], categories[i]);
+		}
 
 		_mockRepository.Setup(r => r.GetFilterAsync(It.IsAny<GetTransactionsQuery>(), It.IsAny<CancellationToken>()))
 			.ReturnsAsync(transactions);
@@ -85,9 +89,12 @@ public class GetTransactionsQueryHandlerTests
 	public async Task Handle_MapsTransactionsToDto()
 	{
 		// Arrange
-		var categoryId = Guid.NewGuid();
+		var category = Category.Create("Category");
 		var transaction = Transaction.Create("Salary", Money.Create(5000m, "BRL"),
-			DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-1)), TransactionType.Income, categoryId);
+			DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-1)), TransactionType.Income, category.Id);
+
+		var prop = typeof(Transaction).GetProperty("Category");
+		prop?.SetValue(transaction, category);
 
 		_mockRepository.Setup(r => r.GetFilterAsync(It.IsAny<GetTransactionsQuery>(), It.IsAny<CancellationToken>()))
 			.ReturnsAsync(new List<Transaction> { transaction });
@@ -104,7 +111,7 @@ public class GetTransactionsQueryHandlerTests
 		Assert.Equal("Salary", dto.Title);
 		Assert.Equal(5000m, dto.Amount);
 		Assert.Equal("BRL", dto.Currency);
-		Assert.Equal(categoryId, dto.CategoryId);
+		Assert.Equal(category.Id, dto.CategoryId);
 		Assert.Equal((int)TransactionType.Income, dto.Type);
 	}
 
