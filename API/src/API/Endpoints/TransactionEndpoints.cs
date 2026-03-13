@@ -19,25 +19,29 @@ public static class TransactionEndpoints
 
         group.MapPost("/", CreateTransaction)
             .WithName("Create Transaction")
-            .Produces(StatusCodes.Status201Created)
+			.RequireAuthorization()
+			.Produces(StatusCodes.Status201Created)
             .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status401Unauthorized);
 
         group.MapGet("/{id}", GetTransaction)
             .WithName("Get Transaction")
-            .Produces(StatusCodes.Status200OK)
+			.RequireAuthorization()
+			.Produces(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status401Unauthorized);
 
         group.MapPost("/filter/", GetTransactions)
             .WithName("Get Transactions")
-            .Produces(StatusCodes.Status200OK)
+			.RequireAuthorization()
+			.Produces(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status401Unauthorized);
 
         group.MapPost("/balance-projection/", GetBalanceProjection)
             .WithName("Get Balance Projection")
-            .Produces(StatusCodes.Status200OK)
+			.RequireAuthorization()
+			.Produces(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status401Unauthorized);
     }
