@@ -43,6 +43,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Application\PersonalFinanceAPI.Application.csproj" />
     <ProjectReference Include="..\..\src\Domain\PersonalFinanceAPI.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Infrastructure\PersonalFinanceAPI.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

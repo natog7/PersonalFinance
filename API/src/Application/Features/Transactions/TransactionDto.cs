@@ -1,7 +1,7 @@
 ﻿namespace PersonalFinanceAPI.Application.Features.Transactions;
 
 	public record TransactionDto : IdDto<Guid>
-{
+	{
 		public string Title { get; set; } = string.Empty;
 		public decimal Amount { get; set; }
 		public string Currency { get; set; } = string.Empty;

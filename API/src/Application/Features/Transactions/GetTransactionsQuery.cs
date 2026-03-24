@@ -1,8 +1,7 @@
-using PersonalFinanceAPI.Application.Features.Transactions;
 using PersonalFinanceAPI.Domain.Enums;
 using PersonalFinanceAPI.Domain.ValueObjects;
 
-namespace PersonalFinanceAPI.Application.Queries;
+namespace PersonalFinanceAPI.Application.Features.Transactions;
 
 public class GetTransactionsQuery : IRequest<GetTransactionsResult>
 {

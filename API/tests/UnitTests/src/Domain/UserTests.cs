@@ -1,3 +1,5 @@
+//using PersonalFinanceAPI.Infrastructure.Security;
+
 namespace UnitTests.Domain;
 
 public class UserTests
@@ -109,5 +111,29 @@ public class UserTests
 
 		// Assert
 		Assert.Equal(UserRole.Admin, user.Role);
+	}
+
+	[Fact]
+	public void HashPasswordVerify_ReturnsEqualsAndTrue()
+	{
+		// Arrange
+		string password = "password";
+		var passwordHasherMock = new Mock<IPasswordHasher>();
+		string passwordHash = "hashed_password";
+
+		passwordHasherMock.Setup(h => h.HashPassword(password)).Returns(passwordHash);
+		passwordHasherMock.Setup(h => h.VerifyPassword(password, passwordHash)).Returns(true);
+
+		//BcryptPasswordHasher hasher = new BcryptPasswordHasher();
+		//passwordHash = hasher.HashPassword(password);
+
+		// Act
+		var hashed = passwordHasherMock.Object.HashPassword(password);
+		var user = User.Create("test@example.com", hashed, "Test User");
+		var verify = passwordHasherMock.Object.VerifyPassword(password, user.PasswordHash);
+
+		// Assert
+		Assert.Equal(passwordHash, user.PasswordHash);
+		Assert.True(verify);
 	}
 }

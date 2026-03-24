@@ -38,7 +38,23 @@ public class Category : Entity<Guid>
             IsActive = true,
             CreatedAt = DateTime.UtcNow
         };
-    }
+	}
+
+	/// <summary>
+	/// Updates category.
+	/// </summary>
+	public void Update(string name, string? description = null, string color = "#000000", Guid? parentCategoryId = null, bool isActive = true)
+	{
+		if (string.IsNullOrWhiteSpace(name))
+			throw new ArgumentException("Category name cannot be empty.", nameof(name));
+
+		Name = name.Trim();
+		Description = description?.Trim();
+		Color = ValidateColor(color);
+		ParentCategoryId = parentCategoryId;
+		IsActive = isActive;
+		UpdatedAt = DateTime.UtcNow;
+	}
 
 	/// <summary>
 	/// Activates/Deactivates the category.
