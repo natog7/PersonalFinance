@@ -1,6 +1,6 @@
 # Personal Finance API
 
-A modern, enterprise-grade **.NET 10** Web API for personal financial management, built with **Clean Architecture** principles and CQRS pattern.
+A modern, enterprise-grade **.NET 10** Web API for personal financial management, built with **Clean Architecture** and SOLID principles, DDD, CQRS and another patterns.
 
 ![.NET](https://img.shields.io/badge/.NET-10.0-512BD4?style=flat-square&logo=.net)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-12+-336791?style=flat-square&logo=postgresql)
@@ -12,26 +12,34 @@ A modern, enterprise-grade **.NET 10** Web API for personal financial management
 - [Architecture](#architecture)
 - [Technology Stack](#technology-stack)
 - [Features](#features)
-- [Project Structure](#project-structure)
 - [Getting Started](#getting-started)
-- [API Endpoints](#api-endpoints)
+- [API Endpoints Samples](#api-endpoints)
 - [Development](#development)
-- [Contributing](#contributing)
 - [License](#license)
 
 ## Overview
 
-Personal Finance API is a robust backend solution for managing personal finances. It provides a comprehensive set of APIs to handle transactions, categories, budgets, and financial projections with enterprise-level architecture patterns.
+Personal Finance API is a robust backend solution for managing personal finances. It provides a comprehensive set of APIs to handle transactions, categories and financial projections with enterprise-level architecture patterns.
 
 The project demonstrates best practices in .NET development including:
 
+- API RESTful
 - Clean Architecture (4 layers)
-- CQRS Pattern (Command Query Responsibility Segregation)
+- SOLID
 - Domain-Driven Design (DDD)
+- CQRS Pattern (Command Query Responsibility Segregation) by using MediatR
 - Dependency Injection
-- Global Exception Handling
 - Fluent Validation
+- Repository Pattern
 - Entity Framework Core with PostgreSQL
+- Audit Logs with MongoDB
+- Global Exception Handling
+- JWT Authentication
+- Unit and Integration Tests with xUnit
+- Asynchronous Events with RabbitMQ
+- Optimization with Redis
+- CI/CD: Docker file
+- User Data Protection
 
 ## Architecture
 
@@ -44,32 +52,34 @@ PersonalFinanceAPI/
 │   │   ├── Entities/              # Domain aggregates (Transaction, Category, RecurrentTransaction)
 │   │   ├── ValueObjects/          # Money (immutable, currency-aware)
 │   │   ├── Enums/                 # TransactionType, RecurrentPeriod
+│   │   ├── Services/              # Services interfaces
 │   │   ├── Events/                # Domain events (TransactionAddedEvent)
 │   │   └── Shared/                # Shared domain utilities
 │   │
 │   ├── Application/               # Application Business Rules (CQRS Layer)
 │   │   ├── Features/
+│   │   │   ├── Auth/      # Authentication commands and queries
 │   │   │   ├── Transactions/      # Transaction commands and queries
 │   │   │   ├── RecurrentTransactions/
+│   │   │   ├── Categories/
 │   │   │   └── Shared/
 │   │   ├── Commands/              # Command handlers
 │   │   ├── Queries/               # Query handlers (GetTransaction, GetTransactions, GetBalanceProjection)
-│   │   ├── Exceptions/            # Application-level exceptions
-│   │   ├── Validators/            # FluentValidation rules
-│   │   ├── Repositories/          # Repository interfaces
+│   │   ├── Services/              # Services interfaces
+│   │   └── Repositories/          # Repository interfaces
 │   │
 │   ├── Infrastructure/            # External Agencies & Frameworks
 │   │   ├── Persistence/           # EF Core DbContext, migrations
 │   │   ├── Repositories/          # Repository implementations
 │   │   ├── DependencyInjection/   # IoC container configuration
+│   │   ├── Security/              # JWT and Encryption
 │   │   └── Migrations/            # Database migrations
 │   │
 │   └── API/                       # HTTP Interface (Controllers/Endpoints)
 │       ├── Endpoints/             # Minimal API endpoints
 │       ├── Middleware/            # Global exception handling middleware
 │       ├── Program.cs             # Application entry point & configuration
-│       ├── appsettings.json       # Configuration
-│       └── appsettings.Development.json
+│       └── appsettings.json       # Configuration
 │
 └── tests/
     ├── UnitTests/                 # Unit tests
@@ -100,8 +110,8 @@ PostgreSQL Database
 
 ### Architecture & Design Patterns
 
-- **[MediatR](https://github.com/jbogard/MediatR)** - CQRS pattern implementation (v14.0.0)
-- **[FluentValidation](https://fluentvalidation.net/)** - Declarative validation (v12.1.1)
+- **[MediatR](https://github.com/jbogard/MediatR)** - CQRS pattern implementation
+- **[FluentValidation](https://fluentvalidation.net/)** - Declarative validation
 - **Clean Architecture** - Layered architecture pattern
 - **Domain-Driven Design** - Business logic at core
 
@@ -161,51 +171,6 @@ PostgreSQL Database
 - Minimal APIs for high performance
 - Global exception handling middleware
 - Input validation with FluentValidation
-
-## Project Structure
-
-```
-src/
-├── Domain/
-│   ├── Entities/
-│   │   ├── Entity.cs              # Base entity with generic Id
-│   │   ├── Transaction.cs         # Transaction aggregate root
-│   │   ├── RecurrentTransaction.cs # Recurring transactions
-│   │   └── Category.cs            # Transaction categories
-│   ├── Enums/
-│   │   ├── TransactionType.cs     # Income/Expense
-│   │   └── RecurrentPeriod.cs     # Daily, Weekly, Monthly, Yearly
-│   ├── ValueObjects/
-│   │   └── Money.cs               # Currency-aware monetary value
-│   └── Events/
-│       └── TransactionAddedEvent.cs
-│
-├── Application/
-│   ├── Features/
-│   │   ├── Transactions/
-│   │   └── RecurrentTransactions/
-│   ├── Queries/
-│   ├── Exceptions/
-│   └── Validators/
-│
-├── Infrastructure/
-│   ├── Persistence/
-│   │   ├── PersonalFinanceDbContext.cs
-│   │   └── Configuration/         # Entity configurations
-│   ├── Repositories/
-│   │   ├── TransactionRepository.cs
-│   │   └── BaseRepository.cs
-│   └── DependencyInjection/
-│       └── ServiceCollectionExtensions.cs
-│
-└── API/
-    ├── Endpoints/
-    │   └── TransactionEndpoints.cs
-    ├── Middleware/
-    │   └── GlobalExceptionHandlingMiddleware.cs
-    ├── Program.cs
-    └── appsettings.json
-```
 
 ## Getting Started
 
@@ -283,7 +248,7 @@ The API will be available at:
 - **API Documentation (Scalar)**: `https://localhost:5001/scalar/v1`
 - **Health Check**: `https://localhost:5001/health`
 
-## API Endpoints
+## API Endpoints Samples
 
 ### Transaction Endpoints
 
@@ -550,27 +515,6 @@ private static async Task<IResult> CreateTransaction(
     return Results.Created($"/api/transactions/{result.Id}", result);
 }
 ```
-
-## Key Design Patterns
-
-### CQRS (Command Query Responsibility Segregation)
-
-Separates read and write operations into different models:
-
-- **Commands**: Modify state (CreateTransactionCommand)
-- **Queries**: Retrieve state (GetTransactionsQuery)
-
-### Repository Pattern
-
-Abstracts data access logic, decoupling business logic from database implementation.
-
-### Dependency Injection
-
-All dependencies are resolved through ASP.NET Core's built-in IoC container.
-
-### Value Objects
-
-Immutable objects like `Money` ensure type safety and encapsulation.
 
 ## Configuration
 
