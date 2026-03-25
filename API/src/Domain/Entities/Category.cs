@@ -44,16 +44,22 @@ public class Category : UserEntity<Guid>
 	/// <summary>
 	/// Updates category.
 	/// </summary>
-	public void Update(string name, string? description = null, string color = "#000000", Guid? parentCategoryId = null, bool isActive = true)
+	public void Update(string? name, string? description = null, string? color = "#000000", Guid? parentCategoryId = null, bool? isActive = true)
 	{
 		if (string.IsNullOrWhiteSpace(name))
 			throw new ArgumentException("Category name cannot be empty.", nameof(name));
 
-		Name = name.Trim();
-		Description = description?.Trim();
-		Color = ValidateColor(color);
-		ParentCategoryId = parentCategoryId;
-		IsActive = isActive;
+		if(!string.IsNullOrWhiteSpace(name))
+			Name = name.Trim();
+		if(!string.IsNullOrWhiteSpace(description))
+			Description = description?.Trim();
+		if(!string.IsNullOrWhiteSpace(color))
+			Color = ValidateColor(color);
+		if(parentCategoryId.HasValue)
+			ParentCategoryId = parentCategoryId;
+		if(isActive.HasValue)
+			IsActive = isActive.Value;
+
 		UpdatedAt = DateTime.UtcNow;
 	}
 

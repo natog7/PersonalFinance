@@ -3,11 +3,11 @@ using PersonalFinanceAPI.Domain.Services;
 
 namespace PersonalFinanceAPI.Application.Features.Categories;
 
-public record UpdateCategoryCommand(Guid Id, string Name, string? Description, string Color, Guid? ParentCategoryId, bool IsActive) : IRequest<CategoryDto>;
+public record UpdateCategoryCommand(Guid Id, string? Name, string? Description, string? Color, Guid? ParentCategoryId, bool? IsActive) : IRequest<CategoryDto>;
 
-public class UpdateCategoryHandler : CategoryCommandHandler<UpdateCategoryCommand, CategoryDto>
+public class UpdateCategoryCommandHandler : CommandHandler<UpdateCategoryCommand, CategoryDto, ICategoryRepository>
 {
-	public UpdateCategoryHandler(ICategoryRepository repository, ICurrentUserService userService) : base(repository, userService) { }
+	public UpdateCategoryCommandHandler(ICategoryRepository repository, ICurrentUserService userService) : base(repository, userService) { }
 
 	public override async Task<CategoryDto> Handle(UpdateCategoryCommand request, CancellationToken ct)
 	{
@@ -41,9 +41,9 @@ public class UpdateCategoryHandler : CategoryCommandHandler<UpdateCategoryComman
 	}
 }
 
-public class UpdateCategoryValidator<T> : AbstractValidator<T> where T : UpdateCategoryCommand
+public class UpdateCategoryCommandValidator<T> : AbstractValidator<T> where T : UpdateCategoryCommand
 {
-	public UpdateCategoryValidator()
+	public UpdateCategoryCommandValidator()
 	{
 		RuleFor(x => x.Id)
 			.NotEmpty()

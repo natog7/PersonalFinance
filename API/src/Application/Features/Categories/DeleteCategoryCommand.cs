@@ -5,7 +5,7 @@ namespace PersonalFinanceAPI.Application.Features.Categories;
 
 public record DeleteCategoryCommand(Guid Id) : IRequest<Unit>;
 
-public class DeleteCategoryCommandHandler : CategoryCommandHandler<DeleteCategoryCommand, Unit>
+public class DeleteCategoryCommandHandler : CommandHandler<DeleteCategoryCommand, Unit, ICategoryRepository>
 {
 	public DeleteCategoryCommandHandler(ICategoryRepository repository, ICurrentUserService userService) : base(repository, userService) { }
 

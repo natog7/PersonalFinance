@@ -16,18 +16,11 @@ public record CreateTransactionCommand : IRequest<IdDto<Guid>>
     public Guid CategoryId { get; set; }
 }
 
-public class CreateTransactionCommandHandler : IRequestHandler<CreateTransactionCommand, IdDto<Guid>>
+public class CreateTransactionCommandHandler : CommandHandler<CreateTransactionCommand, IdDto<Guid>, ITransactionRepository>
 {
-	private readonly ITransactionRepository _repository;
-	private readonly ICurrentUserService _userService;
+	public CreateTransactionCommandHandler(ITransactionRepository repository, ICurrentUserService userService) : base(repository, userService) { }
 
-	public CreateTransactionCommandHandler(ITransactionRepository repository, ICurrentUserService userService)
-	{
-		_repository = repository ?? throw new ArgumentNullException(nameof(repository));
-		_userService = userService ?? throw new ArgumentNullException(nameof(userService));
-	}
-
-	public async Task<IdDto<Guid>> Handle(
+	public override async Task<IdDto<Guid>> Handle(
 		CreateTransactionCommand request,
 		CancellationToken cancellationToken)
 	{

@@ -1,9 +1,6 @@
 ﻿using PersonalFinanceAPI.Application.Repositories;
 using PersonalFinanceAPI.Domain.Entities;
 using PersonalFinanceAPI.Domain.Services;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PersonalFinanceAPI.Application.Features.Categories;
 
@@ -15,7 +12,7 @@ public record CreateCategoryCommand : IRequest<IdDto<Guid>>
 	public Guid? ParentCategoryId { get; private set; }
 }
 
-public class CreateCategoryCommandHandler : CategoryCommandHandler<CreateCategoryCommand, IdDto<Guid>>
+public class CreateCategoryCommandHandler : CommandHandler<CreateCategoryCommand, IdDto<Guid>, ICategoryRepository>
 {
 	public CreateCategoryCommandHandler(ICategoryRepository repository, ICurrentUserService userService) : base(repository, userService) { }
 

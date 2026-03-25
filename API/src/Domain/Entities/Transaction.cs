@@ -58,6 +58,24 @@ public class Transaction : UserEntity<Guid>
 	}
 
 	/// <summary>
+	/// Updates transaction.
+	/// </summary>
+	public void Update(string? title, Money amount, DateOnly? date, TransactionType? type,
+		Guid? categoryId)
+	{
+        if(!string.IsNullOrWhiteSpace(title))
+            Title = title.Trim();
+        if (amount != null)
+            Amount.Update(amount);
+        if(date.HasValue)
+            Date = date.Value;
+        if(type.HasValue)
+            Type = type.Value;
+		if (categoryId.HasValue)
+            categoryId = categoryId.Value;
+	}
+
+	/// <summary>
 	/// Updates the transaction amount and category.
 	/// </summary>
 	public void Update(Money amount, Guid categoryId)

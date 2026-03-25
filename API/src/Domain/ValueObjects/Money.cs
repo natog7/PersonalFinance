@@ -22,7 +22,12 @@ public class Money : IEquatable<Money>
 
     public static Money Create(decimal amount, string currency = "BRL") => new(amount, currency);
 
-    public Money Add(Money other)
+    public void Update(Money other)
+    {
+
+    }
+
+	public Money Add(Money other)
     {
         if (Currency != other.Currency)
             throw new InvalidOperationException($"Cannot add amounts in different currencies: {Currency} and {other.Currency}.");
