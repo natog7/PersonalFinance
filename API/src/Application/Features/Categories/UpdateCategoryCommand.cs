@@ -11,10 +11,7 @@ public class UpdateCategoryCommandHandler : CommandHandler<UpdateCategoryCommand
 
 	public override async Task<CategoryDto> Handle(UpdateCategoryCommand request, CancellationToken ct)
 	{
-		if (!_userService.isAuthenticated)
-		{
-			throw new UnauthorizedAccessException("User must be authenticated by logging in.");
-		}
+		CheckAuthenticated();
 
 		var category = await _repository.GetByIdAsync(request.Id, ct)
 			?? throw new Exception("Not found.");
@@ -27,6 +24,7 @@ public class UpdateCategoryCommandHandler : CommandHandler<UpdateCategoryCommand
 			request.IsActive
 		);
 
+		// Save to database
 		await _repository.UpdateAsync(category, ct);
 
 		return new CategoryDto()

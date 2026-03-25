@@ -20,14 +20,9 @@ public class CreateTransactionCommandHandler : CommandHandler<CreateTransactionC
 {
 	public CreateTransactionCommandHandler(ITransactionRepository repository, ICurrentUserService userService) : base(repository, userService) { }
 
-	public override async Task<IdDto<Guid>> Handle(
-		CreateTransactionCommand request,
-		CancellationToken cancellationToken)
+	public override async Task<IdDto<Guid>> Handle(CreateTransactionCommand request, CancellationToken ct)
 	{
-		if (!_userService.isAuthenticated)
-		{
-			throw new UnauthorizedAccessException("User must be authenticated by logging in.");
-		}
+		CheckAuthenticated();
 
 		var transaction = Transaction.Create(
 			_userService.UserId,
@@ -39,7 +34,7 @@ public class CreateTransactionCommandHandler : CommandHandler<CreateTransactionC
 		);
 
 		// Save to database
-		await _repository.AddAsync(transaction, cancellationToken);
+		await _repository.AddAsync(transaction, ct);
 
 		return new IdDto<Guid>
 		{

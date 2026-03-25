@@ -19,4 +19,12 @@ public class CommandHandler<TRequest, TResponse, TRepository> : IRequestHandler<
 	{
 		throw new NotImplementedException();
 	}
+
+	public virtual void CheckAuthenticated()
+	{
+		if (!_userService.isAuthenticated)
+		{
+			throw new UnauthorizedAccessException("User must be authenticated by logging in.");
+		}
+	}
 }

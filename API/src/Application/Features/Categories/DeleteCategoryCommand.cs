@@ -11,10 +11,7 @@ public class DeleteCategoryCommandHandler : CommandHandler<DeleteCategoryCommand
 
 	public override async Task<Unit> Handle(DeleteCategoryCommand request, CancellationToken ct)
 	{
-		if (!_userService.isAuthenticated)
-		{
-			throw new UnauthorizedAccessException("User must be authenticated by logging in.");
-		}
+		CheckAuthenticated();
 
 		var category = await _repository.GetByIdAsync(request.Id, ct)
 			?? throw new Exception("Not found.");

@@ -27,7 +27,7 @@ public static class CategoryEndpoints
 			.Produces(StatusCodes.Status401Unauthorized);
 
 		group.MapPost("/filter/", GetCategories)
-			.WithName("Get Categories")
+			.WithName("List Categories")
 			.RequireAuthorization()
 			.Produces(StatusCodes.Status200OK)
 			.Produces(StatusCodes.Status400BadRequest)
@@ -52,13 +52,13 @@ public static class CategoryEndpoints
 		CreateCategoryCommand command,
 		ClaimsPrincipal user,
 		IMediator mediator,
-		CancellationToken cancellationToken)
+		CancellationToken ct)
 	{
 		try
 		{
 			var userId = Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? Guid.Empty.ToString());
 
-			var result = await mediator.Send(command, cancellationToken);
+			var result = await mediator.Send(command, ct);
 			return Results.Created($"/api/categories/{result.Id}", result);
 		}
 		catch (Exception ex)
@@ -71,14 +71,14 @@ public static class CategoryEndpoints
 		Guid id,
 		ClaimsPrincipal user,
 		IMediator mediator,
-		CancellationToken cancellationToken)
+		CancellationToken ct)
 	{
 		try
 		{
 			var userId = Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? Guid.Empty.ToString());
 			var query = new GetCategoryQuery { Id = id };
 
-			var result = await mediator.Send(query, cancellationToken);
+			var result = await mediator.Send(query, ct);
 			return result is null ? Results.NotFound() : Results.Ok(result);
 		}
 		catch (Exception ex)
@@ -91,13 +91,13 @@ public static class CategoryEndpoints
 		GetCategoriesQuery query,
 		ClaimsPrincipal user,
 		IMediator mediator,
-		CancellationToken cancellationToken)
+		CancellationToken ct)
 	{
 		try
 		{
 			var userId = Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? Guid.Empty.ToString());
 
-			var result = await mediator.Send(query, cancellationToken);
+			var result = await mediator.Send(query, ct);
 			return Results.Ok(result);
 		}
 		catch (Exception ex)
@@ -111,7 +111,7 @@ public static class CategoryEndpoints
 	UpdateCategoryCommand command,
 	ClaimsPrincipal user,
 	IMediator mediator,
-	CancellationToken cancellationToken)
+	CancellationToken ct)
 	{
 		try
 		{
@@ -122,7 +122,7 @@ public static class CategoryEndpoints
 				return Results.BadRequest(new { error = "The URL ID doesn't match the request body ID." });
 			}
 
-			var result = await mediator.Send(command, cancellationToken);
+			var result = await mediator.Send(command, ct);
 
 			return Results.Ok(result);
 		}
@@ -136,13 +136,13 @@ public static class CategoryEndpoints
 		Guid id,
 		ClaimsPrincipal user,
 		IMediator mediator,
-		CancellationToken cancellationToken)
+		CancellationToken ct)
 	{
 		try
 		{
 			var userId = Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? Guid.Empty.ToString());
 
-			await mediator.Send(new DeleteCategoryCommand(id), cancellationToken);
+			await mediator.Send(new DeleteCategoryCommand(id), ct);
 
 			return Results.Ok(new { message = "Successfully deleted." });
 		}

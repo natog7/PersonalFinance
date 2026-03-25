@@ -41,11 +41,11 @@ public static class AuthEndpoints
     private static async Task<IResult> Register(
         RegisterCommand command,
         IMediator mediator,
-        CancellationToken cancellationToken)
+        CancellationToken ct)
     {
         try
         {
-            var result = await mediator.Send(command, cancellationToken);
+            var result = await mediator.Send(command, ct);
             
             if (result is null)
                 return Results.Conflict(new { error = "Email already registered" });
@@ -67,12 +67,12 @@ public static class AuthEndpoints
     private static async Task<IResult> Login(
         LoginRequest request,
         IMediator mediator,
-        CancellationToken cancellationToken)
+        CancellationToken ct)
     {
         try
         {
             var query = new LoginQuery { Email = request.Email, Password = request.Password };
-            var result = await mediator.Send(query, cancellationToken);
+            var result = await mediator.Send(query, ct);
 
             if (result is null)
                 return Results.Unauthorized();
@@ -87,7 +87,7 @@ public static class AuthEndpoints
 
     private static async Task<IResult> Logout(
         HttpContext context,
-        CancellationToken cancellationToken)
+        CancellationToken ct)
     {
         try
         {
@@ -103,7 +103,7 @@ public static class AuthEndpoints
     private static async Task<IResult> RefreshToken(
         RefreshTokenRequest request,
         IMediator mediator,
-        CancellationToken cancellationToken)
+        CancellationToken ct)
     {
         try
         {

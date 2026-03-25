@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using PersonalFinanceAPI.Application.Features.Categories;
 using PersonalFinanceAPI.Application.Features.Transactions;
 using PersonalFinanceAPI.Application.Queries;
 using System.Security.Claims;
@@ -32,13 +33,27 @@ public static class TransactionEndpoints
             .Produces(StatusCodes.Status401Unauthorized);
 
         group.MapPost("/filter/", GetTransactions)
-            .WithName("Get Transactions")
+            .WithName("List Transactions")
 			.RequireAuthorization()
 			.Produces(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status401Unauthorized);
 
-        group.MapPost("/balance-projection/", GetBalanceProjection)
+		group.MapPut("/{id}", UpdateTransaction)
+			.WithName("Update Transaction")
+			.RequireAuthorization()
+			.Produces(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status400BadRequest)
+			.Produces(StatusCodes.Status401Unauthorized);
+
+		group.MapDelete("/{id}", DeleteTransaction)
+			.WithName("Delete Transaction")
+			.RequireAuthorization()
+			.Produces(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status400BadRequest)
+			.Produces(StatusCodes.Status401Unauthorized);
+
+		group.MapPost("/balance-projection/", GetBalanceProjection)
             .WithName("Get Balance Projection")
 			.RequireAuthorization()
 			.Produces(StatusCodes.Status200OK)
@@ -50,13 +65,13 @@ public static class TransactionEndpoints
         CreateTransactionCommand command,
         ClaimsPrincipal user,
         IMediator mediator,
-        CancellationToken cancellationToken)
+        CancellationToken ct)
     {
         try
         {
 			var userId = Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? Guid.Empty.ToString());
 
-			var result = await mediator.Send(command, cancellationToken);
+			var result = await mediator.Send(command, ct);
             return Results.Created($"/api/transactions/{result.Id}", result);
         }
         catch (Exception ex)
@@ -69,14 +84,14 @@ public static class TransactionEndpoints
         Guid id,
         ClaimsPrincipal user,
         IMediator mediator,
-        CancellationToken cancellationToken)
+        CancellationToken ct)
     {
         try
         {
             var userId = Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? Guid.Empty.ToString());
             var query = new GetTransactionQuery { Id = id };
             
-            var result = await mediator.Send(query, cancellationToken);
+            var result = await mediator.Send(query, ct);
             return result is null ? Results.NotFound() : Results.Ok(result);
         }
         catch (Exception ex)
@@ -89,32 +104,78 @@ public static class TransactionEndpoints
         GetTransactionsQuery query,
         ClaimsPrincipal user,
         IMediator mediator,
-        CancellationToken cancellationToken)
+        CancellationToken ct)
     {
         try
         {
             var userId = Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? Guid.Empty.ToString());
             
-            var result = await mediator.Send(query, cancellationToken);
+            var result = await mediator.Send(query, ct);
             return Results.Ok(result);
         }
         catch (Exception ex)
         {
             return Results.BadRequest(new { error = ex.Message });
         }
-    }
+	}
 
-    private static async Task<IResult> GetBalanceProjection(
+	private static async Task<IResult> UpdateTransaction(
+	Guid id,
+	UpdateTransactionCommand command,
+	ClaimsPrincipal user,
+	IMediator mediator,
+	CancellationToken ct)
+	{
+		try
+		{
+			var userId = Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? Guid.Empty.ToString());
+
+			if (id != command.Id)
+			{
+				return Results.BadRequest(new { error = "The URL ID doesn't match the request body ID." });
+			}
+
+			var result = await mediator.Send(command, ct);
+
+			return Results.Ok(result);
+		}
+		catch (Exception ex)
+		{
+			return Results.BadRequest(new { error = ex.Message });
+		}
+	}
+
+	private static async Task<IResult> DeleteTransaction(
+		Guid id,
+		ClaimsPrincipal user,
+		IMediator mediator,
+		CancellationToken ct)
+	{
+		try
+		{
+			var userId = Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? Guid.Empty.ToString());
+
+            await mediator.Send(new DeleteTransactionCommand(id), ct);
+
+            return Results.Ok(new { message = "Successfully deleted." });
+		}
+		catch (Exception ex)
+		{
+			return Results.BadRequest(new { error = ex.Message });
+		}
+	}
+
+	private static async Task<IResult> GetBalanceProjection(
         GetBalanceProjectionQuery query,
         ClaimsPrincipal user,
         IMediator mediator,
-        CancellationToken cancellationToken)
+        CancellationToken ct)
     {
         try
         {
             var userId = Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? Guid.Empty.ToString());
             
-            var result = await mediator.Send(query, cancellationToken);
+            var result = await mediator.Send(query, ct);
             return Results.Ok(result);
         }
         catch (Exception ex)

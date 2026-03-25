@@ -16,12 +16,9 @@ public class CreateCategoryCommandHandler : CommandHandler<CreateCategoryCommand
 {
 	public CreateCategoryCommandHandler(ICategoryRepository repository, ICurrentUserService userService) : base(repository, userService) { }
 
-	public override async Task<IdDto<Guid>> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
+	public override async Task<IdDto<Guid>> Handle(CreateCategoryCommand request, CancellationToken ct)
 	{
-		if(!_userService.isAuthenticated)
-		{
-			throw new UnauthorizedAccessException("User must be authenticated by logging in.");
-		}
+		CheckAuthenticated();
 
 		Category category = Category.Create(
 			_userService.UserId,
@@ -31,7 +28,7 @@ public class CreateCategoryCommandHandler : CommandHandler<CreateCategoryCommand
 			request.ParentCategoryId
 		);
 
-		await _repository.AddAsync(category, cancellationToken);
+		await _repository.AddAsync(category, ct);
 
 		return new IdDto<Guid>
 		{
