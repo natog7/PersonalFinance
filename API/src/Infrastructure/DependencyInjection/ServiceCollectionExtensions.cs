@@ -5,6 +5,8 @@ using PersonalFinanceAPI.Infrastructure.Repositories;
 using PersonalFinanceAPI.Infrastructure.Security;
 using PersonalFinanceAPI.Application.Repositories;
 using PersonalFinanceAPI.Application.Services;
+using PersonalFinanceAPI.Infrastructure.Services;
+using PersonalFinanceAPI.Domain.Services;
 
 namespace PersonalFinanceAPI.Infrastructure.DependencyInjection;
 
@@ -30,16 +32,17 @@ public static class ServiceCollectionExtensions
             });
         });
 
-        // Register Repositories
-        services.AddScoped<ITransactionRepository, TransactionRepository>();
+		// Register Repositories
+		services.AddScoped<ITransactionRepository, TransactionRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
 		services.AddScoped<IUserRepository, UserRepository>();
 
-        // Register Security Services
-        services.AddScoped<IPasswordHasher, BcryptPasswordHasher>();
+		// Register Security Services
+		services.AddScoped<ICurrentUserService, CurrentUserService>();
+		services.AddScoped<IPasswordHasher, BcryptPasswordHasher>();
         services.AddScoped<Application.Services.ITokenService, JwtTokenService>();
 
-        return services;
+		return services;
     }
 
     /// <summary>

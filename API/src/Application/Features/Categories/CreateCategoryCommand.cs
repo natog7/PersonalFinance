@@ -1,5 +1,6 @@
 ﻿using PersonalFinanceAPI.Application.Repositories;
 using PersonalFinanceAPI.Domain.Entities;
+using PersonalFinanceAPI.Domain.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,18 +15,19 @@ public record CreateCategoryCommand : IRequest<IdDto<Guid>>
 	public Guid? ParentCategoryId { get; private set; }
 }
 
-public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, IdDto<Guid>>
+public class CreateCategoryCommandHandler : CategoryCommandHandler<CreateCategoryCommand, IdDto<Guid>>
 {
-	private readonly ICategoryRepository _repository;
+	public CreateCategoryCommandHandler(ICategoryRepository repository, ICurrentUserService userService) : base(repository, userService) { }
 
-	public CreateCategoryCommandHandler(ICategoryRepository repository)
+	public override async Task<IdDto<Guid>> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
 	{
-		_repository = repository ?? throw new ArgumentNullException(nameof(repository));
-	}
+		if(!_userService.isAuthenticated)
+		{
+			throw new UnauthorizedAccessException("User must be authenticated by logging in.");
+		}
 
-	public async Task<IdDto<Guid>> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
-	{
 		Category category = Category.Create(
+			_userService.UserId,
 			request.Name,
 			request.Description,
 			request.Color,

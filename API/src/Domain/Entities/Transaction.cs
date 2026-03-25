@@ -39,7 +39,7 @@ public class Transaction : UserEntity<Guid>
     /// <summary>
     /// Creates a new transaction.
     /// </summary>
-    public static Transaction Create(string title, Money amount, DateOnly date, TransactionType type,
+    public static Transaction Create(Guid? userId, string title, Money amount, DateOnly date, TransactionType type,
         Guid categoryId)
     {
 		CheckCreate(title, amount, date);
@@ -47,7 +47,7 @@ public class Transaction : UserEntity<Guid>
 		return new Transaction
         {
             Id = Guid.NewGuid(),
-            //UserId = UserId,
+			UserId = userId,
 			Title = title.Trim(),
             Amount = amount,
             Date = date,

@@ -1,21 +1,21 @@
 ﻿using PersonalFinanceAPI.Application.Repositories;
+using PersonalFinanceAPI.Domain.Services;
 
 namespace PersonalFinanceAPI.Application.Features.Categories;
 
 public record DeleteCategoryCommand(Guid Id) : IRequest<Unit>;
 
-
-public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryCommand, Unit>
+public class DeleteCategoryCommandHandler : CategoryCommandHandler<DeleteCategoryCommand, Unit>
 {
-	private readonly ICategoryRepository _repository;
+	public DeleteCategoryCommandHandler(ICategoryRepository repository, ICurrentUserService userService) : base(repository, userService) { }
 
-	public DeleteCategoryCommandHandler(ICategoryRepository repository)
+	public override async Task<Unit> Handle(DeleteCategoryCommand request, CancellationToken ct)
 	{
-		_repository = repository ?? throw new ArgumentNullException(nameof(repository));
-	}
+		if (!_userService.isAuthenticated)
+		{
+			throw new UnauthorizedAccessException("User must be authenticated by logging in.");
+		}
 
-	public async Task<Unit> Handle(DeleteCategoryCommand request, CancellationToken ct)
-	{
 		var category = await _repository.GetByIdAsync(request.Id, ct)
 			?? throw new Exception("Not found.");
 

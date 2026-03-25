@@ -1,6 +1,7 @@
 using PersonalFinanceAPI.Application.Repositories;
 using PersonalFinanceAPI.Domain.Entities;
 using PersonalFinanceAPI.Domain.Enums;
+using PersonalFinanceAPI.Domain.Services;
 using PersonalFinanceAPI.Domain.ValueObjects;
 
 namespace PersonalFinanceAPI.Application.Features.Transactions;
@@ -18,17 +19,25 @@ public record CreateTransactionCommand : IRequest<IdDto<Guid>>
 public class CreateTransactionCommandHandler : IRequestHandler<CreateTransactionCommand, IdDto<Guid>>
 {
 	private readonly ITransactionRepository _repository;
+	private readonly ICurrentUserService _userService;
 
-	public CreateTransactionCommandHandler(ITransactionRepository repository)
+	public CreateTransactionCommandHandler(ITransactionRepository repository, ICurrentUserService userService)
 	{
 		_repository = repository ?? throw new ArgumentNullException(nameof(repository));
+		_userService = userService ?? throw new ArgumentNullException(nameof(userService));
 	}
 
 	public async Task<IdDto<Guid>> Handle(
 		CreateTransactionCommand request,
 		CancellationToken cancellationToken)
 	{
+		if (!_userService.isAuthenticated)
+		{
+			throw new UnauthorizedAccessException("User must be authenticated by logging in.");
+		}
+
 		var transaction = Transaction.Create(
+			_userService.UserId,
 			request.Title,
 			Money.Create(request.Amount, request.Currency),
 			request.Date,

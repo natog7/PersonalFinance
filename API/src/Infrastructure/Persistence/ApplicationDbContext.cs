@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PersonalFinanceAPI.Domain.Entities;
 using PersonalFinanceAPI.Domain.Enums;
+using PersonalFinanceAPI.Domain.Services;
 
 namespace PersonalFinanceAPI.Infrastructure.Persistence;
 
@@ -11,7 +12,12 @@ namespace PersonalFinanceAPI.Infrastructure.Persistence;
 /// </summary>
 public class ApplicationDbContext : DbContext
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+    protected readonly ICurrentUserService _currentUserService;
+
+	public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, ICurrentUserService currentUserService) : base(options)
+    {
+		_currentUserService = currentUserService ?? throw new ArgumentNullException(nameof(currentUserService));
+	}
 
 	public DbSet<User> Users { get; set; } = null!;
 	public DbSet<Transaction> Transactions { get; set; } = null!;
@@ -27,7 +33,7 @@ public class ApplicationDbContext : DbContext
         ConfigureCategory(modelBuilder);
     }
 
-    private static void ConfigureUser(ModelBuilder modelBuilder)
+    private void ConfigureUser(ModelBuilder modelBuilder)
     {
         var builder = modelBuilder.Entity<User>();
 
@@ -62,7 +68,7 @@ public class ApplicationDbContext : DbContext
             .HasDefaultValueSql("CURRENT_TIMESTAMP");
     }
 
-    private static void ConfigureTransaction(ModelBuilder modelBuilder)
+    private void ConfigureTransaction(ModelBuilder modelBuilder)
     {
         var builder = modelBuilder.Entity<Transaction>();
 
@@ -114,9 +120,12 @@ public class ApplicationDbContext : DbContext
         builder.HasIndex(t => t.Date);
         builder.HasIndex(t => t.CategoryId);
         builder.HasIndex(t => t.CreatedAt);
-    }
 
-    private static void ConfigureRecurrentTransaction(ModelBuilder modelBuilder)
+		// Global query filter to ensure users only see their own entities
+		builder.HasQueryFilter(x => x.UserId == _currentUserService.UserId);
+	}
+
+    private void ConfigureRecurrentTransaction(ModelBuilder modelBuilder)
     {
         var builder = modelBuilder.Entity<RecurrentTransaction>();
 
@@ -133,9 +142,12 @@ public class ApplicationDbContext : DbContext
 
         // Indices
         builder.HasIndex(t => t.Period);
+
+		// Global query filter to ensure users only see their own entities
+		builder.HasQueryFilter(x => x.UserId == _currentUserService.UserId);
 	}
 
-	private static void ConfigureCategory(ModelBuilder modelBuilder)
+	private void ConfigureCategory(ModelBuilder modelBuilder)
     {
         var builder = modelBuilder.Entity<Category>();
 
@@ -165,5 +177,9 @@ public class ApplicationDbContext : DbContext
 
         // Index for hierarchical queries
         builder.HasIndex(c => c.ParentCategoryId);
-    }
+
+		// Global query filter to ensure users only see their own entities
+		builder.HasQueryFilter(x => x.UserId == _currentUserService.UserId);
+
+	}
 }

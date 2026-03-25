@@ -42,7 +42,8 @@ public class GlobalExceptionHandlingMiddleware
             ArgumentNullException => RespondWith(context, StatusCodes.Status400BadRequest, response),
             ArgumentException => RespondWith(context, StatusCodes.Status400BadRequest, response),
             InvalidOperationException => RespondWith(context, StatusCodes.Status400BadRequest, response),
-            _ => RespondWith(context, StatusCodes.Status500InternalServerError, response)
+			UnauthorizedAccessException => RespondWith(context, StatusCodes.Status401Unauthorized, response),
+			_ => RespondWith(context, StatusCodes.Status500InternalServerError, response)
         };
     }
 

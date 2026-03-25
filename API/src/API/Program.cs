@@ -22,6 +22,8 @@ var jwtSecretKey = builder.Configuration["Jwt:SecretKey"]
 var jwtIssuer = builder.Configuration["Jwt:Issuer"] ?? "PersonalFinanceAPI";
 var jwtAudience = builder.Configuration["Jwt:Audience"] ?? "PersonalFinanceAPI-Clients";
 
+builder.Services.AddHttpContextAccessor();
+
 // JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>

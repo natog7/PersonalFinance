@@ -23,7 +23,7 @@ public class Category : UserEntity<Guid>
     /// <summary>
     /// Creates a new category.
     /// </summary>
-    public static Category Create(string name, string? description = null, string color = "#000000", Guid? parentCategoryId = null)
+    public static Category Create(Guid? userId, string name, string? description = null, string color = "#000000", Guid? parentCategoryId = null)
     {
         if (string.IsNullOrWhiteSpace(name))
             throw new ArgumentException("Category name cannot be empty.", nameof(name));
@@ -31,7 +31,7 @@ public class Category : UserEntity<Guid>
         return new Category
         {
             Id = Guid.NewGuid(),
-			//UserId = UserId,
+			UserId = userId,
 			Name = name.Trim(),
             Description = description?.Trim(),
 			Color = ValidateColor(color),
