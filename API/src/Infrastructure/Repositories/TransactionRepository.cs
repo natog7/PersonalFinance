@@ -22,7 +22,7 @@ public class TransactionRepository : BaseRepository, ITransactionRepository
 
 	public async Task<IEnumerable<Transaction>> GetAllAsync(CancellationToken cancellationToken)
 	{
-		throw new NotImplementedException();
+		return await _dbContext.Transactions.AsNoTracking().OrderByDescending(t => t.Date).ToListAsync(cancellationToken);
 	}
 
     public async Task AddAsync(Transaction transaction, CancellationToken cancellationToken = default)

@@ -32,7 +32,8 @@ public static class ServiceCollectionExtensions
 
         // Register Repositories
         services.AddScoped<ITransactionRepository, TransactionRepository>();
-        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
+		services.AddScoped<IUserRepository, UserRepository>();
 
         // Register Security Services
         services.AddScoped<IPasswordHasher, BcryptPasswordHasher>();

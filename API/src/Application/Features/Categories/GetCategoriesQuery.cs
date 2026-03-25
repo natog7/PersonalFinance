@@ -12,5 +12,5 @@ public class GetCategoriesQuery : IRequest<GetCategoriesResult>
 	public string? Name { get; set; }
 	public string? Description { get; set; }
 	public Guid? ParentCategoryId { get; private set; }
-	public bool IsActive { get; private set; }
+	public bool? IsActive { get; private set; }
 }

@@ -24,6 +24,7 @@ public class RecurrentTransaction : Transaction
 		return new RecurrentTransaction
 		{
 			Id = Guid.NewGuid(),
+			//UserId = UserId,
 			Title = title.Trim(),
 			Amount = amount,
 			Date = date,

@@ -54,9 +54,9 @@ public static class TransactionEndpoints
     {
         try
         {
-            var userId = Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? Guid.Empty.ToString());
-            
-            var result = await mediator.Send(command, cancellationToken);
+			var userId = Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? Guid.Empty.ToString());
+
+			var result = await mediator.Send(command, cancellationToken);
             return Results.Created($"/api/transactions/{result.Id}", result);
         }
         catch (Exception ex)

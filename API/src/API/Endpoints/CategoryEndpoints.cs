@@ -1,13 +1,12 @@
 ﻿using MediatR;
 using PersonalFinanceAPI.Application.Features.Categories;
-using PersonalFinanceAPI.Application.Queries;
 using System.Security.Claims;
 
 namespace PersonalFinanceAPI.API.Endpoints;
 
 public static class CategoryEndpoints
 {
-	public static void MapTransactionEndpoints(this WebApplication app)
+	public static void MapCategoryEndpoints(this WebApplication app)
 	{
 		var group = app.MapGroup("/api/categories")
 			.WithName("Categories")
@@ -120,7 +119,7 @@ public static class CategoryEndpoints
 
 			if (id != command.Id)
 			{
-				return Results.BadRequest(new { error = "O ID da URL não coincide com o ID do corpo da requisição." });
+				return Results.BadRequest(new { error = "The URL ID doesn't match the request body ID." });
 			}
 
 			var result = await mediator.Send(command, cancellationToken);
@@ -143,11 +142,9 @@ public static class CategoryEndpoints
 		{
 			var userId = Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? Guid.Empty.ToString());
 
-			//var command = new DeleteCategoryCommand { Id = id };
+			await mediator.Send(new DeleteCategoryCommand(id), cancellationToken);
 
-			//await mediator.Send(command, cancellationToken);
-
-			return Results.Ok(new { message = "Categoria excluída com sucesso." });
+			return Results.Ok(new { message = "Successfully deleted." });
 		}
 		catch (Exception ex)
 		{

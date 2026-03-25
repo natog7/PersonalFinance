@@ -5,6 +5,7 @@ namespace PersonalFinanceAPI.Application.Features.Transactions;
 public class GetTransactionQuery : IRequest<TransactionDto?>
 {
     public Guid Id { get; set; }
+	public Guid UserId { get; set; }
 }
 
 public class GetTransactionQueryHandler : IRequestHandler<GetTransactionQuery, TransactionDto?>
@@ -24,6 +25,9 @@ public class GetTransactionQueryHandler : IRequestHandler<GetTransactionQuery, T
 		var transaction = await _repository.GetByIdAsync(request.Id, cancellationToken);
 
 		if (transaction is null)
+			return null;
+
+		if(transaction.UserId != request.UserId)
 			return null;
 
 		return new TransactionDto

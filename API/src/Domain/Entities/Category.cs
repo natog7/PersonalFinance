@@ -3,7 +3,7 @@ namespace PersonalFinanceAPI.Domain.Entities;
 /// <summary>
 /// Represents a transaction category.
 /// </summary>
-public class Category : Entity<Guid>
+public class Category : UserEntity<Guid>
 {
     public string Name { get; private set; } = string.Empty;
     public string? Description { get; private set; }
@@ -31,7 +31,8 @@ public class Category : Entity<Guid>
         return new Category
         {
             Id = Guid.NewGuid(),
-            Name = name.Trim(),
+			//UserId = UserId,
+			Name = name.Trim(),
             Description = description?.Trim(),
 			Color = ValidateColor(color),
 			ParentCategoryId = parentCategoryId,

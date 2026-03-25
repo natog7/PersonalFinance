@@ -7,7 +7,7 @@ namespace PersonalFinanceAPI.Domain.Entities;
 /// Represents a financial transaction in the system.
 /// </summary>
 /// 
-public class Transaction : Entity<Guid>
+public class Transaction : UserEntity<Guid>
 {
     public string Title { get; protected set; } = string.Empty;
     public Money Amount { get; protected set; } = null!;
@@ -47,7 +47,8 @@ public class Transaction : Entity<Guid>
 		return new Transaction
         {
             Id = Guid.NewGuid(),
-            Title = title.Trim(),
+            //UserId = UserId,
+			Title = title.Trim(),
             Amount = amount,
             Date = date,
             Type = type,

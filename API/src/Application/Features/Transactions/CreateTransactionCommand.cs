@@ -7,7 +7,7 @@ namespace PersonalFinanceAPI.Application.Features.Transactions;
 
 public record CreateTransactionCommand : IRequest<IdDto<Guid>>
 {
-    public string Title { get; set; } = string.Empty;
+	public string Title { get; set; } = string.Empty;
     public decimal Amount { get; set; }
     public string Currency { get; set; } = "BRL";
     public DateOnly Date { get; set; }

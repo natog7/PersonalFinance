@@ -1,5 +1,4 @@
-﻿using PersonalFinanceAPI.Application.Features.Auth.Queries;
-using PersonalFinanceAPI.Application.Repositories;
+﻿using PersonalFinanceAPI.Application.Repositories;
 using PersonalFinanceAPI.Application.Services;
 
 namespace PersonalFinanceAPI.Application.Features.Auth;

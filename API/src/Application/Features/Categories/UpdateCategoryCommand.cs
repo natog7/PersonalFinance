@@ -1,18 +1,21 @@
 ﻿using PersonalFinanceAPI.Application.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PersonalFinanceAPI.Application.Features.Categories;
 
 public record UpdateCategoryCommand(Guid Id, string Name, string? Description, string Color, Guid? ParentCategoryId, bool IsActive) : IRequest<CategoryDto>;
 
-public class UpdateCategoryHandler(ICategoryRepository repository)
-	: IRequestHandler<UpdateCategoryCommand, CategoryDto>
+public class UpdateCategoryHandler : IRequestHandler<UpdateCategoryCommand, CategoryDto>
 {
+	private readonly ICategoryRepository _repository;
+
+	public UpdateCategoryHandler(ICategoryRepository repository)
+	{
+		_repository = repository ?? throw new ArgumentNullException(nameof(repository));
+	}
+
 	public async Task<CategoryDto> Handle(UpdateCategoryCommand request, CancellationToken ct)
 	{
-		var category = await repository.GetByIdAsync(request.Id, ct)
+		var category = await _repository.GetByIdAsync(request.Id, ct)
 			?? throw new Exception("Not found.");
 
 		category.Update(
@@ -23,7 +26,7 @@ public class UpdateCategoryHandler(ICategoryRepository repository)
 			request.IsActive
 		);
 
-		await repository.UpdateAsync(category, ct);
+		await _repository.UpdateAsync(category, ct);
 
 		return new CategoryDto()
 		{

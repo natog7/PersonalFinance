@@ -6,11 +6,10 @@ using MediatR;
 using PersonalFinanceAPI.Infrastructure.DependencyInjection;
 using PersonalFinanceAPI.API.Middleware;
 using PersonalFinanceAPI.API.Endpoints;
+using PersonalFinanceAPI.Application.Features.Auth;
 using PersonalFinanceAPI.Application.Features.Transactions;
-using PersonalFinanceAPI.Application.Features.Auth.Commands;
 using FluentValidation;
 using Scalar.AspNetCore;
-using PersonalFinanceAPI.Application.Features.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -108,6 +107,7 @@ app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 // Map endpoints
 app.MapAuthEndpoints();
 app.MapTransactionEndpoints();
+app.MapCategoryEndpoints();
 
 app.MapGet("/health", () => Results.Ok(new { status = "healthy" }))
     .WithName("Health Check")
