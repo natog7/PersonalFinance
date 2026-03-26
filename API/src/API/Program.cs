@@ -6,10 +6,10 @@ using MediatR;
 using PersonalFinanceAPI.Infrastructure.DependencyInjection;
 using PersonalFinanceAPI.API.Middleware;
 using PersonalFinanceAPI.API.Endpoints;
-using PersonalFinanceAPI.Application.Features.Auth;
-using PersonalFinanceAPI.Application.Features.Transactions;
 using FluentValidation;
 using Scalar.AspNetCore;
+using PersonalFinanceAPI.Application.Features.Transactions.Commands;
+using PersonalFinanceAPI.Application.Features.Auth.Commands;
 
 var builder = WebApplication.CreateBuilder(args);
 

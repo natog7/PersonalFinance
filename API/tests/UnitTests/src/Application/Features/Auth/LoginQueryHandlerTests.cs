@@ -48,7 +48,7 @@ public class LoginQueryHandlerTests
 		Assert.NotNull(result);
 		Assert.Equal(user.Id, result.UserId);
 		Assert.Equal(email, result.Email);
-		Assert.Equal("Test User", result.FullName);
+		Assert.Equal("Test User", result.Nickname);
 		Assert.Equal("access_token", result.Token.AccessToken);
 		Assert.Equal("refresh_token", result.Token.RefreshToken);
 	}

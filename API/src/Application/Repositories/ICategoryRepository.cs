@@ -1,4 +1,4 @@
-﻿using PersonalFinanceAPI.Application.Features.Categories;
+﻿using PersonalFinanceAPI.Application.Features.Categories.Queries;
 using PersonalFinanceAPI.Domain.Entities;
 
 namespace PersonalFinanceAPI.Application.Repositories;

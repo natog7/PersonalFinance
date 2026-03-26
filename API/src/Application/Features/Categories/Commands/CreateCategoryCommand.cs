@@ -3,7 +3,7 @@ using PersonalFinanceAPI.Domain.Entities;
 using PersonalFinanceAPI.Domain.Entities.Interfaces;
 using PersonalFinanceAPI.Domain.Services;
 
-namespace PersonalFinanceAPI.Application.Features.Categories;
+namespace PersonalFinanceAPI.Application.Features.Categories.Commands;
 
 public record CreateCategoryCommand
 (

@@ -1,8 +1,11 @@
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using PersonalFinanceAPI.Application.Features.Auth;
+using PersonalFinanceAPI.Application.Features.Auth.Commands;
+using PersonalFinanceAPI.Application.Features.Auth.Queries;
 
 namespace PersonalFinanceAPI.API.Endpoints;
+
+public record LoginRequest(string Email, string Password);
+public record RefreshTokenRequest(string RefreshToken);
 
 public static class AuthEndpoints
 {
@@ -65,13 +68,12 @@ public static class AuthEndpoints
     }
 
     private static async Task<IResult> Login(
-        LoginRequest request,
+		LoginQuery query,
         IMediator mediator,
         CancellationToken ct)
     {
         try
         {
-            var query = new LoginQuery { Email = request.Email, Password = request.Password };
             var result = await mediator.Send(query, ct);
 
             if (result is null)
@@ -115,15 +117,4 @@ public static class AuthEndpoints
             return Results.BadRequest(new { error = ex.Message });
         }
     }
-}
-
-public class LoginRequest
-{
-    public string Email { get; set; } = string.Empty;
-    public string Password { get; set; } = string.Empty;
-}
-
-public class RefreshTokenRequest
-{
-    public string RefreshToken { get; set; } = string.Empty;
 }

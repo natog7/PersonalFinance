@@ -1,7 +1,7 @@
 using PersonalFinanceAPI.Application.Repositories;
 using PersonalFinanceAPI.Domain.Services;
 
-namespace PersonalFinanceAPI.Application.Features.Transactions;
+namespace PersonalFinanceAPI.Application.Features.Transactions.Queries;
 
 public class GetTransactionQueryHandler : CommandHandler<GetByIdQuery<TransactionDto?>, TransactionDto?, ITransactionRepository>
 {

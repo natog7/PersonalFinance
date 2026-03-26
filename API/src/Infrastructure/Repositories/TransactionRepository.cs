@@ -1,6 +1,6 @@
 using PersonalFinanceAPI.Infrastructure.Persistence;
 using PersonalFinanceAPI.Application.Repositories;
-using PersonalFinanceAPI.Application.Features.Transactions;
+using PersonalFinanceAPI.Application.Features.Transactions.Queries;
 
 namespace PersonalFinanceAPI.Infrastructure.Repositories;
 

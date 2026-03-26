@@ -1,7 +1,7 @@
 ﻿using PersonalFinanceAPI.Application.Repositories;
 using PersonalFinanceAPI.Domain.Services;
 
-namespace PersonalFinanceAPI.Application.Features.Transactions;
+namespace PersonalFinanceAPI.Application.Features.Transactions.Commands;
 
 public class DeleteTransactionCommandHandler : CommandHandler<DeleteCommand, Unit, ITransactionRepository>
 {

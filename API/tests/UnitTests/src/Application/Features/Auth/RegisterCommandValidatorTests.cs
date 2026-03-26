@@ -12,7 +12,7 @@ public class RegisterCommandValidatorTests
 		{
 			Email = "test@example.com",
 			Password = "SecurePassword123!",
-			FullName = "Test User"
+			Nickname = "Test User"
 		};
 
 		// Act
@@ -30,7 +30,7 @@ public class RegisterCommandValidatorTests
 		{
 			Email = "",
 			Password = "SecurePassword123!",
-			FullName = "Test User"
+			Nickname = "Test User"
 		};
 
 		// Act
@@ -49,7 +49,7 @@ public class RegisterCommandValidatorTests
 		{
 			Email = "invalid-email",
 			Password = "SecurePassword123!",
-			FullName = "Test User"
+			Nickname = "Test User"
 		};
 
 		// Act
@@ -68,7 +68,7 @@ public class RegisterCommandValidatorTests
 		{
 			Email = "test@example.com",
 			Password = "",
-			FullName = "Test User"
+			Nickname = "Test User"
 		};
 
 		// Act
@@ -87,7 +87,7 @@ public class RegisterCommandValidatorTests
 		{
 			Email = "test@example.com",
 			Password = "short",
-			FullName = "Test User"
+			Nickname = "Test User"
 		};
 
 		// Act
@@ -106,7 +106,7 @@ public class RegisterCommandValidatorTests
 		{
 			Email = "test@example.com",
 			Password = "SecurePassword123!",
-			FullName = ""
+			Nickname = ""
 		};
 
 		// Act
@@ -125,7 +125,7 @@ public class RegisterCommandValidatorTests
 		{
 			Email = "test@example.com",
 			Password = "SecurePassword123!",
-			FullName = new string('a', 257)
+			Nickname = new string('a', 257)
 		};
 
 		// Act

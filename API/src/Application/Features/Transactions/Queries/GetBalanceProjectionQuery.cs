@@ -1,40 +1,41 @@
-using PersonalFinanceAPI.Application.Features.Transactions;
+using PersonalFinanceAPI.Application.Extensions;
 using PersonalFinanceAPI.Application.Repositories;
 using PersonalFinanceAPI.Domain.Enums;
+using PersonalFinanceAPI.Domain.Services;
 using PersonalFinanceAPI.Domain.ValueObjects;
 
-namespace PersonalFinanceAPI.Application.Queries;
+namespace PersonalFinanceAPI.Application.Features.Transactions.Queries;
 
 /// <summary>
 /// Query to get balance projection for upcoming months.
 /// </summary>
-public record GetBalanceProjectionQuery : IRequest<GetBalanceProjectionResult>
+public record GetBalanceProjectionQuery : IRequest<ListResult<MonthlyProjection>>
 {
-    public int MonthCount { get; set; } = 12;
-    public DateOnly StartDate { get; set; } = DateOnly.FromDateTime(DateTime.UtcNow);
+    public int MonthCount { get; init; } = 12;
+    public DateOnly StartDate { get; init; } = DateOnly.FromDateTime(DateTime.UtcNow);
 }
+
+public record MonthlyProjection(
+	int Year,
+	int Month,
+	Money ProjectedBalance,
+	decimal RemainingPercentage
+);
 
 /// <summary>
 /// Handler for GetBalanceProjectionQuery that calculates the balance projection.
 /// Formula: Balance = Sum(IncomeTransactions) - Sum(ExpenseTransactions)
 /// </summary>
-public class GetBalanceProjectionQueryHandler : IRequestHandler<GetBalanceProjectionQuery, GetBalanceProjectionResult>
+public class GetBalanceProjectionQueryHandler : CommandHandler<GetBalanceProjectionQuery, ListResult<MonthlyProjection>, ITransactionRepository>
 {
-	private readonly ITransactionRepository _repository;
+	public GetBalanceProjectionQueryHandler(ITransactionRepository repository, ICurrentUserService userService) : base(repository, userService) { }
 
-	public GetBalanceProjectionQueryHandler(ITransactionRepository repository)
-	{
-		_repository = repository ?? throw new ArgumentNullException(nameof(repository));
-	}
-
-	public async Task<GetBalanceProjectionResult> Handle(
-		GetBalanceProjectionQuery request,
-		CancellationToken ct)
+	public override async Task<ListResult<MonthlyProjection>> Handle(GetBalanceProjectionQuery request, CancellationToken ct)
 	{
 		if (request.MonthCount <= 0)
 			throw new ArgumentException("Month count must be greater than zero.", nameof(request.MonthCount));
 
-		var result = new GetBalanceProjectionResult();
+		var result = new ListResult<MonthlyProjection>();
 
 		// Calculate monthly projections
 		for (int i = 0; i < request.MonthCount; i++)
@@ -76,5 +77,13 @@ public class GetBalanceProjectionQueryHandler : IRequestHandler<GetBalanceProjec
 		}
 
 		return result;
+	}
+}
+
+public class GetBalanceProjectionQueryValidator : AbstractValidator<GetBalanceProjectionQuery>
+{
+	public GetBalanceProjectionQueryValidator()
+	{
+		RuleFor(x => x.MonthCount).IsInclusiveBetween(1, 12);
 	}
 }

@@ -1,3 +1,5 @@
+using PersonalFinanceAPI.Application.Features.Transactions.Commands;
+
 namespace UnitTests.Application.Features.Transactions;
 
 public class CreateTransactionCommandHandlerTests

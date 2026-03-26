@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using PersonalFinanceAPI.Application.Features.Categories;
 using PersonalFinanceAPI.Application.Features.Shared;
 using PersonalFinanceAPI.Application.Features.Transactions;
-using PersonalFinanceAPI.Application.Queries;
+using PersonalFinanceAPI.Application.Features.Transactions.Commands;
+using PersonalFinanceAPI.Application.Features.Transactions.Queries;
 using System.Security.Claims;
 
 namespace PersonalFinanceAPI.API.Endpoints;

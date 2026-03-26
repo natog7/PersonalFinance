@@ -73,6 +73,8 @@ public class Transaction : UserEntity<Guid>
             Type = type.Value;
 		if (categoryId.HasValue)
             categoryId = categoryId.Value;
+
+		UpdatedAt = DateTime.UtcNow;
 	}
 
 	/// <summary>

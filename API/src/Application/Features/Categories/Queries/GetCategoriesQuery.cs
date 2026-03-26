@@ -1,7 +1,7 @@
 ﻿using PersonalFinanceAPI.Application.Repositories;
 using PersonalFinanceAPI.Domain.Services;
 
-namespace PersonalFinanceAPI.Application.Features.Categories;
+namespace PersonalFinanceAPI.Application.Features.Categories.Queries;
 
 public record GetCategoriesQuery
 (

@@ -4,7 +4,7 @@ using PersonalFinanceAPI.Domain.Enums;
 using PersonalFinanceAPI.Domain.Services;
 using PersonalFinanceAPI.Domain.ValueObjects;
 
-namespace PersonalFinanceAPI.Application.Features.Transactions;
+namespace PersonalFinanceAPI.Application.Features.Transactions.Commands;
 
 public record UpdateTransactionCommand
 (
