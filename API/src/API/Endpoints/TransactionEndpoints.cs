@@ -156,7 +156,7 @@ public static class TransactionEndpoints
 		{
 			var userId = Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? Guid.Empty.ToString());
 
-            await mediator.Send(new DeleteTransactionCommand(id), ct);
+            await mediator.Send(new DeleteCommand(id), ct);
 
             return Results.Ok(new { message = "Successfully deleted." });
 		}

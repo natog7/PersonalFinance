@@ -6,11 +6,16 @@ using PersonalFinanceAPI.Domain.ValueObjects;
 
 namespace PersonalFinanceAPI.Application.Features.RecurrentTransactions;
 
-public record CreateRecurrentTransactionCommand : CreateTransactionCommand
-{
-	public int Period { get; set; }
-	public DateOnly EndDate { get; set; }
-}
+public record CreateRecurrentTransactionCommand(
+	int Period,
+	DateOnly EndDate,
+	string Title,
+	decimal Amount,
+	DateOnly Date,
+	int Type,
+	Guid CategoryId,
+	string Currency = "BRL"
+): CreateTransactionCommand(Title, Amount, Date, Type, CategoryId, Currency);
 
 public class CreateRecurrentTransactionCommandHandler : IRequestHandler<CreateRecurrentTransactionCommand, IdDto<Guid>>
 {
@@ -45,10 +50,12 @@ public class CreateRecurrentTransactionCommandHandler : IRequestHandler<CreateRe
 	}
 }
 
-public class CreateRecurrentTransactionCommandValidator : CreateTransactionCommandValidator<CreateRecurrentTransactionCommand>
+public class CreateRecurrentTransactionCommandValidator : AbstractValidator<CreateRecurrentTransactionCommand>
 {
 	public CreateRecurrentTransactionCommandValidator() : base()
 	{
+		Include(new TransactionFieldsValidator<CreateRecurrentTransactionCommand>());
+
 		RuleFor(x => x.Period)
 			.NotEmpty().WithMessage("Period is required.");
 

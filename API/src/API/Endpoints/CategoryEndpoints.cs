@@ -143,7 +143,7 @@ public static class CategoryEndpoints
 		{
 			var userId = Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? Guid.Empty.ToString());
 
-			await mediator.Send(new DeleteCategoryCommand(id), ct);
+			await mediator.Send(new DeleteCommand(id), ct);
 
 			return Results.Ok(new { message = "Successfully deleted." });
 		}

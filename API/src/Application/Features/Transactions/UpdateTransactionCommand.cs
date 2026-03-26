@@ -1,18 +1,21 @@
-﻿using PersonalFinanceAPI.Application.Extensions;
-using PersonalFinanceAPI.Application.Features.Categories;
-using PersonalFinanceAPI.Application.Repositories;
-using PersonalFinanceAPI.Domain.Entities;
+﻿using PersonalFinanceAPI.Application.Repositories;
+using PersonalFinanceAPI.Domain.Entities.Interfaces;
 using PersonalFinanceAPI.Domain.Enums;
 using PersonalFinanceAPI.Domain.Services;
 using PersonalFinanceAPI.Domain.ValueObjects;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PersonalFinanceAPI.Application.Features.Transactions;
 
-public record UpdateTransactionCommand(Guid Id, string Title, decimal Amount, string Currency, DateOnly Date, int Type, Guid CategoryId) : IRequest<TransactionDto>;
-
+public record UpdateTransactionCommand
+(
+	Guid Id,
+	string Title,
+	decimal Amount,
+	string Currency,
+	DateOnly Date,
+	int Type,
+	Guid CategoryId
+) : IRequest<TransactionDto>, IEntityFields<Guid>, ITransactionFields;
 
 public class UpdateTransactionCommandHandler : CommandHandler<UpdateTransactionCommand, TransactionDto, ITransactionRepository>
 {
@@ -51,22 +54,11 @@ public class UpdateTransactionCommandHandler : CommandHandler<UpdateTransactionC
 	}
 }
 
-public class UpdateTransactionCommandValidator<T> : AbstractValidator<T> where T : UpdateTransactionCommand
+public class UpdateTransactionCommandValidator : AbstractValidator<UpdateTransactionCommand>
 {
 	public UpdateTransactionCommandValidator()
 	{
-		RuleFor(x => x.Id)
-			.NotEmpty()
-			.WithMessage("ID cannot be empty.");
-
-		RuleFor(x => x.Title).NotEmptyMaxLength(64);
-
-		RuleFor(x => x.Amount).GreaterThan(0).WithMessage("{PropertyName} must be greater than zero.");
-
-		RuleFor(x => x.Currency).NotEmptyLength(3);
-
-		RuleFor(x => x.CategoryId).NotEmpty().WithMessage("{PropertyName} is required.");
-
-		RuleFor(x => x.Type).Must(t => t == 1 || t == 2).WithMessage("{PropertyName} must be 1 (Income) or 2 (Expense).");
+		Include(new EntityFieldsValidator<UpdateTransactionCommand>());
+		Include(new TransactionFieldsValidator<UpdateTransactionCommand>());
 	}
 }

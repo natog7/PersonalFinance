@@ -1,10 +1,11 @@
-﻿using System;
+﻿using PersonalFinanceAPI.Domain.Entities.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PersonalFinanceAPI.Application.Features.Categories;
 
-public record CategoryDto : IdDto<Guid>
+public record CategoryDto : IdDto<Guid>, ICategoryFields
 {
 	public string Name { get; set; } = string.Empty;
 	public string? Description { get; set; }

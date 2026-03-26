@@ -1,9 +1,11 @@
+using PersonalFinanceAPI.Domain.Entities.Interfaces;
+
 namespace PersonalFinanceAPI.Domain.Entities;
 
 /// <summary>
 /// Represents a transaction category.
 /// </summary>
-public class Category : UserEntity<Guid>
+public class Category : UserEntity<Guid>, ICategoryFields
 {
     public string Name { get; private set; } = string.Empty;
     public string? Description { get; private set; }

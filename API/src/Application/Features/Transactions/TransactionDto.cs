@@ -1,6 +1,8 @@
-﻿namespace PersonalFinanceAPI.Application.Features.Transactions;
+﻿using PersonalFinanceAPI.Domain.Entities.Interfaces;
 
-	public record TransactionDto : IdDto<Guid>
+namespace PersonalFinanceAPI.Application.Features.Transactions;
+
+	public record TransactionDto : IdDto<Guid>, ITransactionFields
 	{
 		public string Title { get; set; } = string.Empty;
 		public decimal Amount { get; set; }

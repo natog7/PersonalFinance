@@ -1,10 +1,18 @@
-﻿using PersonalFinanceAPI.Application.Extensions;
-using PersonalFinanceAPI.Application.Repositories;
+﻿using PersonalFinanceAPI.Application.Repositories;
+using PersonalFinanceAPI.Domain.Entities.Interfaces;
 using PersonalFinanceAPI.Domain.Services;
 
 namespace PersonalFinanceAPI.Application.Features.Categories;
 
-public record UpdateCategoryCommand(Guid Id, string? Name, string? Description, string? Color, Guid? ParentCategoryId, bool? IsActive) : IRequest<CategoryDto>;
+public record UpdateCategoryCommand
+(
+	Guid Id,
+	string? Name,
+	string? Description,
+	string? Color,
+	Guid? ParentCategoryId,
+	bool? IsActive
+) : IRequest<CategoryDto>, IEntityFields<Guid>, ICategoryFields;
 
 public class UpdateCategoryCommandHandler : CommandHandler<UpdateCategoryCommand, CategoryDto, ICategoryRepository>
 {
@@ -40,19 +48,11 @@ public class UpdateCategoryCommandHandler : CommandHandler<UpdateCategoryCommand
 	}
 }
 
-public class UpdateCategoryCommandValidator<T> : AbstractValidator<T> where T : UpdateCategoryCommand
+public class UpdateCategoryCommandValidator : AbstractValidator<UpdateCategoryCommand>
 {
 	public UpdateCategoryCommandValidator()
 	{
-		RuleFor(x => x.Id)
-			.NotEmpty()
-			.WithMessage("ID cannot be empty.");
-
-		RuleFor(x => x.Name).NotEmptyMaxLength(64);
-
-		RuleFor(x => x.Description).NotEmptyMaxLength(256);
-		//.When(x => !string.IsNullOrWhiteSpace(x.Description));
-
-		RuleFor(x => x.Color).IsHexColor();
+		Include(new EntityFieldsValidator<UpdateCategoryCommand>());
+		Include(new CategoryFieldsValidator<UpdateCategoryCommand>());
 	}
 }

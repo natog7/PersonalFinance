@@ -1,17 +1,17 @@
-﻿using PersonalFinanceAPI.Application.Extensions;
-using PersonalFinanceAPI.Application.Repositories;
+﻿using PersonalFinanceAPI.Application.Repositories;
 using PersonalFinanceAPI.Domain.Entities;
+using PersonalFinanceAPI.Domain.Entities.Interfaces;
 using PersonalFinanceAPI.Domain.Services;
 
 namespace PersonalFinanceAPI.Application.Features.Categories;
 
-public record CreateCategoryCommand : IRequest<IdDto<Guid>>
-{
-	public string Name { get; private set; } = string.Empty;
-	public string? Description { get; private set; }
-	public string Color { get; private set; } = "#000000";
-	public Guid? ParentCategoryId { get; private set; }
-}
+public record CreateCategoryCommand
+(
+	string Name = "",
+	string? Description = null,
+	string Color = "#000000",
+	Guid? ParentCategoryId = null
+) : IRequest<IdDto<Guid>>, ICategoryFields;
 
 public class CreateCategoryCommandHandler : CommandHandler<CreateCategoryCommand, IdDto<Guid>, ICategoryRepository>
 {
@@ -38,15 +38,10 @@ public class CreateCategoryCommandHandler : CommandHandler<CreateCategoryCommand
 	}
 }
 
-public class CreateCategoryCommandValidator<T> : AbstractValidator<T> where T : CreateCategoryCommand
+public class CreateCategoryCommandValidator : AbstractValidator<CreateCategoryCommand>
 {
 	public CreateCategoryCommandValidator()
 	{
-		RuleFor(x => x.Name).NotEmptyMaxLength(64);
-
-		RuleFor(x => x.Description).NotEmptyMaxLength(256);
-		//.When(x => !string.IsNullOrWhiteSpace(x.Description));
-
-		RuleFor(x => x.Color).IsHexColor();
+		Include(new CategoryFieldsValidator<CreateCategoryCommand>());
 	}
 }

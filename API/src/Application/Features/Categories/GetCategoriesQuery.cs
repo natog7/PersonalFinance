@@ -1,11 +1,9 @@
-﻿using PersonalFinanceAPI.Application.Features.Transactions;
-using PersonalFinanceAPI.Application.Repositories;
-using PersonalFinanceAPI.Domain.Entities;
+﻿using PersonalFinanceAPI.Application.Repositories;
 using PersonalFinanceAPI.Domain.Services;
 
 namespace PersonalFinanceAPI.Application.Features.Categories;
 
-public record GetCategoriesQuery(string? Name, string? Description, Guid? ParentCategoryId, bool? IsActive) : IRequest<ListResult<CategoryDto>>;
+public record GetCategoriesQuery(string? Name = null, string? Description = null, Guid? ParentCategoryId = null, bool? IsActive = null) : IRequest<ListResult<CategoryDto>>;
 
 public class GetCategoriesQueryHandler : CommandHandler<GetCategoriesQuery, ListResult<CategoryDto>, ICategoryRepository>
 {
