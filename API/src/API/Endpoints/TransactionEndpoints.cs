@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using PersonalFinanceAPI.Application.Features.Categories;
+using PersonalFinanceAPI.Application.Features.Shared;
 using PersonalFinanceAPI.Application.Features.Transactions;
 using PersonalFinanceAPI.Application.Queries;
 using System.Security.Claims;
@@ -89,7 +90,7 @@ public static class TransactionEndpoints
         try
         {
             var userId = Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? Guid.Empty.ToString());
-            var query = new GetTransactionQuery { Id = id };
+            var query = new GetByIdQuery<TransactionDto?>(id);
             
             var result = await mediator.Send(query, ct);
             return result is null ? Results.NotFound() : Results.Ok(result);

@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using PersonalFinanceAPI.Application.Features.Categories;
+using PersonalFinanceAPI.Application.Features.Shared;
 using System.Security.Claims;
 
 namespace PersonalFinanceAPI.API.Endpoints;
@@ -76,7 +77,7 @@ public static class CategoryEndpoints
 		try
 		{
 			var userId = Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? Guid.Empty.ToString());
-			var query = new GetCategoryQuery { Id = id };
+			var query = new GetByIdQuery<CategoryDto?>(id);
 
 			var result = await mediator.Send(query, ct);
 			return result is null ? Results.NotFound() : Results.Ok(result);

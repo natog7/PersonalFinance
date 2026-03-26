@@ -8,41 +8,41 @@ public class CategoryRepository : BaseRepository, ICategoryRepository
 {
 	public CategoryRepository(ApplicationDbContext dbContext) : base(dbContext) { }
 
-	public async Task<Category?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+	public async Task<Category?> GetByIdAsync(Guid id, CancellationToken ct = default)
 	{
 		return await _dbContext.Categories
 			.AsNoTracking()
-			.FirstOrDefaultAsync(t => t.Id == id, cancellationToken);
+			.FirstOrDefaultAsync(t => t.Id == id, ct);
 	}
 
-	public async Task AddAsync(Category entity, CancellationToken cancellationToken = default)
+	public async Task AddAsync(Category entity, CancellationToken ct = default)
 	{
 		_dbContext.Categories.Add(entity);
-		await _dbContext.SaveChangesAsync(cancellationToken);
+		await _dbContext.SaveChangesAsync(ct);
 	}
 
-	public async Task UpdateAsync(Category entity, CancellationToken cancellationToken = default)
+	public async Task UpdateAsync(Category entity, CancellationToken ct = default)
 	{
 		_dbContext.Categories.Update(entity);
-		await _dbContext.SaveChangesAsync(cancellationToken);
+		await _dbContext.SaveChangesAsync(ct);
 	}
 
-	public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+	public async Task DeleteAsync(Guid id, CancellationToken ct = default)
 	{
-		var category = await GetByIdAsync(id, cancellationToken);
+		var category = await GetByIdAsync(id, ct);
 		if (category is not null)
 		{
 			_dbContext.Categories.Remove(category);
-			await _dbContext.SaveChangesAsync(cancellationToken);
+			await _dbContext.SaveChangesAsync(ct);
 		}
 	}
 
-	public async Task<IEnumerable<Category>> GetAllAsync(CancellationToken cancellationToken = default)
+	public async Task<IEnumerable<Category>> GetAllAsync(CancellationToken ct = default)
 	{
-		return await _dbContext.Categories.AsNoTracking().OrderByDescending(t => t.Name).ToListAsync(cancellationToken);
+		return await _dbContext.Categories.AsNoTracking().OrderByDescending(t => t.Name).ToListAsync(ct);
 	}
 
-	public async Task<List<Category>> GetFilterAsync(GetCategoriesQuery filters, CancellationToken cancellationToken = default)
+	public async Task<List<Category>> GetFilterAsync(GetCategoriesQuery filters, CancellationToken ct = default)
 	{
 		var query = _dbContext.Categories.AsNoTracking().AsQueryable();
 		if (!string.IsNullOrEmpty(filters.Name))
@@ -61,11 +61,11 @@ public class CategoryRepository : BaseRepository, ICategoryRepository
 		{
 			query = query.Where(t => t.IsActive == filters.IsActive.Value);
 		}
-		return await query.OrderByDescending(t => t.Name).ToListAsync(cancellationToken);
+		return await query.OrderByDescending(t => t.Name).ToListAsync(ct);
 	}
 
-	public async Task<bool> HasTransactionsAsync(Guid categoryId, CancellationToken cancellationToken = default)
+	public async Task<bool> HasTransactionsAsync(Guid categoryId, CancellationToken ct = default)
 	{
-		return await _dbContext.Transactions.AsNoTracking().Where(t => t.CategoryId == categoryId).AnyAsync(cancellationToken);
+		return await _dbContext.Transactions.AsNoTracking().Where(t => t.CategoryId == categoryId).AnyAsync(ct);
 	}
 }

@@ -29,7 +29,7 @@ public class GetBalanceProjectionQueryHandler : IRequestHandler<GetBalanceProjec
 
 	public async Task<GetBalanceProjectionResult> Handle(
 		GetBalanceProjectionQuery request,
-		CancellationToken cancellationToken)
+		CancellationToken ct)
 	{
 		if (request.MonthCount <= 0)
 			throw new ArgumentException("Month count must be greater than zero.", nameof(request.MonthCount));
@@ -47,7 +47,7 @@ public class GetBalanceProjectionQueryHandler : IRequestHandler<GetBalanceProjec
 			var monthTransactions = await _repository.GetFilterAsync(new GetTransactionsQuery()
 			{
 				Date = DateOnlyPeriod.Create(new DateOnly(year, month, 1), new DateOnly(year, month, DateTime.DaysInMonth(year, month)))
-			}, cancellationToken);
+			}, ct);
 
 			// Calculate balance: Income - Expense
 			var income = monthTransactions

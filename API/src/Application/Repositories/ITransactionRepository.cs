@@ -9,7 +9,7 @@ namespace PersonalFinanceAPI.Application.Repositories;
 /// </summary>
 public interface ITransactionRepository : IRepository<Transaction, Guid>
 {
-    Task<List<Transaction>> GetFilterAsync(GetTransactionsQuery filters, CancellationToken cancellationToken = default);
-    Task<int> GetCountAsync(CancellationToken cancellationToken = default);
+    Task<List<Transaction>> GetFilterAsync(GetTransactionsQuery filters, CancellationToken ct = default);
+    Task<int> GetCountAsync(CancellationToken ct = default);
     IQueryable<Transaction> GetQueryable();
 }

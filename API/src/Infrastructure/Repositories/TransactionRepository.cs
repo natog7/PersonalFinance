@@ -12,42 +12,42 @@ public class TransactionRepository : BaseRepository, ITransactionRepository
 {
 	public TransactionRepository(ApplicationDbContext dbContext) : base(dbContext) { }
 
-    public async Task<Transaction?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<Transaction?> GetByIdAsync(Guid id, CancellationToken ct = default)
     {
         return await _dbContext.Transactions
             .AsNoTracking()
             .Include(t => t.Category)
-            .FirstOrDefaultAsync(t => t.Id == id, cancellationToken);
+            .FirstOrDefaultAsync(t => t.Id == id, ct);
 	}
 
-	public async Task<IEnumerable<Transaction>> GetAllAsync(CancellationToken cancellationToken)
+	public async Task<IEnumerable<Transaction>> GetAllAsync(CancellationToken ct)
 	{
-		return await _dbContext.Transactions.AsNoTracking().OrderByDescending(t => t.Date).ToListAsync(cancellationToken);
+		return await _dbContext.Transactions.AsNoTracking().OrderByDescending(t => t.Date).ToListAsync(ct);
 	}
 
-    public async Task AddAsync(Transaction transaction, CancellationToken cancellationToken = default)
+    public async Task AddAsync(Transaction transaction, CancellationToken ct = default)
     {
         _dbContext.Transactions.Add(transaction);
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        await _dbContext.SaveChangesAsync(ct);
     }
 
-    public async Task UpdateAsync(Transaction transaction, CancellationToken cancellationToken = default)
+    public async Task UpdateAsync(Transaction transaction, CancellationToken ct = default)
     {
         _dbContext.Transactions.Update(transaction);
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        await _dbContext.SaveChangesAsync(ct);
     }
 
-    public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(Guid id, CancellationToken ct = default)
     {
-        var transaction = await GetByIdAsync(id, cancellationToken);
+        var transaction = await GetByIdAsync(id, ct);
         if (transaction is not null)
         {
             _dbContext.Transactions.Remove(transaction);
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            await _dbContext.SaveChangesAsync(ct);
         }
 	}
 
-	public async Task<List<Transaction>> GetFilterAsync(GetTransactionsQuery filters, CancellationToken cancellationToken = default)
+	public async Task<List<Transaction>> GetFilterAsync(GetTransactionsQuery filters, CancellationToken ct = default)
 	{
 		var query = _dbContext.Transactions.AsNoTracking().AsQueryable();
 		if (!string.IsNullOrEmpty(filters.Title))
@@ -73,12 +73,12 @@ public class TransactionRepository : BaseRepository, ITransactionRepository
 		{
 			query = query.Where(t => filters.CategoryIds.Contains(t.CategoryId));
 		}
-		return await query.Include(t => t.Category).OrderByDescending(t => t.Date).ToListAsync(cancellationToken);
+		return await query.Include(t => t.Category).OrderByDescending(t => t.Date).ToListAsync(ct);
 	}
 
-	public async Task<int> GetCountAsync(CancellationToken cancellationToken = default)
+	public async Task<int> GetCountAsync(CancellationToken ct = default)
     {
-        return await _dbContext.Transactions.CountAsync(cancellationToken);
+        return await _dbContext.Transactions.CountAsync(ct);
     }
 
     public IQueryable<Transaction> GetQueryable()

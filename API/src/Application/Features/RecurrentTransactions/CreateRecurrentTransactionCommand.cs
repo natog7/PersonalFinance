@@ -23,7 +23,7 @@ public class CreateRecurrentTransactionCommandHandler : IRequestHandler<CreateRe
 
 	public async Task<IdDto<Guid>> Handle(
 		CreateRecurrentTransactionCommand request,
-		CancellationToken cancellationToken)
+		CancellationToken ct)
 	{
 		var transaction = RecurrentTransaction.Create(
 			request.Title,
@@ -36,7 +36,7 @@ public class CreateRecurrentTransactionCommandHandler : IRequestHandler<CreateRe
 		);
 
 		// Save to database
-		await _repository.AddAsync(transaction, cancellationToken);
+		await _repository.AddAsync(transaction, ct);
 
 		return new IdDto<Guid>
 		{

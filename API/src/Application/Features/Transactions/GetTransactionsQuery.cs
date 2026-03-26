@@ -1,42 +1,32 @@
 using PersonalFinanceAPI.Application.Repositories;
 using PersonalFinanceAPI.Domain.Enums;
+using PersonalFinanceAPI.Domain.Services;
 using PersonalFinanceAPI.Domain.ValueObjects;
 
 namespace PersonalFinanceAPI.Application.Features.Transactions;
 
-public class GetTransactionsQuery : IRequest<GetTransactionsResult>
+public record GetTransactionsQuery(string? Title, DateOnlyPeriod? Date, TransactionType? Type, List<Guid>? CategoryIds) : IRequest<ListResult<TransactionDto>>;
+
+public class GetTransactionsQueryHandler : CommandHandler<GetTransactionsQuery, ListResult<TransactionDto>, ITransactionRepository>
 {
-    public string? Title { get; set; }
-	public DateOnlyPeriod? Date { get; set; }
-	public TransactionType? Type { get; set; }
-	public List<Guid>? CategoryIds { get; set; }
-}
+	public GetTransactionsQueryHandler(ITransactionRepository repository, ICurrentUserService userService) : base(repository, userService) { }
 
-public class GetTransactionsQueryHandler : IRequestHandler<GetTransactionsQuery, GetTransactionsResult>
-{
-	private readonly ITransactionRepository _repository;
-
-	public GetTransactionsQueryHandler(ITransactionRepository repository)
+	public override async Task<ListResult<TransactionDto>> Handle(GetTransactionsQuery request, CancellationToken ct)
 	{
-		_repository = repository ?? throw new ArgumentNullException(nameof(repository));
-	}
-
-	public async Task<GetTransactionsResult> Handle(GetTransactionsQuery request, CancellationToken cancellationToken)
-	{
-		return new GetTransactionsResult
+		return new ListResult<TransactionDto>
 		{
-			Transactions = (await _repository.GetFilterAsync(request, cancellationToken))
-			.Select(t => new TransactionDto
+			Items = (await _repository.GetFilterAsync(request, ct))
+			.Select(x => new TransactionDto
 			{
-				Id = t.Id,
-				Title = t.Title,
-				Amount = t.Amount.Amount,
-				Currency = t.Amount.Currency,
-				Date = t.Date,
-				Type = (int)t.Type,
-				CategoryId = t.CategoryId,
-				CategoryName = t.Category.Name,
-				IsRecurrent = t.IsRecurrent
+				Id = x.Id,
+				Title = x.Title,
+				Amount = x.Amount.Amount,
+				Currency = x.Amount.Currency,
+				Date = x.Date,
+				Type = (int)x.Type,
+				CategoryId = x.CategoryId,
+				CategoryName = x.Category.Name,
+				IsRecurrent = x.IsRecurrent
 			}).ToList()
 		};
 	}

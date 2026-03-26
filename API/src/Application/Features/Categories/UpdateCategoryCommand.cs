@@ -1,4 +1,5 @@
-﻿using PersonalFinanceAPI.Application.Repositories;
+﻿using PersonalFinanceAPI.Application.Extensions;
+using PersonalFinanceAPI.Application.Repositories;
 using PersonalFinanceAPI.Domain.Services;
 
 namespace PersonalFinanceAPI.Application.Features.Categories;
@@ -47,17 +48,11 @@ public class UpdateCategoryCommandValidator<T> : AbstractValidator<T> where T : 
 			.NotEmpty()
 			.WithMessage("ID cannot be empty.");
 
-		RuleFor(x => x.Name)
-			.NotEmpty().WithMessage("Name is required.")
-			.MaximumLength(128).WithMessage("Name cannot exceed 128 characters.");
+		RuleFor(x => x.Name).NotEmptyMaxLength(64);
 
-		RuleFor(x => x.Description)
-			.MaximumLength(512).WithMessage("Description cannot exceed 512 characters.")
-			.When(x => !string.IsNullOrWhiteSpace(x.Description));
+		RuleFor(x => x.Description).NotEmptyMaxLength(256);
+		//.When(x => !string.IsNullOrWhiteSpace(x.Description));
 
-		RuleFor(x => x.Color)
-			.Matches(@"^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$")
-			.WithMessage("Color must be a valid hexadecimal color (e.g. #FFF or #FFFFFF).")
-			.When(x => !string.IsNullOrWhiteSpace(x.Color));
+		RuleFor(x => x.Color).IsHexColor();
 	}
 }

@@ -24,16 +24,16 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, RegisterR
 		_passwordHasher = passwordHasher ?? throw new ArgumentNullException(nameof(passwordHasher));
 	}
 
-	public async Task<RegisterResponse?> Handle(RegisterCommand request, CancellationToken cancellationToken)
+	public async Task<RegisterResponse?> Handle(RegisterCommand request, CancellationToken ct)
 	{
-		var emailExists = await _userRepository.EmailExistsAsync(request.Email, cancellationToken);
+		var emailExists = await _userRepository.EmailExistsAsync(request.Email, ct);
 		if (emailExists)
 			return null; // Email already exists
 
 		var passwordHash = _passwordHasher.HashPassword(request.Password);
 		var user = User.Create(request.Email, passwordHash, request.FullName);
 
-		await _userRepository.AddAsync(user, cancellationToken);
+		await _userRepository.AddAsync(user, ct);
 
 		return new RegisterResponse
 		{

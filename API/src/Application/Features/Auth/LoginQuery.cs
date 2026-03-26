@@ -25,18 +25,18 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, LoginResponse?>
 		_passwordHasher = passwordHasher ?? throw new ArgumentNullException(nameof(passwordHasher));
 	}
 
-	public async Task<LoginResponse?> Handle(LoginQuery request, CancellationToken cancellationToken)
+	public async Task<LoginResponse?> Handle(LoginQuery request, CancellationToken ct)
 	{
 		if (string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.Password))
 			return null;
 
-		var user = await _userRepository.GetByEmailAsync(request.Email, cancellationToken);
+		var user = await _userRepository.GetByEmailAsync(request.Email, ct);
 
 		if (user is null || !user.IsActive || !_passwordHasher.VerifyPassword(request.Password, user.PasswordHash))
 			return null;
 
 		user.UpdateLastLogin();
-		await _userRepository.UpdateAsync(user, cancellationToken);
+		await _userRepository.UpdateAsync(user, ct);
 
 		var accessToken = _tokenService.GenerateAccessToken(user.Id, user.Email, user.Role);
 		var refreshToken = _tokenService.GenerateRefreshToken();

@@ -15,7 +15,7 @@ public class CommandHandler<TRequest, TResponse, TRepository> : IRequestHandler<
 		_userService = userService ?? throw new ArgumentNullException(nameof(userService));
 	}
 
-	public virtual async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken)
+	public virtual async Task<TResponse> Handle(TRequest request, CancellationToken ct)
 	{
 		throw new NotImplementedException();
 	}
