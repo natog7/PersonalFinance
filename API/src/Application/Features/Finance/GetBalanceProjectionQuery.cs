@@ -14,12 +14,20 @@ public record GetBalanceProjectionQuery : IRequest<ListResult<MonthlyProjection>
 {
     public int MonthCount { get; init; } = 12;
     public DateOnly StartDate { get; init; } = DateOnly.FromDateTime(DateTime.UtcNow);
+	public List<Guid>? CategoryIds { get; init; } = null;
 }
 
-public record MonthlyProjection(
-	int Year,
-	int Month,
-	Money ProjectedBalance,
+public record MonthlyProjection
+(
+	DateOnly Month,
+	List<MoneyProjection> Balances,
+	decimal RemainingPercentage
+);
+
+public record MoneyProjection
+(
+	decimal Amount,
+	string? Currency,
 	decimal RemainingPercentage
 );
 
@@ -33,51 +41,43 @@ public class GetBalanceProjectionQueryHandler : CommandHandler<GetBalanceProject
 
 	public override async Task<ListResult<MonthlyProjection>> Handle(GetBalanceProjectionQuery request, CancellationToken ct)
 	{
-		if (request.MonthCount <= 0)
-			throw new ArgumentException("Month count must be greater than zero.", nameof(request.MonthCount));
+		// Set to first day of the month for consistency
+		var startDate = new DateOnly(request.StartDate.Year, request.StartDate.Month, 1);
+		var endDate = startDate.AddMonths(request.MonthCount).AddDays(-1);
 
-		var result = new ListResult<MonthlyProjection>();
+		var monthlySums = await _repository.GetMonthlySumsAsync(
+		startDate, endDate, request.CategoryIds, ct);
 
-		// Calculate monthly projections
+		var currencies = monthlySums.Keys
+			.Select(k => k.Currency)
+			.Distinct()
+			.ToList();
+
+		var projections = new List<MonthlyProjection>(request.MonthCount);
+
 		for (int i = 0; i < request.MonthCount; i++)
 		{
-			var projectionDate = request.StartDate.AddMonths(i);
-			var year = projectionDate.Year;
-			var month = projectionDate.Month;
+			var projectionDate = startDate.AddMonths(i);
 
-			// Get transactions for this month
-			var monthTransactions = await _repository.GetFilterAsync(new GetTransactionsQuery()
+			var monthlyBalances = currencies.Select(currency =>
 			{
-				Date = DateOnlyPeriod.Create(new DateOnly(year, month, 1), new DateOnly(year, month, DateTime.DaysInMonth(year, month)))
-			}, ct);
+				var income = monthlySums.GetValueOrDefault((projectionDate.Year, projectionDate.Month, currency, TransactionType.Income));
+				var expenses = monthlySums.GetValueOrDefault((projectionDate.Year, projectionDate.Month, currency, TransactionType.Expense));
 
-			// Calculate balance: Income - Expense
-			var income = monthTransactions
-				.Where(t => t.Type == TransactionType.Income)
-				.Sum(t => t.Amount.Amount);
+				var balance = income - expenses;
+				var remaining = income > 0 ? (balance / income) * 100 : 0;
 
-			var expenses = monthTransactions
-				.Where(t => t.Type == TransactionType.Expense)
-				.Sum(t => t.Amount.Amount);
+				return new MoneyProjection(balance, currency, Math.Max(0, remaining));
+			}).ToList();
 
-			//var monthlyBalance = income - expenses;
-			//var projectedBalance = Money.Create(monthlyBalance, budget.LimitAmount.Currency);
-			//var remainingAmount = budget.LimitAmount.Amount - expenses;
-			//var remainingPercentage = budget.LimitAmount.Amount > 0
-			//    ? (remainingAmount / budget.LimitAmount.Amount) * 100
-			//    : 0;
+			var avgRemaining = monthlyBalances.Count > 0
+				? monthlyBalances.Average(x => x.RemainingPercentage)
+				: 0;
 
-			//result.Projections.Add(new MonthlyProjection
-			//{
-			//    Year = year,
-			//    Month = month,
-			//    ProjectedBalance = projectedBalance,
-			//    BudgetLimit = budget.LimitAmount,
-			//    RemainingPercentage = Math.Max(0, remainingPercentage)
-			//});
+			projections.Add(new MonthlyProjection(projectionDate, monthlyBalances, avgRemaining));
 		}
 
-		return result;
+		return new ListResult<MonthlyProjection> { Items = projections };
 	}
 }
 

@@ -44,7 +44,7 @@ public class CategoryRepository : BaseRepository, ICategoryRepository
 
 	public async Task<List<Category>> GetFilterAsync(GetCategoriesQuery filters, CancellationToken ct = default)
 	{
-		var query = _dbContext.Categories.AsNoTracking().AsQueryable();
+		var query = _dbContext.Categories.AsNoTracking();
 		if (!string.IsNullOrEmpty(filters.Name))
 		{
 			query = query.Where(t => t.Name.Contains(filters.Name));

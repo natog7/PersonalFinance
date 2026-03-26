@@ -10,6 +10,7 @@ public record GetTransactionsQuery
 	string? Title = null,
 	DateOnlyPeriod? Date = null,
 	TransactionType? Type = null,
+	string? Currency = null,
 	List<Guid>? CategoryIds = null
 ) : IRequest<ListResult<TransactionDto>>;
 
