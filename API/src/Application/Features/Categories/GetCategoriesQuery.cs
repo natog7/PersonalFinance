@@ -3,7 +3,13 @@ using PersonalFinanceAPI.Domain.Services;
 
 namespace PersonalFinanceAPI.Application.Features.Categories;
 
-public record GetCategoriesQuery(string? Name = null, string? Description = null, Guid? ParentCategoryId = null, bool? IsActive = null) : IRequest<ListResult<CategoryDto>>;
+public record GetCategoriesQuery
+(
+	string? Name = null,
+	string? Description = null,
+	Guid? ParentCategoryId = null,
+	bool? IsActive = null
+) : IRequest<ListResult<CategoryDto>>;
 
 public class GetCategoriesQueryHandler : CommandHandler<GetCategoriesQuery, ListResult<CategoryDto>, ICategoryRepository>
 {

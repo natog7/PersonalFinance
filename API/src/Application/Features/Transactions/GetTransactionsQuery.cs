@@ -5,7 +5,13 @@ using PersonalFinanceAPI.Domain.ValueObjects;
 
 namespace PersonalFinanceAPI.Application.Features.Transactions;
 
-public record GetTransactionsQuery(string? Title = null, DateOnlyPeriod? Date = null, TransactionType? Type = null, List<Guid>? CategoryIds = null) : IRequest<ListResult<TransactionDto>>;
+public record GetTransactionsQuery
+(
+	string? Title = null,
+	DateOnlyPeriod? Date = null,
+	TransactionType? Type = null,
+	List<Guid>? CategoryIds = null
+) : IRequest<ListResult<TransactionDto>>;
 
 public class GetTransactionsQueryHandler : CommandHandler<GetTransactionsQuery, ListResult<TransactionDto>, ITransactionRepository>
 {

@@ -1,7 +1,9 @@
-﻿using PersonalFinanceAPI.Application.Features.Transactions;
+﻿using PersonalFinanceAPI.Application.Extensions;
+using PersonalFinanceAPI.Application.Features.Transactions;
 using PersonalFinanceAPI.Application.Repositories;
 using PersonalFinanceAPI.Domain.Entities;
 using PersonalFinanceAPI.Domain.Enums;
+using PersonalFinanceAPI.Domain.Services;
 using PersonalFinanceAPI.Domain.ValueObjects;
 
 namespace PersonalFinanceAPI.Application.Features.RecurrentTransactions;
@@ -17,20 +19,16 @@ public record CreateRecurrentTransactionCommand(
 	string Currency = "BRL"
 ): CreateTransactionCommand(Title, Amount, Date, Type, CategoryId, Currency);
 
-public class CreateRecurrentTransactionCommandHandler : IRequestHandler<CreateRecurrentTransactionCommand, IdDto<Guid>>
+public class CreateRecurrentTransactionCommandHandler : CommandHandler<CreateRecurrentTransactionCommand, IdDto<Guid>, ITransactionRepository>
 {
-	private readonly ITransactionRepository _repository;
+	public CreateRecurrentTransactionCommandHandler(ITransactionRepository repository, ICurrentUserService userService) : base(repository, userService) { }
 
-	public CreateRecurrentTransactionCommandHandler(ITransactionRepository repository)
+	public override async Task<IdDto<Guid>> Handle(CreateRecurrentTransactionCommand request, CancellationToken ct)
 	{
-		_repository = repository ?? throw new ArgumentNullException(nameof(repository));
-	}
+		CheckAuthenticated();
 
-	public async Task<IdDto<Guid>> Handle(
-		CreateRecurrentTransactionCommand request,
-		CancellationToken ct)
-	{
 		var transaction = RecurrentTransaction.Create(
+			_userService.UserId,
 			request.Title,
 			Money.Create(request.Amount, request.Currency),
 			request.Date,
@@ -56,8 +54,7 @@ public class CreateRecurrentTransactionCommandValidator : AbstractValidator<Crea
 	{
 		Include(new TransactionFieldsValidator<CreateRecurrentTransactionCommand>());
 
-		RuleFor(x => x.Period)
-			.NotEmpty().WithMessage("Period is required.");
+		RuleFor(x => x.Period).NotEmptyOrNull();
 
 		RuleFor(x => x.EndDate)
 			.GreaterThan(x => x.Date)

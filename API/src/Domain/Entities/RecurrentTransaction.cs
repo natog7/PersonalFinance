@@ -16,7 +16,7 @@ public class RecurrentTransaction : Transaction
 	/// <summary>
 	/// Creates a new transaction.
 	/// </summary>
-	public static RecurrentTransaction Create(string title, Money amount, DateOnly date, DateOnly endDate, TransactionType type,
+	public static RecurrentTransaction Create(Guid? userId, string title, Money amount, DateOnly date, DateOnly endDate, TransactionType type,
 		Guid categoryId, RecurrentPeriod period)
 	{
 		CheckCreate(title, amount, date);
@@ -24,7 +24,7 @@ public class RecurrentTransaction : Transaction
 		return new RecurrentTransaction
 		{
 			Id = Guid.NewGuid(),
-			//UserId = UserId,
+			UserId = userId,
 			Title = title.Trim(),
 			Amount = amount,
 			Date = date,
