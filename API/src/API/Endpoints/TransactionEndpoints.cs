@@ -1,11 +1,6 @@
-using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using PersonalFinanceAPI.Application.Features.Categories;
-using PersonalFinanceAPI.Application.Features.Shared;
 using PersonalFinanceAPI.Application.Features.Transactions;
 using PersonalFinanceAPI.Application.Features.Transactions.Commands;
 using PersonalFinanceAPI.Application.Features.Transactions.Queries;
-using System.Security.Claims;
 
 namespace PersonalFinanceAPI.API.Endpoints;
 
@@ -54,13 +49,6 @@ public static class TransactionEndpoints
 			.Produces(StatusCodes.Status200OK)
 			.Produces(StatusCodes.Status400BadRequest)
 			.Produces(StatusCodes.Status401Unauthorized);
-
-		group.MapPost("/balance-projection/", GetBalanceProjection)
-            .WithName("Get Balance Projection")
-			.RequireAuthorization()
-			.Produces(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status400BadRequest)
-            .Produces(StatusCodes.Status401Unauthorized);
     }
 
     private static async Task<IResult> CreateTransaction(
@@ -166,23 +154,4 @@ public static class TransactionEndpoints
 			return Results.BadRequest(new { error = ex.Message });
 		}
 	}
-
-	private static async Task<IResult> GetBalanceProjection(
-        GetBalanceProjectionQuery query,
-        ClaimsPrincipal user,
-        IMediator mediator,
-        CancellationToken ct)
-    {
-        try
-        {
-            var userId = Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? Guid.Empty.ToString());
-            
-            var result = await mediator.Send(query, ct);
-            return Results.Ok(result);
-        }
-        catch (Exception ex)
-        {
-            return Results.BadRequest(new { error = ex.Message });
-        }
-    }
 }

@@ -1,9 +1,6 @@
-﻿using MediatR;
-using PersonalFinanceAPI.Application.Features.Categories;
+﻿using PersonalFinanceAPI.Application.Features.Categories;
 using PersonalFinanceAPI.Application.Features.Categories.Commands;
 using PersonalFinanceAPI.Application.Features.Categories.Queries;
-using PersonalFinanceAPI.Application.Features.Shared;
-using System.Security.Claims;
 
 namespace PersonalFinanceAPI.API.Endpoints;
 

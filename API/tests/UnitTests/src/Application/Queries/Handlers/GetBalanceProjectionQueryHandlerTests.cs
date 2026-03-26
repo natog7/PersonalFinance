@@ -1,3 +1,4 @@
+using PersonalFinanceAPI.Application.Features.Finance;
 using PersonalFinanceAPI.Application.Features.Transactions.Queries;
 
 namespace UnitTests.Application.Queries.Handlers;

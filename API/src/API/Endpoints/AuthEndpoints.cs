@@ -1,4 +1,3 @@
-using MediatR;
 using PersonalFinanceAPI.Application.Features.Auth.Commands;
 using PersonalFinanceAPI.Application.Features.Auth.Queries;
 

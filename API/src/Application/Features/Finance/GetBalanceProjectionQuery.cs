@@ -1,10 +1,11 @@
 using PersonalFinanceAPI.Application.Extensions;
+using PersonalFinanceAPI.Application.Features.Transactions.Queries;
 using PersonalFinanceAPI.Application.Repositories;
 using PersonalFinanceAPI.Domain.Enums;
 using PersonalFinanceAPI.Domain.Services;
 using PersonalFinanceAPI.Domain.ValueObjects;
 
-namespace PersonalFinanceAPI.Application.Features.Transactions.Queries;
+namespace PersonalFinanceAPI.Application.Features.Finance;
 
 /// <summary>
 /// Query to get balance projection for upcoming months.
