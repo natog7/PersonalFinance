@@ -1,5 +1,7 @@
 using PersonalFinanceAPI.Application.Extensions;
+using PersonalFinanceAPI.Application.Features.Finance.Events;
 using PersonalFinanceAPI.Application.Repositories;
+using PersonalFinanceAPI.Application.Services;
 using PersonalFinanceAPI.Domain.Enums;
 using PersonalFinanceAPI.Domain.Services;
 
@@ -35,47 +37,60 @@ public record MoneyProjection
 /// </summary>
 public class GetBalanceProjectionQueryHandler : CommandHandler<GetBalanceProjectionQuery, ListResult<MonthlyProjection>, ITransactionRepository>
 {
-	public GetBalanceProjectionQueryHandler(ITransactionRepository repository, ICurrentUserService userService) : base(repository, userService) { }
+	private readonly IBalanceProjectionCacheService _cache;
+	private readonly IBalanceProjectionMongoRepository _mongo;
+	private readonly IBalanceProjectionProducer _producer;
+	private static readonly string cacheKeyPrefix = "balance_projection";
+
+	public GetBalanceProjectionQueryHandler(
+		ITransactionRepository repository,
+		ICurrentUserService userService,
+		IBalanceProjectionCacheService cache,
+		IBalanceProjectionMongoRepository mongo,
+		IBalanceProjectionProducer producer)
+		: base(repository, userService)
+	{
+		_cache = cache;
+		_mongo = mongo;
+		_producer = producer;
+	}
 
 	public override async Task<ListResult<MonthlyProjection>> Handle(GetBalanceProjectionQuery request, CancellationToken ct)
 	{
-		// Set to first day of the month for consistency
-		var startDate = new DateOnly(request.StartDate.Year, request.StartDate.Month, 1);
-		var endDate = startDate.AddMonths(request.MonthCount).AddDays(-1);
+		// Redis
+		var cacheKey = BuildCacheKey(request);
 
-		var monthlySums = await _repository.GetMonthlySumsAsync(
-		startDate, endDate, request.CategoryIds, ct);
+		var cachedData = await _cache.GetAsync(cacheKey, ct);
+		if (cachedData is not null)
+			return cachedData;
 
-		var currencies = monthlySums.Keys
-			.Select(k => k.Currency)
-			.Distinct()
-			.ToList();
-
-		var projections = new List<MonthlyProjection>(request.MonthCount);
-
-		for (int i = 0; i < request.MonthCount; i++)
+		// MongoDB
+		var persisted = await _mongo.GetAsync(cacheKey, ct);
+		if (persisted is not null)
 		{
-			var projectionDate = startDate.AddMonths(i);
-
-			var monthlyBalances = currencies.Select(currency =>
-			{
-				var income = monthlySums.GetValueOrDefault((projectionDate.Year, projectionDate.Month, currency, TransactionType.Income));
-				var expenses = monthlySums.GetValueOrDefault((projectionDate.Year, projectionDate.Month, currency, TransactionType.Expense));
-
-				var balance = income - expenses;
-				var remaining = income > 0 ? (balance / income) * 100 : 0;
-
-				return new MoneyProjection(balance, currency, Math.Max(0, remaining));
-			}).ToList();
-
-			var avgRemaining = monthlyBalances.Count > 0
-				? monthlyBalances.Average(x => x.RemainingPercentage)
-				: 0;
-
-			projections.Add(new MonthlyProjection(projectionDate, monthlyBalances, avgRemaining));
+			// Update Redis cache
+			await _cache.SetAsync(cacheKey, persisted, ct);
+			return persisted;
 		}
 
-		return new ListResult<MonthlyProjection> { Items = projections };
+		// RabbitMQ - Publish event to calculate projection asynchronously
+		await _producer.PublishAsync(new CalculateBalanceProjectionEvent
+		{
+			MonthCount = request.MonthCount,
+			StartDate = request.StartDate,
+			CategoryIds = request.CategoryIds,
+			CacheKey = cacheKey
+		}, ct);
+
+		return new ListResult<MonthlyProjection>();
+	}
+
+	private static string BuildCacheKey(GetBalanceProjectionQuery request)
+	{
+		var categoryPart = request.CategoryIds is { Count: > 0 }
+			? string.Join("-", request.CategoryIds.OrderBy(x => x))
+			: "all";
+		return $"{cacheKeyPrefix}:{request.StartDate:yyyy-MM}:{request.MonthCount}:{categoryPart}";
 	}
 }
 

@@ -10,6 +10,7 @@ using FluentValidation;
 using Scalar.AspNetCore;
 using PersonalFinanceAPI.Application.Features.Transactions.Commands;
 using PersonalFinanceAPI.Application.Features.Auth.Commands;
+using MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,6 +56,30 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorizationBuilder()
     .AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"))
     .AddDefaultPolicy("RequireAuthentication", policy => policy.RequireAuthenticatedUser());
+
+// Redis
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("Redis") 
+        ?? throw new InvalidOperationException("Redis connection string not found in configuration");
+    options.InstanceName = "PersonalFinanceAPI:";
+});
+
+// MassTransit with RabbitMQ
+builder.Services.AddMassTransit(x =>
+{
+    //x.AddConsumer<TransactionChangedConsumer>();
+
+	x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host(builder.Configuration["RabbitMQ:Host"] ?? "localhost", h =>
+        {
+            h.Username(builder.Configuration["RabbitMQ:Username"] ?? "guest");
+            h.Password(builder.Configuration["RabbitMQ:Password"] ?? "guest");
+        });
+        cfg.ConfigureEndpoints(context);
+	});
+});
 
 // Services
 builder.Services
