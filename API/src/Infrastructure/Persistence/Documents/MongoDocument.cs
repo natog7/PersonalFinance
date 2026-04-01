@@ -1,6 +1,4 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
-using PersonalFinanceAPI.Application.Features.Finance;
-using PersonalFinanceAPI.Application.Features.Shared;
 
 namespace PersonalFinanceAPI.Infrastructure.Persistence.Documents;
 
