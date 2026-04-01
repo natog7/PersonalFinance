@@ -1,10 +1,11 @@
-﻿namespace PersonalFinanceAPI.Application.Features.Finance.Events;
+﻿using PersonalFinanceAPI.Application.Features.Shared.Events;
 
-public record CalculateBalanceProjectionEvent
+namespace PersonalFinanceAPI.Application.Features.Finance.Events;
+
+public record CalculateBalanceProjectionEvent : CorrelatedEvent
 {
-	public Guid CorrelationId { get; init; } = Guid.NewGuid();
+	public string CacheKey { get; init; } = default!;
 	public int MonthCount { get; init; }
 	public DateOnly StartDate { get; init; }
 	public List<Guid>? CategoryIds { get; init; }
-	public string CacheKey { get; init; } = default!;
 }

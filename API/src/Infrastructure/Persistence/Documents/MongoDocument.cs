@@ -5,10 +5,10 @@ using PersonalFinanceAPI.Application.Features.Shared;
 namespace PersonalFinanceAPI.Infrastructure.Persistence.Documents;
 
 [BsonIgnoreExtraElements]
-public class BalanceProjectionDocument
+public class MongoDocument<T>
 {
 	[BsonId]
 	public string Key { get; set; } = default!;
-	public ListResult<MonthlyProjection> Projection { get; set; } = default!;
+	public T Content { get; set; } = default!;
 	public DateTime CreatedAt { get; set; }
 }

@@ -3,7 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
+using PersonalFinanceAPI.Application.Features.Finance;
+using PersonalFinanceAPI.Application.Features.Finance.Events;
 using PersonalFinanceAPI.Application.Features.Finance.Services;
+using PersonalFinanceAPI.Application.Features.Shared;
+using PersonalFinanceAPI.Application.Features.Shared.Events;
 using PersonalFinanceAPI.Application.Repositories;
 using PersonalFinanceAPI.Application.Services;
 using PersonalFinanceAPI.Domain.Services;
@@ -52,8 +56,16 @@ public static class ServiceCollectionExtensions
 	{
 		// Redis
 		services.AddSingleton<IConnectionMultiplexer>(
-			ConnectionMultiplexer.Connect(configuration.GetConnectionString("Redis")!));
-		services.AddScoped<IBalanceProjectionCacheService, BalanceProjectionCacheService>();
+			ConnectionMultiplexer.Connect(configuration.GetConnectionString("Redis")
+				?? throw new InvalidOperationException("Redis connection string not found in configuration")));
+		services.AddScoped<ICacheService<ListResult<MonthlyProjection>>, BalanceProjectionCacheService>();
+
+		//services.AddStackExchangeRedisCache(options =>
+		//{
+		//	options.Configuration = configuration.GetConnectionString("Redis")
+		//		?? throw new InvalidOperationException("Redis connection string not found in configuration");
+		//	options.InstanceName = "PersonalFinanceAPI:";
+		//});
 
 		// MongoDB
 		services.AddSingleton<IMongoClient>(
@@ -61,7 +73,7 @@ public static class ServiceCollectionExtensions
 		services.AddScoped<IMongoDatabase>(sp =>
 			sp.GetRequiredService<IMongoClient>()
 			  .GetDatabase(configuration["MongoDB:Database"]));
-		services.AddScoped<IBalanceProjectionMongoRepository, BalanceProjectionMongoRepository>();
+		services.AddScoped<IGetSetRepository<ListResult<MonthlyProjection>>, BalanceProjectionMongoRepository>();
 
 		// MassTransit + RabbitMQ
 		services.AddMassTransit(x =>
@@ -70,15 +82,17 @@ public static class ServiceCollectionExtensions
 			x.UsingRabbitMq((ctx, cfg) =>
 			{
 				cfg.Host(configuration.GetConnectionString("RabbitMQ"));
+				cfg.ConfigureEndpoints(ctx);
 				cfg.ReceiveEndpoint("balance-projection-queue", e =>
 				{
 					e.ConfigureConsumer<CalculateBalanceProjectionConsumer>(ctx);
-					e.UseMessageRetry(r => r.Intervals(500, 1000, 2000)); // retry com back-off
+					// retry with back-off
+					e.UseMessageRetry(r => r.Intervals(500, 1000, 2000));
 				});
 			});
 		});
 
-		services.AddScoped<IBalanceProjectionProducer, BalanceProjectionProducer>();
+		services.AddScoped<IEventProducer<CalculateBalanceProjectionEvent>, EventProducer<CalculateBalanceProjectionEvent>>();
 
 		return services;
 	}

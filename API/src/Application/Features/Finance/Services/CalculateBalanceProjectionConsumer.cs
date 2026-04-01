@@ -1,4 +1,5 @@
 ﻿using MassTransit;
+using PersonalFinanceAPI.Application.Features.Finance.Events;
 using PersonalFinanceAPI.Application.Repositories;
 using PersonalFinanceAPI.Application.Services;
 using PersonalFinanceAPI.Domain.Enums;
@@ -8,13 +9,13 @@ namespace PersonalFinanceAPI.Application.Features.Finance.Services;
 public class CalculateBalanceProjectionConsumer : IConsumer<CalculateBalanceProjectionEvent>
 {
 	private readonly ITransactionRepository _repository;
-	private readonly IBalanceProjectionCacheService _cache;
-	private readonly IBalanceProjectionMongoRepository _mongo;
+	private readonly ICacheService<ListResult<MonthlyProjection>> _cache;
+	private readonly IGetSetRepository _mongo;
 
 	public CalculateBalanceProjectionConsumer(
 		ITransactionRepository repository,
-		IBalanceProjectionCacheService cache,
-		IBalanceProjectionMongoRepository mongo)
+		ICacheService<ListResult<MonthlyProjection>> cache,
+		IGetSetRepository mongo)
 	{
 		_repository = repository;
 		_cache = cache;

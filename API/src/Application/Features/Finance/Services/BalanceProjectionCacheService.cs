@@ -4,12 +4,9 @@ using System.Text.Json;
 
 namespace PersonalFinanceAPI.Application.Features.Finance.Services;
 
-public class BalanceProjectionCacheService : IBalanceProjectionCacheService
+public class BalanceProjectionCacheService : CacheService, ICacheService<ListResult<MonthlyProjection>>
 {
-	private readonly IConnectionMultiplexer _redis;
-	private readonly TimeSpan _expiry = TimeSpan.FromHours(1);
-
-	public BalanceProjectionCacheService(IConnectionMultiplexer redis) => _redis = redis;
+	public BalanceProjectionCacheService(IConnectionMultiplexer redis) : base(redis) { }
 
 	public async Task<ListResult<MonthlyProjection>?> GetAsync(string key, CancellationToken ct = default)
 	{

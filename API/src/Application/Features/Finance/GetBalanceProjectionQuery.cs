@@ -37,17 +37,17 @@ public record MoneyProjection
 /// </summary>
 public class GetBalanceProjectionQueryHandler : CommandHandler<GetBalanceProjectionQuery, ListResult<MonthlyProjection>, ITransactionRepository>
 {
-	private readonly IBalanceProjectionCacheService _cache;
-	private readonly IBalanceProjectionMongoRepository _mongo;
-	private readonly IBalanceProjectionProducer _producer;
+	private readonly ICacheService<ListResult<MonthlyProjection>> _cache;
+	private readonly IGetSetRepository<ListResult<MonthlyProjection>> _mongo;
+	private readonly IEventProducer<CalculateBalanceProjectionEvent> _producer;
 	private static readonly string cacheKeyPrefix = "balance_projection";
 
 	public GetBalanceProjectionQueryHandler(
 		ITransactionRepository repository,
 		ICurrentUserService userService,
-		IBalanceProjectionCacheService cache,
-		IBalanceProjectionMongoRepository mongo,
-		IBalanceProjectionProducer producer)
+		ICacheService<ListResult<MonthlyProjection>> cache,
+		IGetSetRepository<ListResult<MonthlyProjection>> mongo,
+		IEventProducer<CalculateBalanceProjectionEvent> producer)
 		: base(repository, userService)
 	{
 		_cache = cache;

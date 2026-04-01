@@ -1,5 +1,4 @@
-﻿
-namespace PersonalFinanceAPI.Application.Repositories;
+﻿namespace PersonalFinanceAPI.Application.Repositories;
 
 public interface IRepository<T, TId>
 	where T : class
