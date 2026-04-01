@@ -6,11 +6,11 @@ using PersonalFinanceAPI.Infrastructure.Persistence.Documents;
 
 namespace PersonalFinanceAPI.Infrastructure.Repositories;
 
-public class BalanceProjectionMongoRepository : IGetSetRepository<ListResult<MonthlyProjection>>
+public class BalanceProjectionRepository : IGetSetRepository<ListResult<MonthlyProjection>>
 {
 	protected readonly IMongoCollection<MongoDocument<ListResult<MonthlyProjection>>> _collection;
 
-	public BalanceProjectionMongoRepository(IMongoDatabase database)
+	public BalanceProjectionRepository(IMongoDatabase database)
 	{
 		_collection = database.GetCollection<MongoDocument<ListResult<MonthlyProjection>>>("balance_projections");
 	}

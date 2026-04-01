@@ -29,7 +29,7 @@ public static class ServiceCollectionExtensions
     /// </summary>
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, string connectionString)
     {
-        // Register DbContext
+        // Register DbContext + PostgreSQL
         services.AddDbContext<ApplicationDbContext>(options =>
         {
             options.UseNpgsql(connectionString, npgsqlOptions =>
@@ -50,9 +50,9 @@ public static class ServiceCollectionExtensions
         services.AddScoped<Application.Services.ITokenService, JwtTokenService>();
 
 		return services;
-    }
+	}
 
-	public static IServiceCollection AddBalanceProjection(this IServiceCollection services, IConfiguration configuration)
+	public static IServiceCollection AddRedis(this IServiceCollection services, IConfiguration configuration)
 	{
 		// Redis
 		services.AddSingleton<IConnectionMultiplexer>(
@@ -67,14 +67,11 @@ public static class ServiceCollectionExtensions
 		//	options.InstanceName = "PersonalFinanceAPI:";
 		//});
 
-		// MongoDB
-		services.AddSingleton<IMongoClient>(
-			new MongoClient(configuration.GetConnectionString("MongoDB")));
-		services.AddScoped<IMongoDatabase>(sp =>
-			sp.GetRequiredService<IMongoClient>()
-			  .GetDatabase(configuration["MongoDB:Database"]));
-		services.AddScoped<IGetSetRepository<ListResult<MonthlyProjection>>, BalanceProjectionMongoRepository>();
+		return services;
+	}
 
+	public static IServiceCollection AddMassTransit(this IServiceCollection services, IConfiguration configuration)
+	{
 		// MassTransit + RabbitMQ
 		services.AddMassTransit(x =>
 		{
@@ -92,7 +89,23 @@ public static class ServiceCollectionExtensions
 			});
 		});
 
+		// Register event producers
 		services.AddScoped<IEventProducer<CalculateBalanceProjectionEvent>, EventProducer<CalculateBalanceProjectionEvent>>();
+
+		return services;
+	}
+
+	public static IServiceCollection AddMongoDB(this IServiceCollection services, IConfiguration configuration)
+	{
+		// MongoDB
+		services.AddSingleton<IMongoClient>(
+			new MongoClient(configuration.GetConnectionString("MongoDB")));
+		services.AddScoped<IMongoDatabase>(sp =>
+			sp.GetRequiredService<IMongoClient>()
+			  .GetDatabase(configuration["MongoDB:Database"]));
+
+		// Register repositories
+		services.AddScoped<IGetSetRepository<ListResult<MonthlyProjection>>, BalanceProjectionRepository>();
 
 		return services;
 	}

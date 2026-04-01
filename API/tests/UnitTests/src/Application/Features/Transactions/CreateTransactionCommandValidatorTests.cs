@@ -1,24 +1,17 @@
 using PersonalFinanceAPI.Application.Features.Transactions.Commands;
+using static MongoDB.Driver.WriteConcern;
 
 namespace UnitTests.Application.Features.Transactions;
 
 public class CreateTransactionCommandValidatorTests
 {
-	private readonly CreateTransactionCommandValidator<CreateTransactionCommand> _validator = new();
+	private readonly CreateTransactionCommandValidator _validator = new();
 
 	[Fact]
 	public void Validate_WithValidCommand_HasNoErrors()
 	{
 		// Arrange
-		var command = new CreateTransactionCommand
-		{
-			Title = "Valid Transaction",
-			Amount = 100m,
-			Currency = "BRL",
-			Date = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-1)),
-			Type = 1, // Income
-			CategoryId = Guid.NewGuid()
-		};
+		var command = GetCreateTransactionCommand("Valid Transaction");
 
 		// Act
 		var result = _validator.Validate(command);
@@ -31,15 +24,7 @@ public class CreateTransactionCommandValidatorTests
 	public void Validate_WithEmptyTitle_HasErrors()
 	{
 		// Arrange
-		var command = new CreateTransactionCommand
-		{
-			Title = "",
-			Amount = 100m,
-			Currency = "BRL",
-			Date = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-1)),
-			Type = 1,
-			CategoryId = Guid.NewGuid()
-		};
+		var command = GetCreateTransactionCommand("");
 
 		// Act
 		var result = _validator.Validate(command);
@@ -53,15 +38,7 @@ public class CreateTransactionCommandValidatorTests
 	public void Validate_WithTitleExceeding256Characters_HasErrors()
 	{
 		// Arrange
-		var command = new CreateTransactionCommand
-		{
-			Title = new string('a', 257),
-			Amount = 100m,
-			Currency = "BRL",
-			Date = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-1)),
-			Type = 1,
-			CategoryId = Guid.NewGuid()
-		};
+		var command = GetCreateTransactionCommand(new string('a', 257));
 
 		// Act
 		var result = _validator.Validate(command);
@@ -75,15 +52,7 @@ public class CreateTransactionCommandValidatorTests
 	public void Validate_WithZeroAmount_HasErrors()
 	{
 		// Arrange
-		var command = new CreateTransactionCommand
-		{
-			Title = "Test",
-			Amount = 0m,
-			Currency = "BRL",
-			Date = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-1)),
-			Type = 1,
-			CategoryId = Guid.NewGuid()
-		};
+		var command = GetCreateTransactionCommand("Test", 0m);
 
 		// Act
 		var result = _validator.Validate(command);
@@ -97,15 +66,7 @@ public class CreateTransactionCommandValidatorTests
 	public void Validate_WithNegativeAmount_HasErrors()
 	{
 		// Arrange
-		var command = new CreateTransactionCommand
-		{
-			Title = "Test",
-			Amount = -50m,
-			Currency = "BRL",
-			Date = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-1)),
-			Type = 1,
-			CategoryId = Guid.NewGuid()
-		};
+		var command = GetCreateTransactionCommand("Test", -50m);
 
 		// Act
 		var result = _validator.Validate(command);
@@ -119,15 +80,7 @@ public class CreateTransactionCommandValidatorTests
 	public void Validate_WithEmptyCurrency_HasErrors()
 	{
 		// Arrange
-		var command = new CreateTransactionCommand
-		{
-			Title = "Test",
-			Amount = 100m,
-			Currency = "",
-			Date = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-1)),
-			Type = 1,
-			CategoryId = Guid.NewGuid()
-		};
+		var command = GetCreateTransactionCommand(Currency: "");
 
 		// Act
 		var result = _validator.Validate(command);
@@ -141,15 +94,7 @@ public class CreateTransactionCommandValidatorTests
 	public void Validate_WithInvalidCurrencyLength_HasErrors()
 	{
 		// Arrange
-		var command = new CreateTransactionCommand
-		{
-			Title = "Test",
-			Amount = 100m,
-			Currency = "BRLT", // 4 characters instead of 3
-			Date = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-1)),
-			Type = 1,
-			CategoryId = Guid.NewGuid()
-		};
+		var command = GetCreateTransactionCommand(Currency: "BRLT");
 
 		// Act
 		var result = _validator.Validate(command);
@@ -163,15 +108,7 @@ public class CreateTransactionCommandValidatorTests
 	public void Validate_WithEmptyCategoryId_HasErrors()
 	{
 		// Arrange
-		var command = new CreateTransactionCommand
-		{
-			Title = "Test",
-			Amount = 100m,
-			Currency = "BRL",
-			Date = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-1)),
-			Type = 1,
-			CategoryId = Guid.Empty
-		};
+		var command = GetCreateTransactionCommand(CategoryId: Guid.Empty);
 
 		// Act
 		var result = _validator.Validate(command);
@@ -188,15 +125,7 @@ public class CreateTransactionCommandValidatorTests
 	public void Validate_WithInvalidTransactionType_HasErrors(int type)
 	{
 		// Arrange
-		var command = new CreateTransactionCommand
-		{
-			Title = "Test",
-			Amount = 100m,
-			Currency = "BRL",
-			Date = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-1)),
-			Type = type,
-			CategoryId = Guid.NewGuid()
-		};
+		var command = GetCreateTransactionCommand(Type: type);
 
 		// Act
 		var result = _validator.Validate(command);
@@ -212,20 +141,27 @@ public class CreateTransactionCommandValidatorTests
 	public void Validate_WithValidTransactionType_IsValid(int type)
 	{
 		// Arrange
-		var command = new CreateTransactionCommand
-		{
-			Title = "Test",
-			Amount = 100m,
-			Currency = "BRL",
-			Date = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-1)),
-			Type = type,
-			CategoryId = Guid.NewGuid()
-		};
+		var command = GetCreateTransactionCommand(Type: type);
 
 		// Act
 		var result = _validator.Validate(command);
 
 		// Assert
 		Assert.True(result.IsValid);
+	}
+
+	protected CreateTransactionCommand GetCreateTransactionCommand(string Title = "Title", decimal Amount = 100m, DateOnly? Date = null, 
+		int Type = 1, Guid? CategoryId = null, string Currency = "BRL")
+	{
+		if(!Date.HasValue)
+		{
+			Date = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-1));
+		}
+		if(CategoryId is null)
+		{
+			CategoryId = Guid.NewGuid();
+		}
+
+		return new CreateTransactionCommand(Title, Amount, Date.Value, Type, CategoryId.Value, Currency);
 	}
 }

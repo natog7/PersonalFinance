@@ -64,7 +64,9 @@ builder.Services
         typeof(RegisterCommand).Assembly))
     .AddValidatorsFromAssemblyContaining<CreateTransactionCommand>()
     .AddInfrastructure(connectionString)
-    .AddBalanceProjection(builder.Configuration);
+    .AddRedis(builder.Configuration)
+	.AddMongoDB(builder.Configuration)
+	.AddMassTransit(builder.Configuration);
 
 // CORS - Restrito ao domínio Angular
 builder.Services.AddCors(options =>

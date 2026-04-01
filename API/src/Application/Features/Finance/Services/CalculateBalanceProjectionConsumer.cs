@@ -10,12 +10,12 @@ public class CalculateBalanceProjectionConsumer : IConsumer<CalculateBalanceProj
 {
 	private readonly ITransactionRepository _repository;
 	private readonly ICacheService<ListResult<MonthlyProjection>> _cache;
-	private readonly IGetSetRepository _mongo;
+	private readonly IGetSetRepository<ListResult<MonthlyProjection>> _mongo;
 
 	public CalculateBalanceProjectionConsumer(
 		ITransactionRepository repository,
 		ICacheService<ListResult<MonthlyProjection>> cache,
-		IGetSetRepository mongo)
+		IGetSetRepository<ListResult<MonthlyProjection>> mongo)
 	{
 		_repository = repository;
 		_cache = cache;
