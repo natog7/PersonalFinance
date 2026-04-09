@@ -1,0 +1,40 @@
+<div class="balance-card">
+  <!-- Decorative Background Icon -->
+  <span class="balance-card__bg-icon material-symbols-outlined">account_balance</span>
+
+  <div class="balance-card__top">
+    <p class="balance-card__label">Saldo Consolidado</p>
+    <span class="balance-card__badge" [class.balance-card__badge--income]="balance().monthlyGrowthPercent >= 0"
+      [class.balance-card__badge--expense]="balance().monthlyGrowthPercent < 0">
+      <span class="material-symbols-outlined">{{
+        balance().monthlyGrowthPercent >= 0 ? 'trending_up' : 'trending_down'
+        }}</span>
+      {{ balance().monthlyGrowthPercent >= 0 ? '+' : ''
+      }}{{ balance().monthlyGrowthPercent }}% este mês
+    </span>
+  </div>
+
+  <h2 class="balance-card__total">
+    {{ balance().totalBalance | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+  </h2>
+
+  <div class="balance-card__stats">
+    <!-- Monthly Income -->
+    <div class="balance-card__stat balance-card__stat">
+      <p class="balance-card__stat-label">Renda Mensal</p>
+      <p class="balance-card__stat-value balance-card__stat-value--income">
+        {{ balance().monthlyIncome | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+      </p>
+    </div>
+
+    <div class="balance-card__divider"></div>
+
+    <!-- Total Expenses -->
+    <div class="balance-card__stat balance-card__stat">
+      <p class="balance-card__stat-label">Gastos Totais</p>
+      <p class="balance-card__stat-value balance-card__stat-value--expense">
+        {{ balance().totalExpenses | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+      </p>
+    </div>
+  </div>
+</div>

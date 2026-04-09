@@ -1,0 +1,39 @@
+<header class="top-bar">
+  <!-- Left: title + toggle -->
+  <div class="top-bar__left">
+    <span class="top-bar__section-label">Painel Principal</span>
+
+    <div class="top-bar__divider"></div>
+
+    <button class="top-bar__balance-toggle" (click)="toggleBalance()">
+      <span class="material-symbols-outlined">
+        {{ balanceHidden() ? 'visibility_off' : 'visibility' }}
+      </span>
+      <span>{{ balanceHidden() ? 'Mostrar Saldo' : 'Ocultar Saldo' }}</span>
+    </button>
+  </div>
+
+  <!-- Right: search + actions + avatar -->
+  <div class="top-bar__right">
+    <!-- Search -->
+    <div class="top-bar__search">
+      <span class="material-symbols-outlined top-bar__search-icon">search</span>
+      <input id="header-search" class="top-bar__search-input" type="text" placeholder="Procurar transações..."
+        (input)="onSearch($event)" />
+    </div>
+
+    <!-- Icon Buttons -->
+    <div class="top-bar__actions">
+      <button class="top-bar__icon-btn" aria-label="Notificações">
+        <span class="material-symbols-outlined">notifications</span>
+        <span class="top-bar__notification-dot"></span>
+      </button>
+      <button class="top-bar__icon-btn" aria-label="Configurações">
+        <span class="material-symbols-outlined">settings</span>
+      </button>
+      <button class="top-bar__icon-btn" aria-label="Conta">
+        <span class="material-symbols-outlined">account_circle</span>
+      </button>
+    </div>
+  </div>
+</header>

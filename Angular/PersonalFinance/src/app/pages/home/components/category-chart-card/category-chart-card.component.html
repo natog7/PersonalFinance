@@ -1,0 +1,46 @@
+<div class="category-card">
+  <!-- Card Header -->
+  <div class="category-card__header">
+    <div class="category-card__title-group">
+      <div class="category-card__icon-wrap">
+        <span class="material-symbols-outlined">pie_chart</span>
+      </div>
+      <h3 class="category-card__title">Gastos por Categoria</h3>
+    </div>
+    <span class="category-card__month">{{ spending().month }}</span>
+  </div>
+
+  <!-- Donut Chart -->
+  <div class="category-card__chart-area">
+    <div
+      class="category-card__donut"
+      [style.background]="donutGradient"
+      role="img"
+      aria-label="Gráfico de gastos por categoria"
+    >
+      <div class="category-card__donut-hole"></div>
+      <div class="category-card__donut-center">
+        <p class="category-card__donut-sub">Total Gasto</p>
+        <p class="category-card__donut-value">
+          R$ {{ spending().totalSpent | number:'1.0-0':'pt-BR' }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Legend -->
+  <div class="category-card__legend">
+    @for (cat of spending().categories; track cat.label) {
+      <div class="category-card__legend-item">
+        <span
+          class="category-card__legend-dot"
+          [style.background]="cat.colorVar"
+        ></span>
+        <div class="category-card__legend-text">
+          <span class="category-card__legend-label">{{ cat.label }}</span>
+          <span class="category-card__legend-percent">{{ cat.percent }}%</span>
+        </div>
+      </div>
+    }
+  </div>
+</div>

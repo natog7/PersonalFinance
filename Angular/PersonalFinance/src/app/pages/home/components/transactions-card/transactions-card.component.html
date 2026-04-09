@@ -1,0 +1,62 @@
+<div class="tx-card">
+  <!-- Card Header -->
+  <div class="tx-card__header">
+    <div class="tx-card__title-group">
+      <h3 class="tx-card__title">Histórico de Transações</h3>
+      <div class="tx-card__badges">
+        <span class="tx-card__badge tx-card__badge--today">Hoje</span>
+        <span class="tx-card__badge tx-card__badge--pending">34 pendentes</span>
+      </div>
+    </div>
+    <div class="tx-card__actions">
+      <button class="tx-card__action-btn" aria-label="Filtrar">
+        <span class="material-symbols-outlined">filter_list</span>
+      </button>
+      <button class="tx-card__action-btn" aria-label="Exportar">
+        <span class="material-symbols-outlined">download</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Transaction List -->
+  <div class="tx-card__list">
+    @for (tx of transactions(); track tx.id) {
+      <div class="tx-card__item">
+        <!-- Icon -->
+        <div
+          class="tx-card__icon-wrap"
+          [style.background]="tx.iconBg"
+          [style.color]="tx.iconColor"
+        >
+          <span class="material-symbols-outlined">{{ tx.icon }}</span>
+        </div>
+
+        <!-- Description -->
+        <div class="tx-card__info">
+          <p class="tx-card__item-title">{{ tx.title }}</p>
+          <div class="tx-card__item-meta">
+            <span>{{ tx.category }}</span>
+            <span class="tx-card__meta-dot"></span>
+            <span>{{ tx.time }}</span>
+          </div>
+        </div>
+
+        <!-- Amount -->
+        <div class="tx-card__amount-wrap">
+          <p
+            class="tx-card__amount"
+            [class.tx-card__amount--income]="isIncome(tx)"
+            [class.tx-card__amount--expense]="!isIncome(tx)"
+          >
+            {{ isIncome(tx) ? '+' : '-' }}
+            {{ tx.amount | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+          </p>
+          <p class="tx-card__account">{{ tx.account }}</p>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- View All Button -->
+  <button class="tx-card__view-all-btn">Ver Extrato Completo</button>
+</div>
