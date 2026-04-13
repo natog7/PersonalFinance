@@ -3,7 +3,7 @@
   <span class="balance-card__bg-icon material-symbols-outlined">account_balance</span>
 
   <div class="balance-card__top">
-    <p class="balance-card__label">Saldo Consolidado</p>
+    <p class="balance-card__label">Saldo este Mês</p>
     <span class="balance-card__badge" [class.balance-card__badge--income]="balance().monthlyGrowthPercent >= 0"
       [class.balance-card__badge--expense]="balance().monthlyGrowthPercent < 0">
       <span class="material-symbols-outlined">{{

@@ -20,6 +20,7 @@ export interface CashFlow {
 export interface CategoryExpense {
   label: string;
   percent: number;
+  value: number;
   colorVar: string;
 }
 

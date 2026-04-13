@@ -17,76 +17,88 @@
 // =====================================================================
 :root {
   // Brand Colours
-  --color-primary:                #0040a1;
-  --color-primary-container:      #0056d2;
-  --color-primary-fixed:          #dae2ff;
-  --color-primary-fixed-dim:      #b2c5ff;
-  --color-on-primary:             #ffffff;
-  --color-on-primary-fixed:       #001847;
-  --color-inverse-primary:        #b2c5ff;
+  --color-primary: #0040a1;
+  --color-primary-container: #0056d2;
+  --color-primary-fixed: #dae2ff;
+  --color-primary-fixed-dim: #b2c5ff;
+  --color-on-primary: #ffffff;
+  --color-on-primary-fixed: #001847;
+  --color-inverse-primary: #b2c5ff;
 
-  --color-secondary:              #006e2e;
-  --color-secondary-container:    #93f9a2;
-  --color-secondary-fixed:        #93f9a2;
-  --color-secondary-fixed-dim:    #77dc89;
-  --color-on-secondary:           #ffffff;
-  --color-on-secondary-fixed:     #002109;
+  --color-secondary: #006e2e;
+  --color-secondary-container: #93f9a2;
+  --color-secondary-fixed: #93f9a2;
+  --color-secondary-fixed-dim: #77dc89;
+  --color-on-secondary: #ffffff;
+  --color-on-secondary-fixed: #002109;
   --color-on-secondary-container: #007431;
 
-  --color-tertiary:               #940010;
-  --color-tertiary-container:     #ba1b20;
-  --color-tertiary-fixed:         #ffdad6;
-  --color-tertiary-fixed-dim:     #ffb3ac;
-  --color-on-tertiary:            #ffffff;
-  --color-on-tertiary-container:  #ffcdc8;
-  --color-on-tertiary-fixed:      #410003;
+  --color-tertiary: #940010;
+  --color-tertiary-container: #ba1b20;
+  --color-tertiary-fixed: #ffdad6;
+  --color-tertiary-fixed-dim: #ffb3ac;
+  --color-on-tertiary: #ffffff;
+  --color-on-tertiary-container: #ffcdc8;
+  --color-on-tertiary-fixed: #410003;
 
-  --color-error:                  #ba1a1a;
-  --color-error-container:        #ffdad6;
-  --color-on-error:               #ffffff;
-  --color-on-error-container:     #93000a;
+  --color-error: #ba1a1a;
+  --color-error-container: #ffdad6;
+  --color-on-error: #ffffff;
+  --color-on-error-container: #93000a;
 
   // Neutral / Surface
-  --color-background:             #f9f9fa;
-  --color-on-background:          #1a1c1d;
-  --color-surface:                #f9f9fa;
-  --color-surface-dim:            #d9dadb;
-  --color-surface-bright:         #f9f9fa;
-  --color-surface-variant:        #e2e2e3;
-  --color-on-surface:             #1a1c1d;
-  --color-on-surface-variant:     #424654;
-  --color-surface-container-lowest:  #ffffff;
-  --color-surface-container-low:     #f3f3f4;
-  --color-surface-container:         #edeeef;
-  --color-surface-container-high:    #e8e8e9;
+  --color-background: #f9f9fa;
+  --color-on-background: #1a1c1d;
+  --color-surface: #f9f9fa;
+  --color-surface-dim: #d9dadb;
+  --color-surface-bright: #f9f9fa;
+  --color-surface-variant: #e2e2e3;
+  --color-on-surface: #1a1c1d;
+  --color-on-surface-variant: #424654;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f3f3f4;
+  --color-surface-container: #edeeef;
+  --color-surface-container-high: #e8e8e9;
   --color-surface-container-highest: #e2e2e3;
-  --color-inverse-surface:        #2f3132;
-  --color-inverse-on-surface:     #f0f1f1;
+  --color-inverse-surface: #2f3132;
+  --color-inverse-on-surface: #f0f1f1;
 
   // Outline
-  --color-outline:                #737785;
-  --color-outline-variant:        #c3c6d6;
+  --color-outline: #737785;
+  --color-outline-variant: #c3c6d6;
 
   // Tint
-  --color-surface-tint:           #0056d2;
+  --color-surface-tint: #0056d2;
+
+  // Dashboards
+  --color-dashboard-1: #0040a1;
+  --color-dashboard-2: #006e2e;
+  --color-dashboard-3: #940010;
+  --color-dashboard-4: #ffa800;
+  --color-dashboard-5: #dd00dd;
+  --color-dashboard-6: #dddd00;
+  --color-dashboard-7: #00dddd;
+  --color-dashboard-8: #800080;
+  --color-dashboard-9: #222222;
+  --color-dashboard-10: #c3c6d6;
 
   // Typography
-  --font-headline:                'Manrope', sans-serif;
-  --font-body:                    'Inter', sans-serif;
+  --font-headline: 'Manrope', sans-serif;
+  --font-body: 'Inter', sans-serif;
 
   // Spacing scale
-  --space-xs:   4px;
-  --space-sm:   8px;
-  --space-md:  16px;
-  --space-lg:  24px;
-  --space-xl:  32px;
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
   --space-2xl: 48px;
 
   // Border radius
-  --radius-sm:   8px;
-  --radius-md:   16px;
-  --radius-lg:   24px;
-  --radius-xl:   40px;
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 40px;
   --radius-full: 9999px;
 
   // Shadows
@@ -117,7 +129,12 @@ body {
   overflow: hidden;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-headline);
 }
 
@@ -132,26 +149,120 @@ h1, h2, h3, h4, h5, h6 {
 // =====================================================================
 // UTILITY CLASSES
 // =====================================================================
-.text-primary          { color: var(--color-primary) !important; }
-.text-secondary        { color: var(--color-secondary) !important; }
-.text-tertiary         { color: var(--color-tertiary) !important; }
-.text-on-surface       { color: var(--color-on-surface) !important; }
-.text-on-surface-var   { color: var(--color-on-surface-variant) !important; }
+.text-primary {
+  color: var(--color-primary) !important;
+}
 
-.bg-surface-low        { background: var(--color-surface-container-low) !important; }
-.bg-surface-lowest     { background: var(--color-surface-container-lowest) !important; }
-.bg-surface-high       { background: var(--color-surface-container-high) !important; }
-.bg-surface-highest    { background: var(--color-surface-container-highest) !important; }
+.text-secondary {
+  color: var(--color-secondary) !important;
+}
 
-.font-headline         { font-family: var(--font-headline) !important; }
+.text-tertiary {
+  color: var(--color-tertiary) !important;
+}
+
+.text-on-surface {
+  color: var(--color-on-surface) !important;
+}
+
+.text-on-surface-var {
+  color: var(--color-on-surface-variant) !important;
+}
+
+.bg-surface-low {
+  background: var(--color-surface-container-low) !important;
+}
+
+.bg-surface-lowest {
+  background: var(--color-surface-container-lowest) !important;
+}
+
+.bg-surface-high {
+  background: var(--color-surface-container-high) !important;
+}
+
+.bg-surface-highest {
+  background: var(--color-surface-container-highest) !important;
+}
+
+.font-headline {
+  font-family: var(--font-headline) !important;
+}
 
 // Scrollbar styling
-::-webkit-scrollbar        { width: 6px; height: 6px; }
-::-webkit-scrollbar-track  { background: transparent; }
-::-webkit-scrollbar-thumb  { background: var(--color-outline-variant); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--color-outline); }
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-outline-variant);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-outline);
+}
 
 // Ionic overrides
 ion-app {
   background: var(--color-background);
+}
+
+
+// =====================================================================
+// CARDS
+// =====================================================================
+
+.card {
+  background: var(--color-surface-container-lowest);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--color-surface-variant);
+  position: relative;
+  overflow: hidden;
+}
+
+.card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-md);
+}
+
+.card__title {
+  font-family: var(--font-headline);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-on-surface);
+}
+
+.card__subtitle {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--color-on-surface-variant);
+  margin-top: 4px;
+}
+
+.card__action-btn {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background 0.2s;
+
+  &:hover {
+    background: var(--color-primary-fixed-dim);
+  }
+
+  .material-symbols-outlined {
+    font-size: 20px;
+  }
 }

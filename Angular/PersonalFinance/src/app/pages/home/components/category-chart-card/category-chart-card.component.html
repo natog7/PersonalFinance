@@ -12,12 +12,8 @@
 
   <!-- Donut Chart -->
   <div class="category-card__chart-area">
-    <div
-      class="category-card__donut"
-      [style.background]="donutGradient"
-      role="img"
-      aria-label="Gráfico de gastos por categoria"
-    >
+    <div class="category-card__donut" [style.background]="donutGradient" role="img"
+      aria-label="Gráfico de gastos por categoria">
       <div class="category-card__donut-hole"></div>
       <div class="category-card__donut-center">
         <p class="category-card__donut-sub">Total Gasto</p>
@@ -31,16 +27,14 @@
   <!-- Legend -->
   <div class="category-card__legend">
     @for (cat of spending().categories; track cat.label) {
-      <div class="category-card__legend-item">
-        <span
-          class="category-card__legend-dot"
-          [style.background]="cat.colorVar"
-        ></span>
-        <div class="category-card__legend-text">
-          <span class="category-card__legend-label">{{ cat.label }}</span>
-          <span class="category-card__legend-percent">{{ cat.percent }}%</span>
-        </div>
+    <div class="category-card__legend-item">
+      <span class="category-card__legend-dot" [style.background]="cat.colorVar"></span>
+      <div class="category-card__legend-text">
+        <span class="category-card__legend-label">{{ cat.label }}</span>
+        <span class="category-card__legend-percent">R$ {{ cat.value | number:'1.0-0':'pt-BR' }} ({{ cat.percent
+          }}%)</span>
       </div>
+    </div>
     }
   </div>
 </div>

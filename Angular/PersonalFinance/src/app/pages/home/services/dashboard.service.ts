@@ -32,18 +32,22 @@ export class DashboardService {
     totalSpent: 4120,
     month: 'Agosto 2024',
     categories: [
-      { label: 'Moradia', percent: 42, colorVar: 'var(--color-primary)' },
-      { label: 'Lazer',   percent: 28, colorVar: 'var(--color-secondary)' },
-      { label: 'Saúde',   percent: 15, colorVar: 'var(--color-tertiary)' },
-      { label: 'Outros',  percent: 15, colorVar: 'var(--color-outline-variant)' },
+      { label: 'Lazer', value: 1154, percent: 28, colorVar: 'var(--color-dashboard-1)' },
+      { label: 'Alimentação', value: 742, percent: 18, colorVar: 'var(--color-dashboard-2)' },
+      { label: 'Transporte', value: 577, percent: 14, colorVar: 'var(--color-dashboard-3)' },
+      { label: 'Contas', value: 494, percent: 12, colorVar: 'var(--color-dashboard-4)' },
+      { label: 'Higiene', value: 412, percent: 10, colorVar: 'var(--color-dashboard-5)' },
+      { label: 'Saúde', value: 329, percent: 8, colorVar: 'var(--color-dashboard-6)' },
+      { label: 'Investimentos', value: 124, percent: 3, colorVar: 'var(--color-dashboard-7)' },
+      { label: 'Outros', value: 288, percent: 7, colorVar: 'var(--color-dashboard-10)' },
     ],
   });
 
   // Public read-only signals
-  readonly balance    = this._balance.asReadonly();
+  readonly balance = this._balance.asReadonly();
   readonly projection = this._projection.asReadonly();
-  readonly cashFlow   = this._cashFlow.asReadonly();
-  readonly spending   = this._spending.asReadonly();
+  readonly cashFlow = this._cashFlow.asReadonly();
+  readonly spending = this._spending.asReadonly();
 
   toggleBalanceVisibility(hidden: boolean): void {
     // Hook for future encryption/privacy feature

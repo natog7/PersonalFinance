@@ -5,9 +5,8 @@
       <div class="cash-flow-card__icon-wrap">
         <span class="material-symbols-outlined">swap_vert</span>
       </div>
-      <h3 class="cash-flow-card__title">Fluxo de Caixa Mensal</h3>
+      <h3 class="cash-flow-card__title">Fluxo este Mês</h3>
     </div>
-    <button class="cash-flow-card__detail-btn">Detalhar Lançamentos</button>
   </div>
 
   <!-- Bars -->
@@ -15,35 +14,33 @@
     <!-- Income -->
     <div class="cash-flow-card__bar-row">
       <div class="cash-flow-card__bar-meta">
-        <span class="cash-flow-card__bar-label">Total de Entradas</span>
+        <span class="cash-flow-card__bar-label">Receitas</span>
         <span class="cash-flow-card__bar-value cash-flow-card__bar-value--income">
           {{ cashFlow().totalIncome | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
         </span>
       </div>
       <div class="cash-flow-card__track">
-        <div class="cash-flow-card__fill cash-flow-card__fill--income"
-             style="width: 100%"></div>
+        <div class="cash-flow-card__fill cash-flow-card__fill--income" style="width: 100%"></div>
       </div>
     </div>
 
     <!-- Expenses -->
     <div class="cash-flow-card__bar-row">
       <div class="cash-flow-card__bar-meta">
-        <span class="cash-flow-card__bar-label">Total de Saídas</span>
+        <span class="cash-flow-card__bar-label">Despesas</span>
         <span class="cash-flow-card__bar-value cash-flow-card__bar-value--expense">
           {{ cashFlow().totalExpenses | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
         </span>
       </div>
       <div class="cash-flow-card__track">
-        <div class="cash-flow-card__fill cash-flow-card__fill--expense"
-             [style.width.%]="expenseBarWidth"></div>
+        <div class="cash-flow-card__fill cash-flow-card__fill--expense" [style.width.%]="expenseBarWidth"></div>
       </div>
     </div>
   </div>
 
   <!-- Net Profit Footer -->
   <div class="cash-flow-card__footer">
-    <span class="cash-flow-card__footer-label">Lucro Líquido Previsto</span>
+    <span class="cash-flow-card__footer-label">Saldo Previsto</span>
     <span class="cash-flow-card__footer-value">
       {{ cashFlow().netProfit | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
     </span>

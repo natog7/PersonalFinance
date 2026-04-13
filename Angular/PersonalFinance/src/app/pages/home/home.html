@@ -1,9 +1,6 @@
 <div class="home-layout">
   <!-- ① Sidebar -->
-  <app-sidebar
-    (investClick)="onInvest()"
-    (logoutClick)="onLogout()"
-  ></app-sidebar>
+  <app-sidebar (investClick)="onInvest()" (logoutClick)="onLogout()"></app-sidebar>
 
   <!-- ② Main Content -->
   <main class="home-layout__main">
@@ -18,6 +15,9 @@
         <div class="home-layout__hero-balance">
           <app-balance-card></app-balance-card>
         </div>
+        <div class="home-layout__cash-flow">
+          <app-cash-flow-card></app-cash-flow-card>
+        </div>
         <div class="home-layout__hero-projection">
           <app-projection-card></app-projection-card>
         </div>
@@ -25,28 +25,19 @@
 
       <!-- SECTION 2: Analytics Row -->
       <section class="home-layout__analytics-row">
-        <div class="home-layout__cash-flow">
-          <app-cash-flow-card></app-cash-flow-card>
-        </div>
         <div class="home-layout__category">
           <app-category-chart-card></app-category-chart-card>
         </div>
-      </section>
-
-      <!-- SECTION 3: Transactions -->
-      <section class="home-layout__transactions">
-        <app-transactions-card></app-transactions-card>
+        <div class="home-layout__transactions-card">
+          <app-transactions-card></app-transactions-card>
+        </div>
       </section>
 
     </div><!-- /.home-layout__content -->
   </main><!-- /.home-layout__main -->
 
   <!-- ⑤ Floating Action Button -->
-  <button
-    class="home-layout__fab"
-    aria-label="Nova Transação"
-    (click)="onNewTransaction()"
-  >
+  <button class="home-layout__fab" aria-label="Nova Transação" (click)="onNewTransaction()">
     <span class="material-symbols-outlined home-layout__fab-icon">add</span>
     <span class="home-layout__fab-tooltip">Nova Transação</span>
   </button>
