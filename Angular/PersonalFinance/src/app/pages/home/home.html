@@ -1,4 +1,4 @@
-<div class="home-layout">
+<div class="home-layout" [ngClass]="{'home-layout--sidebar-collapsed': !sidebarState.isOpen()}">
   <!-- ① Sidebar -->
   <app-sidebar (investClick)="onInvest()" (logoutClick)="onLogout()"></app-sidebar>
 

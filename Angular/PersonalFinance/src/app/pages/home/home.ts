@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-
+import { Component, inject } from '@angular/core';
+import { NgClass } from '@angular/common';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
 import { HeaderComponent } from '../../shared/components/header/header.component';
 import { BalanceCardComponent } from './components/balance-card/balance-card.component';
@@ -7,11 +7,13 @@ import { ProjectionCardComponent } from './components/projection-card/projection
 import { CashFlowCardComponent } from './components/cash-flow-card/cash-flow-card.component';
 import { CategoryChartCardComponent } from './components/category-chart-card/category-chart-card.component';
 import { TransactionsCardComponent } from './components/transactions-card/transactions-card.component';
+import { SidebarStateService } from '../../shared/services/sidebar-state.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
+    NgClass,
     SidebarComponent,
     HeaderComponent,
     BalanceCardComponent,
@@ -24,6 +26,8 @@ import { TransactionsCardComponent } from './components/transactions-card/transa
   styleUrl: './home.scss',
 })
 export class HomeComponent {
+  readonly sidebarState = inject(SidebarStateService);
+
   onNewTransaction(): void {
     // TODO: open transaction modal
     console.log('Nova Transação');

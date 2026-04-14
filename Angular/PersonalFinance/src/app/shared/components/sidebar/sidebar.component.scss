@@ -16,6 +16,14 @@
   padding-block: 16px;
   z-index: 50;
   overflow-y: auto;
+  overflow-x: hidden;
+  // Smooth slide transition
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &--collapsed {
+    transform: translateX(-100%);
+  }
 
   // ── Brand ────────────────────────────────────────────────
   &__brand {

@@ -1,4 +1,4 @@
-<aside class="sidebar">
+<aside class="sidebar" [ngClass]="{'sidebar--collapsed': !sidebarState.isOpen()}">
   <!-- Brand -->
   <div class="sidebar__brand">
     <h1 class="sidebar__logo">Equilibrium</h1>

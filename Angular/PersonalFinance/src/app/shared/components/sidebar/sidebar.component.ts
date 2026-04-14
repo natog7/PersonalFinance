@@ -1,5 +1,7 @@
-import { Component, output } from '@angular/core';
+import { Component, inject, output } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { SidebarStateService } from '../../services/sidebar-state.service';
+import { NgClass } from '@angular/common';
 
 
 export interface NavItem {
@@ -11,11 +13,12 @@ export interface NavItem {
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, NgClass],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent {
+  readonly sidebarState = inject(SidebarStateService);
   investClick = output<void>();
   logoutClick = output<void>();
 

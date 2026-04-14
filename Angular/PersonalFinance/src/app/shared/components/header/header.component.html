@@ -1,6 +1,14 @@
 <header class="top-bar">
-  <!-- Left: title + toggle -->
+  <!-- Left: menu toggle + title + balance toggle -->
   <div class="top-bar__left">
+    <button class="top-bar__menu-btn" (click)="toggleMenu()" [attr.aria-label]="sidebarState.isOpen() ? 'Fechar menu' : 'Abrir menu'">
+      <span class="material-symbols-outlined">
+        {{ sidebarState.isOpen() ? 'menu_open' : 'menu' }}
+      </span>
+    </button>
+
+    <div class="top-bar__divider"></div>
+
     <span class="top-bar__section-label">Painel Principal</span>
 
     <div class="top-bar__divider"></div>
