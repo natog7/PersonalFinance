@@ -1,52 +1,54 @@
-<div class="tx-card">
+<div class="card">
   <!-- Card Header -->
-  <div class="tx-card__header">
-    <div class="tx-card__title-group">
-      <h3 class="tx-card__title">Transações</h3>
-      <div class="tx-card__badges">
-        <span class="tx-card__badge tx-card__badge--today">Hoje</span>
-        <span class="tx-card__badge tx-card__badge--pending">34 pendentes</span>
+  <div class="card__header">
+    <div class="card__title-group">
+      <div class="card__icon-wrap">
+        <span class="material-symbols-outlined">payments</span>
+      </div>
+      <h3 class="card__title">Transações Recentes</h3>
+      <div class="card__badges">
+        <span class="card__badge card__badge--main">Hoje</span>
+        <span class="card__badge card__badge--other">34 pendentes</span>
       </div>
     </div>
-    <div class="tx-card__actions">
-      <button class="tx-card__action-btn" aria-label="Filtrar">
+    <div class="card__actions">
+      <button class="card__action-btn" aria-label="Filtrar">
         <span class="material-symbols-outlined">filter_list</span>
       </button>
     </div>
   </div>
 
   <!-- Transaction List -->
-  <div class="tx-card__list">
+  <div class="card__body">
     @for (tx of transactions(); track tx.id) {
-    <div class="tx-card__item">
+    <div class="card__item">
       <!-- Icon -->
-      <div class="tx-card__icon-wrap" [style.background]="tx.iconBg" [style.color]="tx.iconColor">
+      <div class="card__item__icon-wrap" [style.background]="tx.iconBg" [style.color]="tx.iconColor">
         <span class="material-symbols-outlined">{{ tx.icon }}</span>
       </div>
 
       <!-- Description -->
-      <div class="tx-card__info">
-        <p class="tx-card__item-title">{{ tx.title }}</p>
-        <div class="tx-card__item-meta">
+      <div class="card__info">
+        <p class="card__item-title">{{ tx.title }}</p>
+        <div class="card__item-meta">
           <span>{{ tx.category }}</span>
-          <span class="tx-card__meta-dot"></span>
+          <span class="card__meta-dot"></span>
           <span>{{ tx.time }}</span>
         </div>
       </div>
 
       <!-- Amount -->
-      <div class="tx-card__amount-wrap">
-        <p class="tx-card__amount" [class.tx-card__amount--income]="isIncome(tx)"
-          [class.tx-card__amount--expense]="!isIncome(tx)">
+      <div class="card__amount-wrap">
+        <p class="card__amount" [class.card__amount--income]="isIncome(tx)"
+          [class.card__amount--expense]="!isIncome(tx)">
           {{ isIncome(tx) ? '+' : '-' }}
           {{ tx.amount | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
         </p>
-        <p class="tx-card__account">{{ tx.account }}</p>
+        <p class="card__account">{{ tx.account }}</p>
       </div>
     </div>
     }
   </div>
 
-  <!-- View All Button -->
-  <button class="tx-card__view-all-btn">Ver Extrato Completo</button>
+  <button class="card__view-all-btn">Ver Todos</button>
 </div>

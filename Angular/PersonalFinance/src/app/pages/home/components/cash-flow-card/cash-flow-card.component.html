@@ -1,47 +1,47 @@
-<div class="cash-flow-card">
+<div class="card">
   <!-- Card Header -->
-  <div class="cash-flow-card__header">
-    <div class="cash-flow-card__title-group">
-      <div class="cash-flow-card__icon-wrap">
+  <div class="card__header">
+    <div class="card__title-group">
+      <div class="card__icon-wrap">
         <span class="material-symbols-outlined">swap_vert</span>
       </div>
-      <h3 class="cash-flow-card__title">Fluxo este Mês</h3>
+      <h3 class="card__title">Fluxo este Mês</h3>
     </div>
   </div>
 
   <!-- Bars -->
-  <div class="cash-flow-card__bars">
+  <div class="card__bars">
     <!-- Income -->
-    <div class="cash-flow-card__bar-row">
-      <div class="cash-flow-card__bar-meta">
-        <span class="cash-flow-card__bar-label">Receitas</span>
-        <span class="cash-flow-card__bar-value cash-flow-card__bar-value--income">
+    <div class="card__bar-row">
+      <div class="card__bar-meta">
+        <span class="card__bar-label">Receitas</span>
+        <span class="card__bar-value card__bar-value--income">
           {{ cashFlow().totalIncome | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
         </span>
       </div>
-      <div class="cash-flow-card__track">
-        <div class="cash-flow-card__fill cash-flow-card__fill--income" style="width: 100%"></div>
+      <div class="card__track">
+        <div class="card__fill card__fill--income" style="width: 100%"></div>
       </div>
     </div>
 
     <!-- Expenses -->
-    <div class="cash-flow-card__bar-row">
-      <div class="cash-flow-card__bar-meta">
-        <span class="cash-flow-card__bar-label">Despesas</span>
-        <span class="cash-flow-card__bar-value cash-flow-card__bar-value--expense">
+    <div class="card__bar-row">
+      <div class="card__bar-meta">
+        <span class="card__bar-label">Despesas</span>
+        <span class="card__bar-value card__bar-value--expense">
           {{ cashFlow().totalExpenses | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
         </span>
       </div>
-      <div class="cash-flow-card__track">
-        <div class="cash-flow-card__fill cash-flow-card__fill--expense" [style.width.%]="expenseBarWidth"></div>
+      <div class="card__track">
+        <div class="card__fill card__fill--expense" [style.width.%]="expenseBarWidth"></div>
       </div>
     </div>
   </div>
 
   <!-- Net Profit Footer -->
-  <div class="cash-flow-card__footer">
-    <span class="cash-flow-card__footer-label">Saldo Previsto</span>
-    <span class="cash-flow-card__footer-value">
+  <div class="card__footer">
+    <span class="card__footer-label">Saldo Previsto</span>
+    <span class="card__footer-value">
       {{ cashFlow().netProfit | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
     </span>
   </div>

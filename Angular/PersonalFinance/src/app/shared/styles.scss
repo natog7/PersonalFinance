@@ -86,19 +86,59 @@
   --font-headline: 'Manrope', sans-serif;
   --font-body: 'Inter', sans-serif;
 
+  // Font Sizes
+  --font-size-xs: 0.65rem;
+  --font-size-sm: 0.75rem;
+  --font-size-smmd: 0.8125rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.375rem;
+  --font-size-3xl: 1.5rem;
+  --font-size-4xl: 1.625rem;
+  --font-size-5xl: 1.75rem;
+  --font-size-6xl: 2rem;
+  --font-size-7xl: 2.5rem;
+  --font-size-8xl: 3rem;
+  --font-size-9xl: 4rem;
+  --font-size-10xl: 5rem;
+
+  // Font Weights
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
+
+  // Size scale
+  --size-xs: 8px;
+  --size-sm: 16px;
+  --size-md: 24px;
+  --size-lg: 32px;
+  --size-xl: 40px;
+  --size-2xl: 48px;
+  --size-3xl: 64px;
+  --size-4xl: 80px;
+  --size-5xl: 128px;
+
   // Spacing scale
   --space-xs: 4px;
   --space-sm: 8px;
   --space-md: 16px;
   --space-lg: 24px;
   --space-xl: 32px;
-  --space-2xl: 48px;
+  --space-2xl: 40px;
+  --space-3xl: 48px;
 
   // Border radius
+  --radius-xs: 4px;
   --radius-sm: 8px;
   --radius-md: 16px;
   --radius-lg: 24px;
-  --radius-xl: 40px;
+  --radius-xl: 32px;
+  --radius-2xl: 48px;
   --radius-full: 9999px;
 
   // Shadows
@@ -221,48 +261,139 @@ ion-app {
 .card {
   background: var(--color-surface-container-lowest);
   border-radius: var(--radius-lg);
-  padding: var(--space-lg);
   box-shadow: var(--shadow-card);
   border: 1px solid var(--color-surface-variant);
   position: relative;
   overflow: hidden;
-}
-
-.card__header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--space-md);
-}
+  flex-direction: column;
 
-.card__title {
-  font-family: var(--font-headline);
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--color-on-surface);
-}
-
-.card__subtitle {
-  font-family: var(--font-body);
-  font-size: 0.875rem;
-  color: var(--color-on-surface-variant);
-  margin-top: 4px;
-}
-
-.card__action-btn {
-  background: none;
-  border: none;
-  color: var(--color-primary);
-  cursor: pointer;
-  padding: 8px;
-  border-radius: 50%;
-  transition: background 0.2s;
-
-  &:hover {
-    background: var(--color-primary-fixed-dim);
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-xs);
+    border-bottom: 1px solid var(--color-surface-variant);
+    padding: var(--space-xl) var(--space-xl) var(--space-md);
   }
 
-  .material-symbols-outlined {
-    font-size: 20px;
+  &__body {
+    padding: var(--space-md) var(--space-lg);
+    flex: 1;
   }
+
+  &__title-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__title {
+    font-family: var(--font-headline);
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-extrabold);
+    color: var(--color-on-surface);
+  }
+
+  &__subtitle {
+    font-family: var(--font-body);
+    font-size: var(--font-size-md);
+    color: var(--color-on-surface-variant);
+    margin-top: 4px;
+  }
+
+  &__description {
+    font-size: var(--font-size-smmd);
+    line-height: 1.6;
+    color: rgba(66, 70, 84, 0.8);
+    margin-top: 14px;
+  }
+
+  &__icon-wrap {
+    width: var(--size-xl);
+    height: var(--size-xl);
+    border-radius: var(--radius-sm);
+    background: rgba(0, 110, 46, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary);
+    flex-shrink: 0;
+  }
+
+  &__badges {
+    display: flex;
+    gap: var(--space-sm);
+  }
+
+  &__badge {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-black);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-full);
+
+    &--main {
+      background: rgba(0, 64, 161, 0.1);
+      color: var(--color-primary);
+    }
+
+    &--other {
+      background: var(--color-surface-container-low);
+      color: var(--color-on-surface-variant);
+      border: 1px solid rgba(195, 198, 214, 0.12);
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  &__action-btn {
+    width: var(--size-xl);
+    height: var(--size-xl);
+    color: var(--color-on-surface-variant);
+    border: 1px solid var(--color-surface-variant);
+    // border-radius: 50%;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+
+    &:hover {
+      background: var(--color-primary-fixed-dim);
+    }
+  }
+
+  &__view-all-btn {
+    display: block;
+    width: calc(100% - 80px);
+    margin: 4px 40px 32px;
+    padding: 18px;
+    background: transparent;
+    border: 2px dashed rgba(195, 198, 214, 0.45);
+    border-radius: var(--radius-lg);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-on-surface-variant);
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+
+    &:hover {
+      background: var(--color-surface-container);
+      border-color: rgba(0, 64, 161, 0.3);
+      color: var(--color-primary);
+    }
+  }
+}
+
+.material-symbols-outlined {
+  font-size: 20px;
 }

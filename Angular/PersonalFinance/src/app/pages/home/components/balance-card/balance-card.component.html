@@ -1,11 +1,11 @@
-<div class="balance-card">
+<div class="card">
   <!-- Decorative Background Icon -->
-  <span class="balance-card__bg-icon material-symbols-outlined">account_balance</span>
+  <span class="card__bg-icon material-symbols-outlined">account_balance</span>
 
-  <div class="balance-card__top">
-    <p class="balance-card__label">Saldo este Mês</p>
-    <span class="balance-card__badge" [class.balance-card__badge--income]="balance().monthlyGrowthPercent >= 0"
-      [class.balance-card__badge--expense]="balance().monthlyGrowthPercent < 0">
+  <div class="card__top">
+    <p class="card__label">Saldo este Mês</p>
+    <span class="card__badge" [class.card__badge--income]="balance().monthlyGrowthPercent >= 0"
+      [class.card__badge--expense]="balance().monthlyGrowthPercent < 0">
       <span class="material-symbols-outlined">{{
         balance().monthlyGrowthPercent >= 0 ? 'trending_up' : 'trending_down'
         }}</span>
@@ -14,25 +14,25 @@
     </span>
   </div>
 
-  <h2 class="balance-card__total">
+  <h2 class="card__total">
     {{ balance().totalBalance | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
   </h2>
 
-  <div class="balance-card__stats">
+  <div class="card__stats">
     <!-- Monthly Income -->
-    <div class="balance-card__stat balance-card__stat">
-      <p class="balance-card__stat-label">Renda Mensal</p>
-      <p class="balance-card__stat-value balance-card__stat-value--income">
+    <div class="card__stat card__stat">
+      <p class="card__stat-label">Renda Mensal</p>
+      <p class="card__stat-value card__stat-value--income">
         {{ balance().monthlyIncome | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
       </p>
     </div>
 
-    <div class="balance-card__divider"></div>
+    <div class="card__divider"></div>
 
     <!-- Total Expenses -->
-    <div class="balance-card__stat balance-card__stat">
-      <p class="balance-card__stat-label">Gastos Totais</p>
-      <p class="balance-card__stat-value balance-card__stat-value--expense">
+    <div class="card__stat card__stat">
+      <p class="card__stat-label">Gastos Totais</p>
+      <p class="card__stat-value card__stat-value--expense">
         {{ balance().totalExpenses | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
       </p>
     </div>

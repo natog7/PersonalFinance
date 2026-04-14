@@ -1,43 +1,25 @@
-:host { display: block; height: 100%; }
+:host {
+  display: block;
+  height: 100%;
+}
 
-.projection-card {
-  background: var(--color-surface-container-lowest);
-  border-radius: var(--radius-xl);
-  border: 1px solid rgba(195, 198, 214, 0.2);
-  box-shadow: var(--shadow-elevated);
-  padding: 40px;
-  display: flex;
-  flex-direction: column;
+.card {
   justify-content: space-between;
   height: 100%;
 
   // ── Body ─────────────────────────────────────────────────
-  &__body { flex: 1; }
-
-  &__label {
-    font-family: var(--font-headline);
-    font-size: 0.65rem;
-    font-weight: 800;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--color-on-surface-variant);
+  &__body {
+    padding: 0px 32px 0px;
   }
 
   &__value {
     font-family: var(--font-headline);
-    font-size: 2.25rem;
+    font-size: var(--font-size-7xl);
     font-weight: 800;
     color: var(--color-primary);
     letter-spacing: -0.03em;
     margin-top: 20px;
     line-height: 1;
-  }
-
-  &__description {
-    font-size: 0.8125rem;
-    line-height: 1.6;
-    color: rgba(66, 70, 84, 0.8);
-    margin-top: 14px;
   }
 
   // ── Goal / Progress ───────────────────────────────────────

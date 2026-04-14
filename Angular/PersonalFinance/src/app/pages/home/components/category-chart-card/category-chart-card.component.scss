@@ -1,46 +1,8 @@
-:host { display: block; }
+:host {
+  display: block;
+}
 
-.category-card {
-  background: var(--color-surface-container-lowest);
-  border-radius: var(--radius-xl);
-  border: 1px solid rgba(195, 198, 214, 0.2);
-  box-shadow: var(--shadow-card);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-
-  // ── Header ───────────────────────────────────────────────
-  &__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 32px 40px 16px;
-  }
-
-  &__title-group {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  &__icon-wrap {
-    width: 40px;
-    height: 40px;
-    border-radius: var(--radius-sm);
-    background: rgba(0, 110, 46, 0.08);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-secondary);
-    flex-shrink: 0;
-  }
-
-  &__title {
-    font-family: var(--font-headline);
-    font-size: 1.375rem;
-    font-weight: 800;
-    color: var(--color-on-surface);
-  }
+.card {
 
   &__month {
     font-size: 0.65rem;
@@ -55,7 +17,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 24px;
   }
 
   &__donut {
@@ -106,7 +67,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 16px 32px;
-    padding: 16px 40px 32px;
+    padding: 16px 32px 16px;
   }
 
   &__legend-item {

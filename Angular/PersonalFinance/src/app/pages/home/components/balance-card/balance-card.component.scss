@@ -3,18 +3,13 @@
   height: 100%;
 }
 
-.balance-card {
+.card {
   background: linear-gradient(135deg, #0040a1 0%, #0056d2 100%);
-  border-radius: var(--radius-xl);
   padding: 32px;
   color: white;
-  display: flex;
-  flex-direction: column;
   justify-content: space-between;
-  min-height: 340px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 24px 64px rgba(0, 64, 161, 0.3);
+  min-height: 347px;
+  box-shadow: 0 8px 24px rgba(0, 64, 161, 0.3);
 
   // Decorative background icon
   &__bg-icon {
@@ -73,7 +68,7 @@
   // ── Total ────────────────────────────────────────────────
   &__total {
     font-family: var(--font-headline);
-    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-size: clamp(var(--font-size-4xl), var(--font-size-7xl), var(--font-size-8xl));
     font-weight: 800;
     letter-spacing: -0.04em;
     line-height: 1;
@@ -111,7 +106,7 @@
 
   &__stat-value {
     font-family: var(--font-headline);
-    font-size: 1.625rem;
+    font-size: var(--font-size-4xl);
     font-weight: 700;
 
     &--income {
