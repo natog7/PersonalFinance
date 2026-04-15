@@ -4,6 +4,8 @@ import { provideIonicAngular } from '@ionic/angular/standalone';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import { routes } from './app.routes';
+import { authInterceptor } from './interceptors/auth.interceptor';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 
 registerLocaleData(localePt);
 
@@ -13,5 +15,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideIonicAngular({ mode: 'md' }),
     { provide: LOCALE_ID, useValue: 'pt-BR' },
+    provideHttpClient(withInterceptors([authInterceptor]))
   ],
 };

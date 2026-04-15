@@ -61,19 +61,34 @@ export class CategoryService {
     return this._categories();
   }
 
-  // API placeholders (Ready for HttpClient integration later)
   create(category: Omit<Category, 'id'>): void {
-    const newCategory: Category = {
-      ...category,
-      id: Math.random().toString(36).substring(2, 9),
-    };
-    this._categories.update((list) => [...list, newCategory]);
+    // const newCategory: Category = {
+    //   ...category,
+    //   id: Math.random().toString(36).substring(2, 9),
+    // };
+    // this._categories.update((list) => [...list, newCategory]);
+
+    this.http.post<Category>(this.apiUrl, category).subscribe({
+      next: (newCategory) => {
+        this._categories.update((list) => [...list, newCategory]);
+      },
+      error: (err) => console.error('Erro ao criar categoria', err)
+    });
   }
 
   update(updatedCategory: Category): void {
-    this._categories.update((list) =>
-      list.map((c) => (c.id === updatedCategory.id ? updatedCategory : c))
-    );
+    // this._categories.update((list) =>
+    //   list.map((c) => (c.id === updatedCategory.id ? updatedCategory : c))
+    // );
+
+    this.http.put<Category>(`${this.apiUrl}/${updatedCategory.id}`, updatedCategory).subscribe({
+      next: (resp) => {
+        this._categories.update((list) =>
+          list.map((c) => (c.id === resp.id ? resp : c))
+        );
+      },
+      error: (err) => console.error('Erro ao atualizar categoria', err)
+    });
   }
 
   delete(id: string): void {
