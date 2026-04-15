@@ -1,8 +1,12 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, inject, computed } from '@angular/core';
 import { Category } from '../models/category.model';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class CategoryService {
+  private http = inject(HttpClient);
+  private readonly apiUrl = 'https://sua-api.com/api/categories';
+
   // Using signals for reactive state, simulating a database/API.
   private readonly _categories = signal<Category[]>([
     {
@@ -44,6 +48,14 @@ export class CategoryService {
   ]);
 
   readonly categories = this._categories.asReadonly();
+  public totalCategories = computed(() => this._categories().length);
+
+  fetch() {
+    this.http.get<Category[]>(this.apiUrl).subscribe({
+      next: (data) => this._categories.set(data),
+      error: (err) => console.error('Erro ao buscar.', err)
+    });
+  }
 
   getAll(): Category[] {
     return this._categories();
@@ -65,6 +77,14 @@ export class CategoryService {
   }
 
   delete(id: string): void {
-    this._categories.update((list) => list.filter((c) => c.id !== id));
+    const current = this._categories();
+    this._categories.set(current.filter((c) => c.id !== id));
+
+    this.http.delete(`${this.apiUrl}/${id}`).subscribe({
+      error: () => {
+        this._categories.set(current);
+        alert('Erro ao apagar.');
+      }
+    });
   }
 }

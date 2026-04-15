@@ -1,4 +1,4 @@
-import { Component, inject, computed, signal } from '@angular/core';
+import { Component, inject, computed, signal, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgClass } from '@angular/common';
 import { CategoryService } from './services/category.service';
@@ -23,7 +23,7 @@ export interface VisualOption {
   templateUrl: './categories.html',
   styleUrl: './categories.scss',
 })
-export class CategoriesComponent {
+export class CategoriesComponent implements OnInit {
   private readonly categoryService = inject(CategoryService);
   private readonly fb = inject(FormBuilder);
   readonly sidebarState = inject(SidebarStateService);
@@ -62,6 +62,10 @@ export class CategoriesComponent {
       iconColor: ['#2563eb', Validators.required],
       isActive: [true],
     });
+  }
+
+  ngOnInit() {
+    this.categoryService.fetch();
   }
 
   onSelectIcon(icon: string): void {
