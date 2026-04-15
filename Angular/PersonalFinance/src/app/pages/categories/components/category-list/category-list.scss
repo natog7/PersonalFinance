@@ -1,0 +1,16 @@
+.cat-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    &__empty {
+        padding: 32px;
+        text-align: center;
+        color: var(--color-outline);
+        background: var(--color-surface-container-lowest);
+        border-radius: var(--radius-xl);
+        border: 1px dashed var(--color-outline-variant);
+        font-family: var(--font-body);
+        font-size: 0.875rem;
+    }
+}

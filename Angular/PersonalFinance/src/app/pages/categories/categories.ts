@@ -6,6 +6,8 @@ import { Category } from './models/category.model';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
 import { HeaderComponent } from '../../shared/components/header/header.component';
 import { SidebarStateService } from '../../shared/services/sidebar-state.service';
+import { CategoryList } from './components/category-list/category-list';
+import { CategoryForm } from './components/category-form/category-form';
 
 export interface VisualOption {
   color: string;
@@ -17,9 +19,9 @@ export interface VisualOption {
 @Component({
   selector: 'app-categories',
   standalone: true,
-  imports: [SidebarComponent, HeaderComponent, ReactiveFormsModule, NgClass],
-  templateUrl: './categories.component.html',
-  styleUrl: './categories.component.scss',
+  imports: [SidebarComponent, HeaderComponent, ReactiveFormsModule, NgClass, CategoryList, CategoryForm],
+  templateUrl: './categories.html',
+  styleUrl: './categories.scss',
 })
 export class CategoriesComponent {
   private readonly categoryService = inject(CategoryService);
@@ -27,7 +29,7 @@ export class CategoriesComponent {
   readonly sidebarState = inject(SidebarStateService);
 
   readonly allCategories = this.categoryService.categories;
-  
+
   searchQuery = signal('');
   isFormVisible = signal(false);
 
@@ -46,8 +48,8 @@ export class CategoriesComponent {
 
   // Preset icons for the category form
   readonly iconOptions: string[] = [
-    'home', 'restaurant', 'directions_car', 'health_and_safety', 
-    'confirmation_number', 'shopping_bag', 'school', 'pets', 
+    'home', 'restaurant', 'directions_car', 'health_and_safety',
+    'confirmation_number', 'shopping_bag', 'school', 'pets',
     'favorite', 'flight', 'savings', 'work', 'electric_bolt',
     'water_drop', 'router', 'fitness_center', 'movie', 'redeem'
   ];
@@ -60,6 +62,10 @@ export class CategoriesComponent {
       iconColor: ['#2563eb', Validators.required],
       isActive: [true],
     });
+  }
+
+  onSelectIcon(icon: string): void {
+    this.categoryForm.patchValue({ icon });
   }
 
   onSearch(event: Event): void {
@@ -107,7 +113,7 @@ export class CategoriesComponent {
         b: parseInt(result[3], 16)
       } : null;
     };
-    
+
     const rgb = hexToRgb(formValue.iconColor);
     const iconBg = rgb ? `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.15)` : 'rgba(0,0,0,0.05)';
 
@@ -125,7 +131,7 @@ export class CategoriesComponent {
     } else {
       this.categoryService.create(categoryData);
     }
-    
+
     this.resetForm();
   }
 

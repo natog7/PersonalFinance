@@ -1,0 +1,10 @@
+<div class="cat-list">
+    @for (cat of categories; track cat.id) {
+    <app-category-card [category]="cat" (edit)="onEdit($event)" (delete)="onDelete($event)">
+    </app-category-card>
+    } @empty {
+    <div class="cat-list__empty">
+        Nenhuma categoria encontrada.
+    </div>
+    }
+</div>

@@ -1,0 +1,28 @@
+<div class="cat-card" [ngClass]="{'cat-card--inactive': !category.isActive}">
+    <div class="cat-card__icon-wrap" [style.background-color]="category.iconBg" [style.color]="category.iconColor">
+        <span class="material-symbols-outlined">{{ category.icon }}</span>
+    </div>
+
+    <div class="cat-card__info">
+        <div class="cat-card__name-row">
+            <h4 class="cat-card__name">{{ category.name }}</h4>
+            <span class="cat-card__status-badge"
+                [ngClass]="category.isActive ? 'cat-card__status-badge--active' : 'cat-card__status-badge--inactive'">
+                {{ category.isActive ? 'Ativo' : 'Inativo' }}
+            </span>
+        </div>
+        <p class="cat-card__desc">{{ category.description }}</p>
+    </div>
+
+    <div class="cat-card__actions">
+        <div class="cat-card__color-dot" [style.background-color]="category.iconColor"></div>
+        <div class="cat-card__btn-group">
+            <button type="button" class="cat-card__btn cat-card__btn--edit" (click)="onEdit()" aria-label="Editar">
+                <span class="material-symbols-outlined">edit</span>
+            </button>
+            <button type="button" class="cat-card__btn cat-card__btn--delete" (click)="onDelete()" aria-label="Excluir">
+                <span class="material-symbols-outlined">delete</span>
+            </button>
+        </div>
+    </div>
+</div>

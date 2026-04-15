@@ -1,7 +1,8 @@
 <header class="top-bar">
   <!-- Left: menu toggle + title + balance toggle -->
   <div class="top-bar__left">
-    <button class="top-bar__menu-btn" (click)="toggleMenu()" [attr.aria-label]="sidebarState.isOpen() ? 'Fechar menu' : 'Abrir menu'">
+    <button class="top-bar__menu-btn" (click)="toggleMenu()"
+      [attr.aria-label]="sidebarState.isOpen() ? 'Fechar menu' : 'Abrir menu'">
       <span class="material-symbols-outlined">
         {{ sidebarState.isOpen() ? 'menu_open' : 'menu' }}
       </span>
@@ -32,13 +33,6 @@
 
     <!-- Icon Buttons -->
     <div class="top-bar__actions">
-      <button class="top-bar__icon-btn" aria-label="Notificações">
-        <span class="material-symbols-outlined">notifications</span>
-        <span class="top-bar__notification-dot"></span>
-      </button>
-      <button class="top-bar__icon-btn" aria-label="Configurações">
-        <span class="material-symbols-outlined">settings</span>
-      </button>
       <button class="top-bar__icon-btn" aria-label="Conta">
         <span class="material-symbols-outlined">account_circle</span>
       </button>

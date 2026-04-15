@@ -1,0 +1,46 @@
+<div class="cat-layout" [ngClass]="{'cat-layout--sidebar-collapsed': !sidebarState.isOpen()}">
+  <!-- Sidebar -->
+  <app-sidebar></app-sidebar>
+
+  <!-- Main Content Route -->
+  <main class="cat-layout__main">
+    <!-- Top Header -->
+    <app-header></app-header>
+
+    <!-- Scrollable Content Area -->
+    <div class="cat-layout__content">
+      <div class="cat-grid">
+
+        <!-- Left Column: Category List -->
+        <section class="cat-list-section">
+          <div class="cat-list-section__header">
+            <div>
+              <h3 class="cat-list-section__title">Suas Categorias</h3>
+              <p class="cat-list-section__subtitle">Gerencie como seus gastos são organizados.</p>
+            </div>
+
+            <div class="cat-list-section__actions">
+              <div class="cat-search-box">
+                <span class="material-symbols-outlined cat-search-box__icon">search</span>
+                <input type="text" class="cat-search-box__input" placeholder="Buscar categoria..."
+                  (input)="onSearch($event)" />
+              </div>
+              <button class="cat-btn-novo" (click)="onNew()">
+                <span class="material-symbols-outlined">add</span>
+                <span class="cat-btn-novo__text">Nova</span>
+              </button>
+            </div>
+          </div>
+
+          <app-category-form [categoryForm]="categoryForm" [isOpen]="isFormVisible()" [editingId]="editingId"
+            [iconOptions]="iconOptions" (save)="onSave()" (cancel)="resetForm()" (selectIcon)="onSelectIcon($event)">
+          </app-category-form>
+
+          <app-category-list [categories]="filteredCategories()" (edit)="onEdit($event)" (delete)="onDelete($event)">
+          </app-category-list>
+        </section>
+
+      </div>
+    </div>
+  </main>
+</div>
