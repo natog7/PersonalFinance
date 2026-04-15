@@ -1,0 +1,35 @@
+<section class="shortcuts">
+  <div class="shortcuts__container">
+    <button class="shortcut-btn" (click)="toggleBalance()">
+      <div class="shortcut-btn__icon">
+        <span class="material-symbols-outlined">
+          {{ isBalanceHidden() ? 'visibility_off' : 'visibility' }}
+        </span>
+      </div>
+      <span class="shortcut-btn__label">{{ isBalanceHidden() ? 'Mostrar Valores' : 'Ocultar Valores' }}</span>
+    </button>
+
+    <div class="vertical-divider"></div>
+
+    <button class="shortcut-btn" (click)="createTransaction.emit()">
+      <div class="shortcut-btn__icon shortcut-btn__icon--primary">
+        <span class="material-symbols-outlined">add_circle</span>
+      </div>
+      <span class="shortcut-btn__label">Nova Transação</span>
+    </button>
+
+    <button class="shortcut-btn" (click)="createCategory.emit()">
+      <div class="shortcut-btn__icon shortcut-btn__icon--primary">
+        <span class="material-symbols-outlined">category</span>
+      </div>
+      <span class="shortcut-btn__label">Nova Categoria</span>
+    </button>
+
+    <button class="shortcut-btn" (click)="createGoal.emit()">
+      <div class="shortcut-btn__icon shortcut-btn__icon--primary">
+        <span class="material-symbols-outlined">flag</span>
+      </div>
+      <span class="shortcut-btn__label">Nova Meta</span>
+    </button>
+  </div>
+</section>

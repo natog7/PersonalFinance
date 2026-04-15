@@ -12,4 +12,5 @@ import { DashboardService } from '../../services/dashboard.service';
 export class ProjectionCardComponent {
   private readonly dashboardService = inject(DashboardService);
   readonly projection = this.dashboardService.projection;
+  readonly isBalanceHidden = this.dashboardService.isBalanceHidden;
 }

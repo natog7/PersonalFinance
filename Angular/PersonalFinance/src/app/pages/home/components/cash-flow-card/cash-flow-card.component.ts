@@ -12,6 +12,7 @@ import { DashboardService } from '../../services/dashboard.service';
 export class CashFlowCardComponent {
   private readonly dashboardService = inject(DashboardService);
   readonly cashFlow = this.dashboardService.cashFlow;
+  readonly isBalanceHidden = this.dashboardService.isBalanceHidden;
 
   /** Percentage of expenses vs income for the progress bar */
   get expenseBarWidth(): number {

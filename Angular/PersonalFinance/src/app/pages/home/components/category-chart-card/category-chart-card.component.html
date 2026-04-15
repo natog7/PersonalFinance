@@ -19,7 +19,11 @@
         <div class="card__donut-center">
           <p class="card__donut-sub">Total Gasto</p>
           <p class="card__donut-value">
+            @if (isBalanceHidden()) {
+            ••••
+            } @else {
             R$ {{ spending().totalSpent | number:'1.0-0':'pt-BR' }}
+            }
           </p>
         </div>
       </div>
@@ -32,8 +36,15 @@
         <span class="card__legend-dot" [style.background]="cat.colorVar"></span>
         <div class="card__legend-text">
           <span class="card__legend-label">{{ cat.label }}</span>
-          <span class="card__legend-percent">R$ {{ cat.value | number:'1.0-0':'pt-BR' }} ({{ cat.percent
-            }}%)</span>
+          <span class="card__legend-percent">
+            @if (isBalanceHidden()) {
+            ••••
+            }
+            @else
+            {
+            R$ {{ cat.value | number:'1.0-0':'pt-BR' }}
+            }
+            ({{ cat.percent }}%)</span>
         </div>
       </div>
       }

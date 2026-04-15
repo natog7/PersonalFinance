@@ -1,0 +1,21 @@
+<div class="account-menu" [class.account-menu--open]="isOpen()">
+    <div class="account-menu__header">
+        <div class="account-menu__info">
+            <span class="account-menu__name">Name</span>
+            <span class="account-menu__email">name@email.com</span>
+        </div>
+    </div>
+
+    <div class="account-menu__divider"></div>
+
+    <div class="account-menu__items">
+        <button class="account-menu__item" (click)="settings.emit()">
+            <span class="material-symbols-outlined">settings</span>
+            Configurações
+        </button>
+        <button class="account-menu__item account-menu__item--danger" (click)="logout.emit()">
+            <span class="material-symbols-outlined">logout</span>
+            Sair
+        </button>
+    </div>
+</div>

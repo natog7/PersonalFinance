@@ -9,7 +9,11 @@
   </div>
   <div class="card__body">
     <p class="card__value">
+      @if (isBalanceHidden()) {
+      ••••••
+      } @else {
       {{ projection().projectedBalance | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+      }
     </p>
     <p class="card__description">{{ projection().description }}</p>
     <!-- <div class="card__goal">

@@ -15,7 +15,11 @@
   </div>
 
   <h2 class="card__total">
+    @if (isBalanceHidden()) {
+    ••••••
+    } @else {
     {{ balance().totalBalance | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+    }
   </h2>
 
   <div class="card__stats">
@@ -23,7 +27,11 @@
     <div class="card__stat card__stat">
       <p class="card__stat-label">Renda Mensal</p>
       <p class="card__stat-value card__stat-value--income">
+        @if (isBalanceHidden()) {
+        ••••
+        } @else {
         {{ balance().monthlyIncome | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+        }
       </p>
     </div>
 
@@ -33,7 +41,11 @@
     <div class="card__stat card__stat">
       <p class="card__stat-label">Gastos Totais</p>
       <p class="card__stat-value card__stat-value--expense">
+        @if (isBalanceHidden()) {
+        ••••
+        } @else {
         {{ balance().totalExpenses | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+        }
       </p>
     </div>
   </div>

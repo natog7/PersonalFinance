@@ -8,34 +8,36 @@
       </span>
     </button>
 
-    <div class="top-bar__divider"></div>
+    <div class="vertical-divider"></div>
 
-    <span class="top-bar__section-label">Painel Principal</span>
+    <span class="top-bar__section-label">{{ pageTitle() }}</span>
 
-    <div class="top-bar__divider"></div>
-
-    <button class="top-bar__balance-toggle" (click)="toggleBalance()">
-      <span class="material-symbols-outlined">
-        {{ balanceHidden() ? 'visibility_off' : 'visibility' }}
-      </span>
-      <span>{{ balanceHidden() ? 'Mostrar Saldo' : 'Ocultar Saldo' }}</span>
-    </button>
+    <div class="vertical-divider"></div>
   </div>
 
   <!-- Right: search + actions + avatar -->
   <div class="top-bar__right">
     <!-- Search -->
-    <div class="top-bar__search">
+    <!-- <div class="top-bar__search">
       <span class="material-symbols-outlined top-bar__search-icon">search</span>
-      <input id="header-search" class="top-bar__search-input" type="text" placeholder="Procurar transações..."
+      <input id="header-search" class="top-bar__search-input" type="text" placeholder="Procurar..."
         (input)="onSearch($event)" />
-    </div>
+    </div> -->
 
     <!-- Icon Buttons -->
     <div class="top-bar__actions">
-      <button class="top-bar__icon-btn" aria-label="Conta">
+      <button class="top-bar__icon-btn" [attr.aria-label]="themeService.isDark() ? 'Modo Claro' : 'Modo Escuro'"
+        (click)="themeService.toggleTheme()">
+        <span class="material-symbols-outlined">{{ themeService.isDark() ? 'light_mode' : 'dark_mode' }}</span>
+      </button>
+      <button class="top-bar__icon-btn" aria-label="Conta" (click)="toggleAccountMenu()">
         <span class="material-symbols-outlined">account_circle</span>
       </button>
+
+      <!-- Account Menu Dropdown -->
+      <app-account-menu [isOpen]="isAccountMenuOpen()" (settings)="isAccountMenuOpen.set(false)"
+        (logout)="isAccountMenuOpen.set(false)">
+      </app-account-menu>
     </div>
   </div>
 </header>

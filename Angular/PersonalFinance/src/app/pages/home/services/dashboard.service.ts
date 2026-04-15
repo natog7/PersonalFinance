@@ -48,9 +48,9 @@ export class DashboardService {
   readonly projection = this._projection.asReadonly();
   readonly cashFlow = this._cashFlow.asReadonly();
   readonly spending = this._spending.asReadonly();
+  readonly isBalanceHidden = signal<boolean>(false);
 
   toggleBalanceVisibility(hidden: boolean): void {
-    // Hook for future encryption/privacy feature
-    console.log('Balance hidden:', hidden);
+    this.isBalanceHidden.set(hidden);
   }
 }

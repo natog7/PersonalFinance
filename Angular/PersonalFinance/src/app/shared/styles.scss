@@ -1,5 +1,5 @@
 // =====================================================================
-// EQUILIBRIUM FINANCE – GLOBAL DESIGN SYSTEM
+// GLOBAL DESIGN SYSTEM
 // =====================================================================
 
 // --- Google Fonts ---
@@ -89,7 +89,7 @@
   // Font Sizes
   --font-size-xs: 0.65rem;
   --font-size-sm: 0.75rem;
-  --font-size-smmd: 0.8125rem;
+  --font-size-smmd: 0.875rem;
   --font-size-md: 1rem;
   --font-size-lg: 1.125rem;
   --font-size-xl: 1.25rem;
@@ -396,4 +396,222 @@ ion-app {
 
 .material-symbols-outlined {
   font-size: 20px;
+}
+
+
+// =====================================================================
+// BUTTONS
+// =====================================================================
+
+.btn-primary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: var(--font-weight-bold);
+  font-family: var(--font-body);
+  font-size: var(--font-size-smmd);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 64, 161, 0.15);
+
+  &:hover {
+    background: var(--color-primary-container);
+    transform: translateY(-1px);
+  }
+
+  .material-symbols-outlined {
+    font-size: var(--font-size-md);
+  }
+}
+
+
+
+// ──────────────────────────────────────────────────────────
+//  Floating Action Button
+// ──────────────────────────────────────────────────────────
+.fab-primary {
+  position: fixed;
+  bottom: 40px;
+  right: 48px;
+  width: 72px;
+  height: 72px;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-fab);
+  z-index: 100;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.2s ease;
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 20px 40px rgba(0, 64, 161, 0.5);
+
+    .home-layout__fab-icon {
+      transform: rotate(90deg);
+    }
+
+    .home-layout__fab-tooltip {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  &__icon {
+    font-size: 36px;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &__tooltip {
+    position: absolute;
+    right: calc(100% + 12px);
+    background: var(--color-inverse-surface);
+    color: var(--color-inverse-on-surface);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateX(8px);
+    transition: opacity 0.25s, transform 0.25s;
+    pointer-events: none;
+    box-shadow: var(--shadow-elevated);
+  }
+}
+
+// =====================================================================
+// COMPONENTS
+// =====================================================================
+
+.search-box {
+  position: relative;
+
+  &__icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-outline);
+    font-size: 20px;
+    pointer-events: none;
+  }
+
+  &__input {
+    width: 240px;
+    padding: 10px 16px 10px 40px;
+    background: var(--color-surface-container-high);
+    border: 2px solid transparent;
+    border-radius: var(--radius-md);
+    color: var(--color-on-background);
+    font-family: var(--font-body);
+    font-size: var(--font-size-smmd);
+    transition: all 0.2s ease;
+    outline: none;
+
+    &:focus {
+      background: var(--color-surface-container-lowest);
+      border-color: var(--color-primary-fixed-dim);
+      box-shadow: 0 0 0 3px rgba(0, 64, 161, 0.1);
+      width: 280px;
+    }
+
+    &::placeholder {
+      color: var(--color-outline);
+    }
+  }
+}
+
+.vertical-divider {
+  width: 1px;
+  height: 24px;
+  background: var(--color-outline-variant);
+}
+
+// =====================================================================
+// DARK THEME OVERRIDES
+// =====================================================================
+.dark-theme {
+  --color-background: #0f1115;
+  --color-on-background: #e2e2e5;
+
+  --color-surface-container-lowest: #050608;
+  --color-surface-container-low: #111318;
+  --color-surface-container: #1b1e25;
+  --color-surface-container-high: #242730;
+  --color-surface-container-highest: #2e323d;
+
+  --color-surface: #111318;
+  --color-surface-dim: #15171d;
+  --color-surface-bright: #303440;
+  --color-surface-variant: #282a32;
+
+  --color-on-surface: #e2e2e5;
+  --color-on-surface-variant: #a4a8b5;
+
+  --color-inverse-surface: #e2e2e5;
+  --color-inverse-on-surface: #0f1115;
+
+  // Enhance outlines for dark bg
+  --color-outline: #5c6172;
+  --color-outline-variant: #3a3e49;
+
+  // Primary adaptation
+  --color-primary: #b2c5ff;
+  --color-on-primary: #001847;
+  --color-primary-container: #0040a1;
+  --color-on-primary-container: #dae2ff;
+
+  // Secondary adaptation
+  --color-secondary: #77dc89;
+  --color-on-secondary: #002109;
+  --color-secondary-container: #006e2e;
+  --color-on-secondary-container: #93f9a2;
+
+  // Subtle tints for dashboard cards to remain legible
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --shadow-elevated: 0 16px 48px rgba(0, 0, 0, 0.6);
+  --shadow-fab: 0 15px 30px rgba(0, 0, 0, 0.5);
+
+  // Specific card overrides for better dark mode readability 
+  .card__icon-wrap {
+    background: rgba(119, 220, 137, 0.15);
+    color: var(--color-secondary);
+  }
+
+  // Sidebar adjustments
+  .sidebar {
+    background: var(--color-surface-container-low);
+    border-right-color: var(--color-outline-variant);
+
+    &__logo {
+      color: var(--color-primary);
+    }
+  }
+
+  // Topbar adjustments
+  .top-bar {
+    background: rgba(15, 17, 21, 0.85);
+    border-bottom-color: var(--color-outline-variant);
+
+    &__section-label {
+      color: var(--color-primary);
+    }
+  }
 }

@@ -20,14 +20,13 @@
             </div>
 
             <div class="cat-list-section__actions">
-              <div class="cat-search-box">
-                <span class="material-symbols-outlined cat-search-box__icon">search</span>
-                <input type="text" class="cat-search-box__input" placeholder="Buscar categoria..."
-                  (input)="onSearch($event)" />
+              <div class="search-box">
+                <span class="material-symbols-outlined search-box__icon">search</span>
+                <input type="text" class="search-box__input" placeholder="Procurar..." (input)="onSearch($event)" />
               </div>
-              <button class="cat-btn-novo" (click)="onNew()">
+              <button class="btn-primary" (click)="onNew()">
                 <span class="material-symbols-outlined">add</span>
-                <span class="cat-btn-novo__text">Nova</span>
+                <span class="btn-primary__text">Nova</span>
               </button>
             </div>
           </div>

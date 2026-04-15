@@ -16,7 +16,11 @@
       <div class="card__bar-meta">
         <span class="card__bar-label">Receitas</span>
         <span class="card__bar-value card__bar-value--income">
+          @if (isBalanceHidden()) {
+          ••••
+          } @else {
           {{ cashFlow().totalIncome | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+          }
         </span>
       </div>
       <div class="card__track">
@@ -29,7 +33,11 @@
       <div class="card__bar-meta">
         <span class="card__bar-label">Despesas</span>
         <span class="card__bar-value card__bar-value--expense">
+          @if (isBalanceHidden()) {
+          ••••
+          } @else {
           {{ cashFlow().totalExpenses | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+          }
         </span>
       </div>
       <div class="card__track">
@@ -42,7 +50,11 @@
   <div class="card__footer">
     <span class="card__footer-label">Saldo Previsto</span>
     <span class="card__footer-value">
+      @if (isBalanceHidden()) {
+      ••••
+      } @else {
       {{ cashFlow().netProfit | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+      }
     </span>
   </div>
 </div>

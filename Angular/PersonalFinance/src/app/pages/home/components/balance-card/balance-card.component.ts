@@ -12,4 +12,5 @@ import { DashboardService } from '../../services/dashboard.service';
 export class BalanceCardComponent {
   private readonly dashboardService = inject(DashboardService);
   readonly balance = this.dashboardService.balance;
+  readonly isBalanceHidden = this.dashboardService.isBalanceHidden;
 }

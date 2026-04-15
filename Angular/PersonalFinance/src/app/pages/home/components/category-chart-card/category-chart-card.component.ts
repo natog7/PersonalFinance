@@ -13,6 +13,7 @@ import { CategoryExpense } from '../../models/dashboard.model';
 export class CategoryChartCardComponent {
   private readonly dashboardService = inject(DashboardService);
   readonly spending = this.dashboardService.spending;
+  readonly isBalanceHidden = this.dashboardService.isBalanceHidden;
 
   /** Build the CSS conic-gradient string from category data */
   get donutGradient(): string {

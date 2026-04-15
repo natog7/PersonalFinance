@@ -7,6 +7,7 @@ import { ProjectionCardComponent } from './components/projection-card/projection
 import { CashFlowCardComponent } from './components/cash-flow-card/cash-flow-card.component';
 import { CategoryChartCardComponent } from './components/category-chart-card/category-chart-card.component';
 import { TransactionsCardComponent } from './components/transactions-card/transactions-card.component';
+import { ShortcutsComponent } from './components/shortcuts/shortcuts';
 import { SidebarStateService } from '../../shared/services/sidebar-state.service';
 
 @Component({
@@ -21,6 +22,7 @@ import { SidebarStateService } from '../../shared/services/sidebar-state.service
     CashFlowCardComponent,
     CategoryChartCardComponent,
     TransactionsCardComponent,
+    ShortcutsComponent,
   ],
   templateUrl: './home.html',
   styleUrl: './home.scss',
