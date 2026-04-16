@@ -144,7 +144,7 @@ public class ApplicationDbContext : DbContext
         builder.HasIndex(t => t.Period);
 
 		// Global query filter to ensure users only see their own entities
-		builder.HasQueryFilter(x => x.UserId == _currentUserService.UserId);
+		//builder.HasQueryFilter(x => x.UserId == _currentUserService.UserId);
 	}
 
 	private void ConfigureCategory(ModelBuilder modelBuilder)
