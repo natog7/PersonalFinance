@@ -49,6 +49,7 @@
   // Neutral / Surface
   --color-background: #f9f9fa;
   --color-on-background: #1a1c1d;
+  --color-background-transparent: rgba(0, 0, 0, 0.08);
   --color-surface: #f9f9fa;
   --color-surface-dim: #d9dadb;
   --color-surface-bright: #f9f9fa;
@@ -392,6 +393,54 @@ ion-app {
       color: var(--color-primary);
     }
   }
+
+  // ── Stats row ────────────────────────────────────────────
+  &__stats {
+    display: flex;
+    align-items: center;
+    gap: 48px;
+    border-top: 1px solid var(--color-outline-variant);
+    padding-top: 32px;
+    position: relative;
+    z-index: 1;
+  }
+
+  &__stat {
+    padding: 12px;
+    border-radius: var(--radius-md);
+    margin: -12px;
+    background: var(--color-background-transparent);
+  }
+
+  &__stat-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: 6px;
+  }
+
+  &__stat-value {
+    font-family: var(--font-headline);
+    font-size: var(--font-size-4xl);
+    font-weight: 700;
+
+    &--good {
+      color: #6ee7b7;
+    }
+
+    &--bad {
+      color: #fca5a5;
+    }
+  }
+
+  &__divider {
+    width: 1px;
+    height: 56px;
+    background: var(--color-outline-variant);
+    flex-shrink: 0;
+  }
 }
 
 .material-symbols-outlined {
@@ -406,6 +455,7 @@ ion-app {
 .btn-primary {
   display: flex;
   align-items: center;
+  height: var(--size-xl);
   gap: var(--space-sm);
   padding: var(--space-sm) var(--space-md);
   background: var(--color-primary);
@@ -550,6 +600,7 @@ ion-app {
 .dark-theme {
   --color-background: #0f1115;
   --color-on-background: #e2e2e5;
+  --color-background-transparent: rgba(255, 255, 255, 0.08);
 
   --color-surface-container-lowest: #050608;
   --color-surface-container-low: #111318;

@@ -10,16 +10,23 @@ import {
 export class DashboardService {
   private readonly _balance = signal<BalanceSummary>({
     totalBalance: 142580.24,
+    monthlyBalance: 18200.0,
     monthlyGrowthPercent: 12.4,
-    monthlyIncome: 18200.0,
-    totalExpenses: 4120.3,
+    monthlyIncome: 12000.0,
+    monthlyIncomeGrowthPercent: 0.0,
+    monthlyExpenses: 4120.3,
+    monthlyExpensesGrowthPercent: -10.0,
   });
 
   private readonly _projection = signal<ProjectionSummary>({
     projectedBalance: 156660.14,
-    emergencyGoalPercent: 85,
+    projectedGrowthPercent: 12.4,
+    projectedIncome: 12000.0,
+    projectedIncomeGrowthPercent: 0.0,
+    projectedExpenses: 3420.54,
+    projectedExpensesGrowthPercent: -10.0,
     description:
-      'Simulação baseada em algoritmos preditivos considerando investimentos atuais e padrões de gastos recorrentes.',
+      'Simulação preditiva considerando rendimentos e padrões de gastos recorrentes.',
   });
 
   private readonly _cashFlow = signal<CashFlow>({

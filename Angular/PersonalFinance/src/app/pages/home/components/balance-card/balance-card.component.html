@@ -4,8 +4,8 @@
 
   <div class="card__top">
     <p class="card__label">Saldo este Mês</p>
-    <span class="card__badge" [class.card__badge--income]="balance().monthlyGrowthPercent >= 0"
-      [class.card__badge--expense]="balance().monthlyGrowthPercent < 0">
+    <span class="card__badge" [class.card__badge--good]="balance().monthlyGrowthPercent >= 0"
+      [class.card__badge--bad]="balance().monthlyGrowthPercent < 0">
       <span class="material-symbols-outlined">{{
         balance().monthlyGrowthPercent >= 0 ? 'trending_up' : 'trending_down'
         }}</span>
@@ -18,15 +18,14 @@
     @if (isBalanceHidden()) {
     ••••••
     } @else {
-    {{ balance().totalBalance | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+    {{ balance().monthlyBalance | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
     }
   </h2>
 
   <div class="card__stats">
-    <!-- Monthly Income -->
     <div class="card__stat card__stat">
-      <p class="card__stat-label">Renda Mensal</p>
-      <p class="card__stat-value card__stat-value--income">
+      <p class="card__stat-label">Renda</p>
+      <p class="card__stat-value card__stat-value--good">
         @if (isBalanceHidden()) {
         ••••
         } @else {
@@ -37,14 +36,13 @@
 
     <div class="card__divider"></div>
 
-    <!-- Total Expenses -->
     <div class="card__stat card__stat">
-      <p class="card__stat-label">Gastos Totais</p>
-      <p class="card__stat-value card__stat-value--expense">
+      <p class="card__stat-label">Gastos</p>
+      <p class="card__stat-value card__stat-value--bad">
         @if (isBalanceHidden()) {
         ••••
         } @else {
-        {{ balance().totalExpenses | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+        {{ balance().monthlyExpenses | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
         }
       </p>
     </div>

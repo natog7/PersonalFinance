@@ -6,6 +6,9 @@
       </div>
       <h3 class="card__title">Projeção Próximo Mês</h3>
     </div>
+    <div class="card__actions">
+      <button class="btn-primary">Ver Detalhes</button>
+    </div>
   </div>
   <div class="card__body">
     <p class="card__value">
@@ -16,17 +19,31 @@
       }
     </p>
     <p class="card__description">{{ projection().description }}</p>
-    <!-- <div class="card__goal">
-      <div class="card__goal-header">
-        <span class="card__goal-label">Meta de Reserva de Emergência</span>
-        <span class="card__goal-percent">{{ projection().emergencyGoalPercent }}%</span>
-      </div>
-      <div class="card__progress-track">
-        <div class="card__progress-fill" [style.width.%]="projection().emergencyGoalPercent" role="progressbar"
-          [attr.aria-valuenow]="projection().emergencyGoalPercent" aria-valuemin="0" aria-valuemax="100"></div>
-      </div>
-    </div> -->
+  </div>
+  <div class="card__stats">
+    <div class="card__stat card__stat">
+      <p class="card__stat-label">Renda</p>
+      <p class="card__stat-value card__stat-value--good">
+        @if (isBalanceHidden()) {
+        ••••
+        } @else {
+        {{ projection().projectedIncome | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+        }
+      </p>
+    </div>
+
+    <div class="card__divider"></div>
+
+    <div class="card__stat card__stat">
+      <p class="card__stat-label">Gastos</p>
+      <p class="card__stat-value card__stat-value--bad">
+        @if (isBalanceHidden()) {
+        ••••
+        } @else {
+        {{ projection().projectedExpenses | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+        }
+      </p>
+    </div>
   </div>
 
-  <button class="card__view-all-btn">Ver Detalhes</button>
 </div>

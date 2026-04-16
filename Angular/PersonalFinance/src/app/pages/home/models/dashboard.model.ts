@@ -1,13 +1,20 @@
 export interface BalanceSummary {
   totalBalance: number;
+  monthlyBalance: number;
   monthlyGrowthPercent: number;
   monthlyIncome: number;
-  totalExpenses: number;
+  monthlyIncomeGrowthPercent: number;
+  monthlyExpenses: number;
+  monthlyExpensesGrowthPercent: number;
 }
 
 export interface ProjectionSummary {
   projectedBalance: number;
-  emergencyGoalPercent: number;
+  projectedGrowthPercent: number;
+  projectedIncome: number;
+  projectedIncomeGrowthPercent: number;
+  projectedExpenses: number;
+  projectedExpensesGrowthPercent: number;
   description: string;
 }
 

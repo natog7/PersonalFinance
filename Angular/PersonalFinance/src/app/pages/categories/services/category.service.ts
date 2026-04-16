@@ -72,7 +72,7 @@ export class CategoryService {
       next: (newCategory) => {
         this._categories.update((list) => [...list, newCategory]);
       },
-      error: (err) => console.error('Erro ao criar categoria', err)
+      error: (err) => console.error('Erro ao criar.', err)
     });
   }
 
@@ -87,7 +87,7 @@ export class CategoryService {
           list.map((c) => (c.id === resp.id ? resp : c))
         );
       },
-      error: (err) => console.error('Erro ao atualizar categoria', err)
+      error: (err) => console.error('Erro ao atualizar.', err)
     });
   }
 

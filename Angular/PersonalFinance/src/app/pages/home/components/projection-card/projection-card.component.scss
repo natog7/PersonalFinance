@@ -14,12 +14,16 @@
 
   &__value {
     font-family: var(--font-headline);
-    font-size: var(--font-size-7xl);
+    font-size: var(--font-size-6xl);
     font-weight: 800;
     color: var(--color-primary);
     letter-spacing: -0.03em;
     margin-top: 20px;
     line-height: 1;
+  }
+
+  &__stats {
+    margin: 32px 32px 32px;
   }
 
   // ── Goal / Progress ───────────────────────────────────────
