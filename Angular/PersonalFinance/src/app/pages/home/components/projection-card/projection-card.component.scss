@@ -12,18 +12,78 @@
     padding: 0px 32px 0px;
   }
 
+  &__value-row {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-top: 24px;
+    position: relative;
+  }
+
   &__value {
     font-family: var(--font-headline);
     font-size: var(--font-size-6xl);
     font-weight: 800;
     color: var(--color-primary);
     letter-spacing: -0.03em;
-    margin-top: 20px;
     line-height: 1;
   }
 
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 700;
+    background: var(--color-surface-container-low);
+    margin-top: -6px; // Align to top of text
+
+    &--good {
+      color: var(--color-secondary);
+      background: rgba(0, 110, 46, 0.1);
+    }
+
+    &--bad {
+      color: var(--color-tertiary);
+      background: rgba(148, 0, 16, 0.1);
+    }
+
+    .material-symbols-outlined {
+      font-size: 16px;
+    }
+  }
+
   &__stats {
-    margin: 32px 32px 32px;
+    margin: 16px 32px 32px;
+  }
+
+  &__stat {
+    &__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 700;
+      width: fit-content;
+      background: rgba(0, 0, 0, 0.08);
+
+      &--small {
+        padding: 2px 8px;
+        font-size: 0.625rem;
+      }
+
+      &--good {
+        color: #6ee7b7;
+      }
+
+      &--bad {
+        color: #fca5a5;
+      }
+    }
   }
 
   // ── Goal / Progress ───────────────────────────────────────

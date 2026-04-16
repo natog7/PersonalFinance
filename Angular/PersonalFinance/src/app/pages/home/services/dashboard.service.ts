@@ -13,16 +13,16 @@ export class DashboardService {
     monthlyBalance: 18200.0,
     monthlyGrowthPercent: 12.4,
     monthlyIncome: 12000.0,
-    monthlyIncomeGrowthPercent: 0.0,
+    monthlyIncomeGrowthPercent: 10.0,
     monthlyExpenses: 4120.3,
-    monthlyExpensesGrowthPercent: -10.0,
+    monthlyExpensesGrowthPercent: -8.12,
   });
 
   private readonly _projection = signal<ProjectionSummary>({
-    projectedBalance: 156660.14,
-    projectedGrowthPercent: 12.4,
-    projectedIncome: 12000.0,
-    projectedIncomeGrowthPercent: 0.0,
+    projectedBalance: 40685.19,
+    projectedGrowthPercent: 123.45,
+    projectedIncome: 10890.0,
+    projectedIncomeGrowthPercent: -9.25,
     projectedExpenses: 3420.54,
     projectedExpensesGrowthPercent: -10.0,
     description:

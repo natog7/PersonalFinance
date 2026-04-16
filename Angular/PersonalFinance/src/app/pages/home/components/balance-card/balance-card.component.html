@@ -23,8 +23,18 @@
   </h2>
 
   <div class="card__stats">
-    <div class="card__stat card__stat">
-      <p class="card__stat-label">Renda</p>
+    <div class="card__stat">
+      <div class="card__stat-header">
+        <p class="card__stat-label">Renda</p>
+        <span class="card__badge card__badge--small"
+          [class.card__badge--good]="balance().monthlyIncomeGrowthPercent >= 0"
+          [class.card__badge--bad]="balance().monthlyIncomeGrowthPercent < 0">
+          <span class="material-symbols-outlined">{{
+            balance().monthlyIncomeGrowthPercent >= 0 ? 'trending_up' : 'trending_down'
+            }}</span>
+          {{ balance().monthlyIncomeGrowthPercent >= 0 ? '+' : '' }}{{ balance().monthlyIncomeGrowthPercent }}%
+        </span>
+      </div>
       <p class="card__stat-value card__stat-value--good">
         @if (isBalanceHidden()) {
         ••••
@@ -36,8 +46,18 @@
 
     <div class="card__divider"></div>
 
-    <div class="card__stat card__stat">
-      <p class="card__stat-label">Gastos</p>
+    <div class="card__stat">
+      <div class="card__stat-header">
+        <p class="card__stat-label">Gastos</p>
+        <span class="card__badge card__badge--small"
+          [class.card__badge--good]="balance().monthlyExpensesGrowthPercent >= 0"
+          [class.card__badge--bad]="balance().monthlyExpensesGrowthPercent < 0">
+          <span class="material-symbols-outlined">{{
+            balance().monthlyExpensesGrowthPercent >= 0 ? 'trending_up' : 'trending_down'
+            }}</span>
+          {{ balance().monthlyExpensesGrowthPercent >= 0 ? '+' : '' }}{{ balance().monthlyExpensesGrowthPercent }}%
+        </span>
+      </div>
       <p class="card__stat-value card__stat-value--bad">
         @if (isBalanceHidden()) {
         ••••

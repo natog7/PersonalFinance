@@ -11,18 +11,39 @@
     </div>
   </div>
   <div class="card__body">
-    <p class="card__value">
-      @if (isBalanceHidden()) {
-      ••••••
-      } @else {
-      {{ projection().projectedBalance | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
-      }
-    </p>
+    <div class="card__value-row">
+      <p class="card__value">
+        @if (isBalanceHidden()) {
+        ••••••
+        } @else {
+        {{ projection().projectedBalance | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+        }
+      </p>
+      <span class="card__badge" [class.card__badge--good]="projection().projectedGrowthPercent >= 0"
+        [class.card__badge--bad]="projection().projectedGrowthPercent < 0">
+        <span class="material-symbols-outlined">{{
+          projection().projectedGrowthPercent >= 0 ? 'trending_up' : 'trending_down'
+          }}</span>
+        {{ projection().projectedGrowthPercent >= 0 ? '+' : ''
+        }}{{ projection().projectedGrowthPercent }}%
+      </span>
+    </div>
     <p class="card__description">{{ projection().description }}</p>
   </div>
   <div class="card__stats">
-    <div class="card__stat card__stat">
-      <p class="card__stat-label">Renda</p>
+    <div class="card__stat">
+      <div class="card__stat-header">
+        <p class="card__stat-label">Renda</p>
+        <span class="card__stat__badge card__stat__badge--small"
+          [class.card__stat__badge--good]="projection().projectedIncomeGrowthPercent >= 0"
+          [class.card__stat__badge--bad]="projection().projectedIncomeGrowthPercent < 0">
+          <span class="material-symbols-outlined">{{
+            projection().projectedIncomeGrowthPercent >= 0 ? 'trending_up' : 'trending_down'
+            }}</span>
+          {{ projection().projectedIncomeGrowthPercent >= 0 ? '+' : '' }}{{ projection().projectedIncomeGrowthPercent
+          }}%
+        </span>
+      </div>
       <p class="card__stat-value card__stat-value--good">
         @if (isBalanceHidden()) {
         ••••
@@ -34,8 +55,19 @@
 
     <div class="card__divider"></div>
 
-    <div class="card__stat card__stat">
-      <p class="card__stat-label">Gastos</p>
+    <div class="card__stat">
+      <div class="card__stat-header">
+        <p class="card__stat-label">Gastos</p>
+        <span class="card__stat__badge card__stat__badge--small"
+          [class.card__stat__badge--good]="projection().projectedExpensesGrowthPercent >= 0"
+          [class.card__stat__badge--bad]="projection().projectedExpensesGrowthPercent < 0">
+          <span class="material-symbols-outlined">{{
+            projection().projectedExpensesGrowthPercent >= 0 ? 'trending_up' : 'trending_down'
+            }}</span>
+          {{ projection().projectedExpensesGrowthPercent >= 0 ? '+' : '' }}{{
+          projection().projectedExpensesGrowthPercent }}%
+        </span>
+      </div>
       <p class="card__stat-value card__stat-value--bad">
         @if (isBalanceHidden()) {
         ••••

@@ -50,6 +50,7 @@
   --color-background: #f9f9fa;
   --color-on-background: #1a1c1d;
   --color-background-transparent: rgba(0, 0, 0, 0.08);
+  --color-surface-transparent: rgba(0, 0, 0, 0.2);
   --color-surface: #f9f9fa;
   --color-surface-dim: #d9dadb;
   --color-surface-bright: #f9f9fa;
@@ -399,7 +400,7 @@ ion-app {
     display: flex;
     align-items: center;
     gap: 48px;
-    border-top: 1px solid var(--color-outline-variant);
+    border-top: 1px solid var(--color-surface-transparent);
     padding-top: 32px;
     position: relative;
     z-index: 1;
@@ -410,6 +411,15 @@ ion-app {
     border-radius: var(--radius-md);
     margin: -12px;
     background: var(--color-background-transparent);
+    flex: 1;
+  }
+
+  &__stat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 6px;
   }
 
   &__stat-label {
@@ -438,7 +448,7 @@ ion-app {
   &__divider {
     width: 1px;
     height: 56px;
-    background: var(--color-outline-variant);
+    background: var(--color-surface-transparent);
     flex-shrink: 0;
   }
 }
@@ -601,6 +611,7 @@ ion-app {
   --color-background: #0f1115;
   --color-on-background: #e2e2e5;
   --color-background-transparent: rgba(255, 255, 255, 0.08);
+  --color-surface-transparent: rgba(255, 255, 255, 0.2);
 
   --color-surface-container-lowest: #050608;
   --color-surface-container-low: #111318;
