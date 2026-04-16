@@ -1,24 +1,32 @@
 import { HttpInterceptorFn } from '@angular/common/http';
-import { catchError } from 'rxjs';
+import { inject } from '@angular/core';
+import { catchError, throwError } from 'rxjs';
+import { Router } from '@angular/router';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-    const token = localStorage.getItem('access_token');
+  const router = inject(Router);
+  const token = localStorage.getItem('access_token');
+  
+  // Do not add Authorization header to the login request
+  const isLoginRequest = req.url.includes('/api/auth/login');
 
-    if (token) {
-        const clonedReq = req.clone({
-            headers: req.headers.set('Authorization', `Bearer ${token}`)
-        });
-        return next(clonedReq).pipe(
-            // token expirado
-            catchError(err => {
-                if (err.status === 401) {
-                    localStorage.removeItem('access_token');
-                    window.location.href = '/login';
-                }
-                throw err;
-            })
-        );
-    }
+  let processedReq = req;
+  if (token && !isLoginRequest) {
+    processedReq = req.clone({
+      setHeaders: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+  }
 
-    return next(req);
+  return next(processedReq).pipe(
+    catchError((error) => {
+      // If unauthorized and it's not the login request itself
+      if (error.status === 401 && !isLoginRequest) {
+        localStorage.removeItem('access_token');
+        router.navigate(['/login']);
+      }
+      return throwError(() => error);
+    })
+  );
 };

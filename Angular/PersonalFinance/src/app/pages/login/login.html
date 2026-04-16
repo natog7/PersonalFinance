@@ -1,0 +1,112 @@
+<div class="login-wrapper">
+  <!-- Background Architectural Elements -->
+  <div class="login-bg-shapes">
+    <div class="shape shape--primary"></div>
+    <div class="shape shape--secondary"></div>
+    <div class="pattern"></div>
+  </div>
+
+  <!-- Main Login Container -->
+  <main class="login-container">
+    <div class="login-grid">
+      <!-- Branding/Editorial Column -->
+      <div class="login-brand">
+        <div class="login-brand__text">
+          <span class="login-brand__subtitle">Tenha controle dos seus gastos</span>
+          <h1 class="login-brand__title">
+            <span class="text-primary">Personal Finance</span>
+          </h1>
+          <p class="login-brand__desc">
+            Combinamos projeções financeiras com simplicidade para o controle da sua
+            liberdade financeira.
+          </p>
+        </div>
+
+        <div class="security-badge">
+          <div class="security-badge__icon">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shield_with_heart</span>
+          </div>
+          <div>
+            <div class="security-badge__title">Conexão Criptografada</div>
+            <div class="security-badge__desc">Sua privacidade é nosso ativo mais valioso.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Login Card -->
+      <div class="login-card-wrapper">
+        <div class="login-card">
+          <!-- Logo & Header -->
+          <div class="login-card__header">
+            <div class="login-card__logo">
+              <span class="material-symbols-outlined">account_balance</span>
+            </div>
+            <h2 class="login-card__title">Bem-vindo</h2>
+            <p class="login-card__subtitle">Acesse sua conta</p>
+          </div>
+
+          <!-- Form -->
+          <form class="login-form" [formGroup]="loginForm" (ngSubmit)="login()">
+            <div class="login-form__group">
+              <label class="login-form__label" for="email">E-mail</label>
+              <div class="login-form__input-wrapper">
+                <span class="material-symbols-outlined">mail</span>
+                <input class="login-form__input" id="email" placeholder="nome@exemplo.com.br" type="email"
+                  formControlName="email" />
+              </div>
+            </div>
+
+            <div class="login-form__group">
+              <div class="login-form__label-row">
+                <label class="login-form__label" for="password">Senha</label>
+                <a class="login-form__forgot" href="#">Esqueceu a senha?</a>
+              </div>
+              <div class="login-form__input-wrapper">
+                <span class="material-symbols-outlined">lock</span>
+                <input class="login-form__input login-form__input--password" id="password" placeholder="••••••••"
+                  [type]="passwordVisible ? 'text' : 'password'" formControlName="password" />
+                <button type="button" (click)="togglePasswordVisibility()">
+                  <span class="material-symbols-outlined">{{ passwordVisible ? 'visibility_off' : 'visibility' }}</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="login-form__remember">
+              <input id="remember" type="checkbox" />
+              <label for="remember">Lembrar deste dispositivo por 30 dias</label>
+            </div>
+
+            <button class="login-form__submit" type="submit">
+              <span>Fazer Login</span>
+              <span class="material-symbols-outlined">arrow_forward</span>
+            </button>
+          </form>
+
+          <!-- Footer Actions -->
+          <div class="login-divider">
+            <div class="login-divider__line-container">
+              <div class="login-divider__line"></div>
+              <span class="login-divider__text">Ou</span>
+            </div>
+            <p class="login-divider__signup">
+              Não possui uma conta?
+              <a href="#">Criar nova conta</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Bottom Footer Links -->
+  <footer class="login-footer">
+    <div class="login-footer__links">
+      <a href="#">Termos de Uso</a>
+      <a href="#">Privacidade</a>
+    </div>
+    <div class="login-footer__status">
+      <span class="status-dot"></span>
+      <span>Sistemas Operantes</span>
+    </div>
+  </footer>
+</div>

@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({ providedIn: 'root' })
 export class CategoryService {
   private http = inject(HttpClient);
-  private readonly apiUrl = 'https://sua-api.com/api/categories';
+  private readonly apiUrl = 'https://localhost:55784/api/categories';
 
   // Using signals for reactive state, simulating a database/API.
   private readonly _categories = signal<Category[]>([

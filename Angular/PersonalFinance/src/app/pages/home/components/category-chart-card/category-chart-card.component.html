@@ -13,9 +13,17 @@
   <div class="card__body">
     <!-- Donut Chart -->
     <div class="card__chart-area">
-      <div class="card__donut" [style.background]="donutGradient" role="img"
-        aria-label="Gráfico de gastos por categoria">
-        <div class="card__donut-hole"></div>
+      <div class="card__donut">
+        <svg viewBox="0 0 42 42" class="card__donut-svg">
+          @for (seg of segments(); track seg.label; let i = $index) {
+          <circle class="card__donut-segment" cx="21" cy="21" r="15.915494309189533" fill="transparent"
+            [attr.stroke]="seg.colorVar" stroke-width="6" [attr.stroke-dasharray]="seg.dashArray"
+            [attr.stroke-dashoffset]="seg.dashOffset" (mouseenter)="setHovered(i)" (mouseleave)="setHovered(null)"
+            [class.is-hovered]="hoveredIndex() === i">
+          </circle>
+          }
+        </svg>
+
         <div class="card__donut-center">
           <p class="card__donut-sub">Total Gasto</p>
           <p class="card__donut-value">
@@ -31,8 +39,9 @@
 
     <!-- Legend -->
     <div class="card__legend">
-      @for (cat of spending().categories; track cat.label) {
-      <div class="card__legend-item">
+      @for (cat of spending().categories; track cat.label; let i = $index) {
+      <div class="card__legend-item" [class.is-highlighted]="hoveredIndex() === i" (mouseenter)="setHovered(i)"
+        (mouseleave)="setHovered(null)">
         <span class="card__legend-dot" [style.background]="cat.colorVar"></span>
         <div class="card__legend-text">
           <span class="card__legend-label">{{ cat.label }}</span>
