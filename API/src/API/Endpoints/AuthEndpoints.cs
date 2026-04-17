@@ -1,3 +1,4 @@
+using PersonalFinanceAPI.Application.Exceptions;
 using PersonalFinanceAPI.Application.Features.Auth.Commands;
 using PersonalFinanceAPI.Application.Features.Auth.Queries;
 
@@ -16,28 +17,28 @@ public static class AuthEndpoints
         group.MapPost("/register", Register)
             .WithName("Register")
 			.RequireAuthorization()
-			.Produces(StatusCodes.Status201Created)
-            .Produces(StatusCodes.Status400BadRequest)
-            .Produces(StatusCodes.Status409Conflict);
+			.Produces<RegisterResponse>(StatusCodes.Status201Created)
+            .Produces<ValidationErrorResponse>(StatusCodes.Status400BadRequest)
+            .Produces<ErrorResponse>(StatusCodes.Status409Conflict);
 
         group.MapPost("/login", Login)
             .WithName("Login")
             .AllowAnonymous()
-            .Produces(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status401Unauthorized)
-            .Produces(StatusCodes.Status400BadRequest);
+            .Produces<LoginResponse>(StatusCodes.Status200OK)
+            .Produces<ErrorResponse>(StatusCodes.Status401Unauthorized)
+            .Produces<ErrorResponse>(StatusCodes.Status400BadRequest);
 
         group.MapPost("/logout", Logout)
             .WithName("Logout")
             .RequireAuthorization()
             .Produces(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status401Unauthorized);
+            .Produces<ErrorResponse>(StatusCodes.Status401Unauthorized);
 
         group.MapPost("/refresh-token", RefreshToken)
             .WithName("Refresh Token")
             .RequireAuthorization()
             .Produces(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status401Unauthorized);
+            .Produces<ErrorResponse>(StatusCodes.Status401Unauthorized);
     }
 
     private static async Task<IResult> Register(
@@ -50,7 +51,7 @@ public static class AuthEndpoints
             var result = await mediator.Send(command, ct);
             
             if (result is null)
-                return Results.Conflict(new { error = "Email already registered" });
+                return Results.Conflict(new ErrorResponse("Email already registered"));
 
             return Results.Created($"/api/auth/user/{result.UserId}", result);
         }
@@ -58,11 +59,11 @@ public static class AuthEndpoints
         {
             var errors = ex.Errors.GroupBy(e => e.PropertyName)
                 .ToDictionary(g => g.Key, g => g.Select(e => e.ErrorMessage).ToArray());
-            return Results.BadRequest(new { errors });
+            return Results.BadRequest(new ValidationErrorResponse(errors));
         }
         catch (Exception ex)
         {
-            return Results.BadRequest(new { error = ex.Message });
+            return Results.BadRequest(ValidationErrorResponse.Create(ex.Message));
         }
     }
 
@@ -82,7 +83,7 @@ public static class AuthEndpoints
         }
         catch (Exception ex)
         {
-            return Results.BadRequest(new { error = ex.Message });
+            return Results.BadRequest(new ErrorResponse(ex.Message));
         }
     }
 
@@ -93,11 +94,11 @@ public static class AuthEndpoints
         try
         {
             // Token blacklist logic can be implemented here if needed
-            return Results.Ok(new { message = "Logged out successfully" });
+            return Results.Ok(new MessageResponse("Logged out successfully"));
         }
         catch (Exception ex)
         {
-            return Results.BadRequest(new { error = ex.Message });
+            return Results.BadRequest(new ErrorResponse(ex.Message));
         }
     }
 
@@ -109,11 +110,11 @@ public static class AuthEndpoints
         try
         {
             // Implement refresh token rotation logic
-            return Results.Ok(new { message = "Token refreshed successfully" });
+            return Results.Ok(new MessageResponse("Token refreshed successfully"));
         }
         catch (Exception ex)
         {
-            return Results.BadRequest(new { error = ex.Message });
+            return Results.BadRequest(new ErrorResponse(ex.Message));
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using PersonalFinanceAPI.Application.Features.Categories;
+﻿using PersonalFinanceAPI.Application.Exceptions;
+using PersonalFinanceAPI.Application.Features.Categories;
 using PersonalFinanceAPI.Application.Features.Categories.Commands;
 using PersonalFinanceAPI.Application.Features.Categories.Queries;
 
@@ -15,37 +16,37 @@ public static class CategoryEndpoints
 		group.MapPost("/", CreateCategory)
 			.WithName("Create Category")
 			.RequireAuthorization()
-			.Produces(StatusCodes.Status201Created)
-			.Produces(StatusCodes.Status400BadRequest)
-			.Produces(StatusCodes.Status401Unauthorized);
+			.Produces<IdDto<Guid>>(StatusCodes.Status201Created)
+			.Produces<ErrorResponse>(StatusCodes.Status400BadRequest)
+			.Produces<ErrorResponse>(StatusCodes.Status401Unauthorized);
 
 		group.MapGet("/{id}", GetCategory)
 			.WithName("Get Category")
 			.RequireAuthorization()
-			.Produces(StatusCodes.Status200OK)
-			.Produces(StatusCodes.Status404NotFound)
-			.Produces(StatusCodes.Status401Unauthorized);
+			.Produces<CategoryDto>(StatusCodes.Status200OK)
+			.Produces<ErrorResponse>(StatusCodes.Status404NotFound)
+			.Produces<ErrorResponse>(StatusCodes.Status401Unauthorized);
 
 		group.MapPost("/filter/", GetCategories)
 			.WithName("List Categories")
 			.RequireAuthorization()
-			.Produces(StatusCodes.Status200OK)
-			.Produces(StatusCodes.Status400BadRequest)
-			.Produces(StatusCodes.Status401Unauthorized);
+			.Produces<ListResult<CategoryDto>>(StatusCodes.Status200OK)
+			.Produces<ErrorResponse>(StatusCodes.Status400BadRequest)
+			.Produces<ErrorResponse>(StatusCodes.Status401Unauthorized);
 
 		group.MapPut("/{id}", UpdateCategory)
 			.WithName("Update Category")
 			.RequireAuthorization()
-			.Produces(StatusCodes.Status200OK)
-			.Produces(StatusCodes.Status400BadRequest)
-			.Produces(StatusCodes.Status401Unauthorized);
+			.Produces<CategoryDto>(StatusCodes.Status200OK)
+			.Produces<ErrorResponse>(StatusCodes.Status400BadRequest)
+			.Produces<ErrorResponse>(StatusCodes.Status401Unauthorized);
 
 		group.MapDelete("/{id}", DeleteCategory)
 			.WithName("Delete Category")
 			.RequireAuthorization()
-			.Produces(StatusCodes.Status200OK)
-			.Produces(StatusCodes.Status400BadRequest)
-			.Produces(StatusCodes.Status401Unauthorized);
+			.Produces<MessageResponse>(StatusCodes.Status200OK)
+			.Produces<ErrorResponse>(StatusCodes.Status400BadRequest)
+			.Produces<ErrorResponse>(StatusCodes.Status401Unauthorized);
 	}
 
 	private static async Task<IResult> CreateCategory(
@@ -63,7 +64,7 @@ public static class CategoryEndpoints
 		}
 		catch (Exception ex)
 		{
-			return Results.BadRequest(new { error = ex.Message });
+			return Results.BadRequest(new ErrorResponse(ex.Message));
 		}
 	}
 
@@ -83,7 +84,7 @@ public static class CategoryEndpoints
 		}
 		catch (Exception ex)
 		{
-			return Results.BadRequest(new { error = ex.Message });
+			return Results.BadRequest(new ErrorResponse(ex.Message));
 		}
 	}
 
@@ -102,7 +103,7 @@ public static class CategoryEndpoints
 		}
 		catch (Exception ex)
 		{
-			return Results.BadRequest(new { error = ex.Message });
+			return Results.BadRequest(new ErrorResponse(ex.Message));
 		}
 	}
 
@@ -128,7 +129,7 @@ public static class CategoryEndpoints
 		}
 		catch (Exception ex)
 		{
-			return Results.BadRequest(new { error = ex.Message });
+			return Results.BadRequest(new ErrorResponse(ex.Message));
 		}
 	}
 
@@ -144,11 +145,11 @@ public static class CategoryEndpoints
 
 			await mediator.Send(new DeleteCommand(id), ct);
 
-			return Results.Ok(new { message = "Successfully deleted." });
+			return Results.Ok(new MessageResponse("Successfully deleted."));
 		}
 		catch (Exception ex)
 		{
-			return Results.BadRequest(new { error = ex.Message });
+			return Results.BadRequest(new ErrorResponse(ex.Message));
 		}
 	}
 }

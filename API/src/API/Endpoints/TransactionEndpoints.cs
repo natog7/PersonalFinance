@@ -1,3 +1,4 @@
+using PersonalFinanceAPI.Application.Exceptions;
 using PersonalFinanceAPI.Application.Features.Transactions;
 using PersonalFinanceAPI.Application.Features.Transactions.Commands;
 using PersonalFinanceAPI.Application.Features.Transactions.Queries;
@@ -18,37 +19,37 @@ public static class TransactionEndpoints
         group.MapPost("/", CreateTransaction)
             .WithName("Create Transaction")
 			.RequireAuthorization()
-			.Produces(StatusCodes.Status201Created)
-            .Produces(StatusCodes.Status400BadRequest)
-            .Produces(StatusCodes.Status401Unauthorized);
+			.Produces<IdDto<Guid>>(StatusCodes.Status201Created)
+            .Produces<ErrorResponse>(StatusCodes.Status400BadRequest)
+            .Produces<ErrorResponse>(StatusCodes.Status401Unauthorized);
 
         group.MapGet("/{id}", GetTransaction)
             .WithName("Get Transaction")
 			.RequireAuthorization()
-			.Produces(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status404NotFound)
-            .Produces(StatusCodes.Status401Unauthorized);
+			.Produces<TransactionDto>(StatusCodes.Status200OK)
+            .Produces<ErrorResponse>(StatusCodes.Status404NotFound)
+            .Produces<ErrorResponse>(StatusCodes.Status401Unauthorized);
 
         group.MapPost("/filter/", GetTransactions)
             .WithName("List Transactions")
 			.RequireAuthorization()
-			.Produces(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status400BadRequest)
-            .Produces(StatusCodes.Status401Unauthorized);
+			.Produces<ListResult<TransactionDto>>(StatusCodes.Status200OK)
+            .Produces<ErrorResponse>(StatusCodes.Status400BadRequest)
+            .Produces<ErrorResponse>(StatusCodes.Status401Unauthorized);
 
 		group.MapPut("/{id}", UpdateTransaction)
 			.WithName("Update Transaction")
 			.RequireAuthorization()
-			.Produces(StatusCodes.Status200OK)
-			.Produces(StatusCodes.Status400BadRequest)
-			.Produces(StatusCodes.Status401Unauthorized);
+			.Produces<TransactionDto>(StatusCodes.Status200OK)
+			.Produces<ErrorResponse>(StatusCodes.Status400BadRequest)
+			.Produces<ErrorResponse>(StatusCodes.Status401Unauthorized);
 
 		group.MapDelete("/{id}", DeleteTransaction)
 			.WithName("Delete Transaction")
 			.RequireAuthorization()
-			.Produces(StatusCodes.Status200OK)
-			.Produces(StatusCodes.Status400BadRequest)
-			.Produces(StatusCodes.Status401Unauthorized);
+			.Produces<MessageResponse>(StatusCodes.Status200OK)
+			.Produces<ErrorResponse>(StatusCodes.Status400BadRequest)
+			.Produces<ErrorResponse>(StatusCodes.Status401Unauthorized);
     }
 
     private static async Task<IResult> CreateTransaction(
@@ -66,7 +67,7 @@ public static class TransactionEndpoints
         }
         catch (Exception ex)
         {
-            return Results.BadRequest(new { error = ex.Message });
+            return Results.BadRequest(new ErrorResponse(ex.Message));
         }
     }
 
@@ -86,7 +87,7 @@ public static class TransactionEndpoints
         }
         catch (Exception ex)
         {
-            return Results.BadRequest(new { error = ex.Message });
+            return Results.BadRequest(new ErrorResponse(ex.Message));
         }
     }
 
@@ -105,7 +106,7 @@ public static class TransactionEndpoints
         }
         catch (Exception ex)
         {
-            return Results.BadRequest(new { error = ex.Message });
+            return Results.BadRequest(new ErrorResponse(ex.Message));
         }
 	}
 
@@ -122,7 +123,7 @@ public static class TransactionEndpoints
 
 			if (id != command.Id)
 			{
-				return Results.BadRequest(new { error = "The URL ID doesn't match the request body ID." });
+				return Results.BadRequest(new ErrorResponse("The URL ID doesn't match the request body ID."));
 			}
 
 			var result = await mediator.Send(command, ct);
@@ -131,7 +132,7 @@ public static class TransactionEndpoints
 		}
 		catch (Exception ex)
 		{
-			return Results.BadRequest(new { error = ex.Message });
+			return Results.BadRequest(new ErrorResponse(ex.Message));
 		}
 	}
 
@@ -147,11 +148,11 @@ public static class TransactionEndpoints
 
             await mediator.Send(new DeleteCommand(id), ct);
 
-            return Results.Ok(new { message = "Successfully deleted." });
+            return Results.Ok(new MessageResponse("Successfully deleted."));
 		}
 		catch (Exception ex)
 		{
-			return Results.BadRequest(new { error = ex.Message });
+			return Results.BadRequest(new ErrorResponse(ex.Message));
 		}
 	}
 }

@@ -31,11 +31,7 @@ public class GlobalExceptionHandlingMiddleware
     {
         context.Response.ContentType = "application/json";
 
-        var response = new ErrorResponse
-        {
-            Message = exception.Message,
-            Timestamp = DateTime.UtcNow
-        };
+        var response = new DetailErrorResponse(exception.Message, DateTime.UtcNow);
 
         return exception switch
         {
@@ -47,15 +43,11 @@ public class GlobalExceptionHandlingMiddleware
         };
     }
 
-    private static Task RespondWith(HttpContext context, int statusCode, ErrorResponse response)
+    private static Task RespondWith(HttpContext context, int statusCode, DetailErrorResponse response)
     {
         context.Response.StatusCode = statusCode;
         return context.Response.WriteAsJsonAsync(response);
     }
 }
 
-public class ErrorResponse
-{
-    public string Message { get; set; } = string.Empty;
-    public DateTime Timestamp { get; set; }
-}
+public record DetailErrorResponse(string Message, DateTime Timestamp);

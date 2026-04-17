@@ -1,5 +1,18 @@
 namespace PersonalFinanceAPI.Application.Exceptions;
 
+
+public record MessageResponse(string Message);
+public record ErrorResponse(string Error);
+public record ValidationErrorResponse(Dictionary<string, string[]> Errors)
+{
+    public static ValidationErrorResponse Create(string error)
+    {
+        Dictionary<string, string[]> Errors = new Dictionary<string, string[]>();
+        Errors.Add("Error", [error]);
+		return new ValidationErrorResponse(Errors);
+	}
+}
+
 /// <summary>
 /// Base exception for application-level errors.
 /// </summary>
