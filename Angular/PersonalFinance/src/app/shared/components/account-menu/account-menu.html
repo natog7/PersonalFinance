@@ -1,8 +1,8 @@
 <div class="account-menu" [class.account-menu--open]="isOpen()">
     <div class="account-menu__header">
         <div class="account-menu__info">
-            <span class="account-menu__name">Name</span>
-            <span class="account-menu__email">name@email.com</span>
+            <span class="account-menu__name">{{ nickname }}</span>
+            <span class="account-menu__email">{{ email }}</span>
         </div>
     </div>
 
@@ -13,7 +13,7 @@
             <span class="material-symbols-outlined">settings</span>
             Configurações
         </button>
-        <button class="account-menu__item account-menu__item--danger" (click)="logout.emit()">
+        <button class="account-menu__item account-menu__item--danger" (click)="onLogout()">
             <span class="material-symbols-outlined">logout</span>
             Sair
         </button>

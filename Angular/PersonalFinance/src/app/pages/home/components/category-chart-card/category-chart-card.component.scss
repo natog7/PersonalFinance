@@ -55,9 +55,10 @@
   }
 
   &__donut-center {
-    position: relative;
+    position: absolute;
     z-index: 2;
     text-align: center;
+    pointer-events: none;
   }
 
   &__donut-sub {
