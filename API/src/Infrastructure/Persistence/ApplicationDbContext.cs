@@ -74,6 +74,9 @@ public class ApplicationDbContext : DbContext
 
         builder.HasKey(t => t.Id);
 
+        builder.Property(t => t.UserId)
+			.IsRequired();
+
         builder.Property(t => t.Title)
             .IsRequired()
             .HasMaxLength(256);
@@ -153,7 +156,10 @@ public class ApplicationDbContext : DbContext
 
         builder.HasKey(c => c.Id);
 
-        builder.Property(c => c.Name)
+		builder.Property(c => c.UserId)
+			.IsRequired();
+
+		builder.Property(c => c.Name)
             .IsRequired()
             .HasMaxLength(128);
 
