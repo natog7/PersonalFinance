@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
+import { ThemeService } from './shared/services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -12,4 +13,6 @@ import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
   `,
   styles: [':host { display: block; height: 100vh; }'],
 })
-export class App { }
+export class App {
+  private readonly themeService = inject(ThemeService);
+}
