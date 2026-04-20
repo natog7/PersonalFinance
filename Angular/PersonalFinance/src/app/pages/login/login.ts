@@ -1,37 +1,23 @@
-import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AuthService } from '../../shared/services/auth.service';
+import { Component, signal } from '@angular/core';
+import { LoginRegisterFormComponent } from './components/login-register-form/login-register-form';
+import { LoginCardComponent } from './components/login-card/login-card';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [LoginRegisterFormComponent, LoginCardComponent],
   templateUrl: './login.html',
   styleUrl: './login.scss'
 })
 export class LoginComponent {
-  private readonly fb = inject(FormBuilder);
-  private readonly authService = inject(AuthService);
+  showRegister = signal(false);
 
-  loginForm: FormGroup = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]]
-  });
-
-  passwordVisible = false;
-
-  togglePasswordVisibility(): void {
-    this.passwordVisible = !this.passwordVisible;
+  openRegister(): void {
+    this.showRegister.set(true);
   }
 
-  login(): void {
-    if (this.loginForm.valid) {
-      this.authService.login(this.loginForm.value).subscribe({
-        error: (err) => {
-          console.error('Login failed', err);
-          alert('E-mail ou senha incorretos.');
-        }
-      });
-    }
+  closeRegister(): void {
+    this.showRegister.set(false);
   }
 }
+
