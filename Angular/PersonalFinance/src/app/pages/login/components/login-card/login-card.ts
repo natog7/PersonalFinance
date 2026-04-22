@@ -1,11 +1,12 @@
 import { Component, inject, output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../../shared/services/auth.service';
+import { LoginField } from '../login-field/login-field';
 
 @Component({
   selector: 'app-login-card',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, LoginField],
   templateUrl: './login-card.html',
   styleUrl: './login-card.scss'
 })

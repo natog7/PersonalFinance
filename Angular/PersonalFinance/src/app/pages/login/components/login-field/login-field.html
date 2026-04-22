@@ -1,0 +1,28 @@
+<div class="field__group">
+    <div class="field__label-row">
+        @if(label()){
+        <label class="field__label"
+            [for]="fieldId()">{{ label() }}</label>
+        }
+        @if(labelLink()){
+        <a class="field__link"
+            href="#">{{ labelLink() }}</a>
+        }
+    </div>
+    <div class="field__input-wrapper">
+        @if(icon()){
+        <span class="material-symbols-outlined">{{ icon() }}</span>
+        }
+        <input class="field__input"
+            [id]="fieldId()"
+            [placeholder]="placeholder() || ''"
+            [type]="type()"
+            [formControlName]="fieldId()" />
+        @if(buttonIcon()){
+        <button type="button"
+            (click)="onButtonClick()">
+            <span class="material-symbols-outlined">{{ buttonIcon() }}</span>
+        </button>
+        }
+    </div>
+</div>
