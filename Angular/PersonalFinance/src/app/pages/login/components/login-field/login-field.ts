@@ -26,8 +26,13 @@ export class LoginField {
   buttonIcon = input<string>();
 
   buttonClick = output<void>();
+  labelLinkClick = output<void>();
 
   onButtonClick(): void {
     this.buttonClick.emit();
+  }
+
+  onLabelLinkClick(): void {
+    this.labelLinkClick.emit();
   }
 }

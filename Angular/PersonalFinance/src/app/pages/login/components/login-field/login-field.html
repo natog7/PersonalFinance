@@ -6,7 +6,8 @@
         }
         @if(labelLink()){
         <a class="field__link"
-            href="#">{{ labelLink() }}</a>
+            href="#"
+            (click)="onLabelLinkClick()">{{ labelLink() }}</a>
         }
     </div>
     <div class="field__input-wrapper">

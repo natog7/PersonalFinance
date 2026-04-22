@@ -1,9 +1,6 @@
 <div class="login-card">
-  <!-- Logo & Header -->
+  <!-- Header -->
   <div class="login-card__header">
-    <div class="login-card__logo">
-      <span class="material-symbols-outlined">account_balance</span>
-    </div>
     <h2 class="login-card__title">Bem-vindo</h2>
     <p class="login-card__subtitle">Acesse sua conta</p>
   </div>
@@ -22,16 +19,11 @@
       label="Senha"
       labelLink="Esqueceu a senha?"
       placeholder="••••••••"
-      [type]="passwordVisible ? 'text' : 'password'"
+      [type]="passwordType()"
       icon="lock"
-      [buttonIcon]="passwordVisible ? 'visibility_off' : 'visibility'"
-      (buttonClick)="togglePasswordVisibility()"></app-login-field>
-
-    <div class="login-form__remember">
-      <input id="remember"
-        type="checkbox" />
-      <label for="remember">Lembrar deste dispositivo por 30 dias</label>
-    </div>
+      [buttonIcon]="passwordIcon()"
+      (buttonClick)="togglePasswordVisibility()"
+      (labelLinkClick)="forgotPassword()"></app-login-field>
 
     <button class="login-form__submit"
       type="submit">

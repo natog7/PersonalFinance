@@ -1,4 +1,4 @@
-import { Component, inject, output } from '@angular/core';
+import { Component, signal, computed, inject, output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { LoginField } from '../login-field/login-field';
@@ -21,10 +21,16 @@ export class LoginCardComponent {
     password: ['', [Validators.required, Validators.minLength(6)]]
   });
 
-  passwordVisible = false;
+  private passwordVisible = signal(false);
+  passwordType = computed(() => this.passwordVisible() ? 'text' : 'password');
+  passwordIcon = computed(() => this.passwordVisible() ? 'visibility_off' : 'visibility');
 
   togglePasswordVisibility(): void {
-    this.passwordVisible = !this.passwordVisible;
+    this.passwordVisible.update(value => !value);
+  }
+
+  forgotPassword(): void {
+    console.log('Forgot password');
   }
 
   onOpenRegister(event: Event): void {

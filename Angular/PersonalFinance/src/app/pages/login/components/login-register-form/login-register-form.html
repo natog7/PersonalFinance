@@ -9,51 +9,39 @@
   </div>
 
   <!-- Form -->
-  <form class="register-form" [formGroup]="registerForm" (ngSubmit)="register()">
-    <div class="register-form__group">
-      <label class="register-form__label" for="reg-nickname">Nome / Apelido</label>
-      <div class="register-form__input-wrapper">
-        <span class="material-symbols-outlined">badge</span>
-        <input class="register-form__input" id="reg-nickname" placeholder="Seu nome ou apelido" type="text"
-          formControlName="nickname" />
-      </div>
-    </div>
+  <form class="register-form"
+    [formGroup]="registerForm"
+    (ngSubmit)="register()">
+    <app-login-field fieldId="nickname"
+      label="Nome / Apelido"
+      placeholder="Seu nome ou apelido"
+      type="text"
+      icon="badge"></app-login-field>
 
-    <div class="register-form__group">
-      <label class="register-form__label" for="reg-email">E-mail</label>
-      <div class="register-form__input-wrapper">
-        <span class="material-symbols-outlined">mail</span>
-        <input class="register-form__input" id="reg-email" placeholder="nome@exemplo.com.br" type="email"
-          formControlName="email" />
-      </div>
-    </div>
+    <app-login-field fieldId="email"
+      label="Email"
+      placeholder="nome@exemplo.com"
+      type="email"
+      icon="mail"></app-login-field>
 
-    <div class="register-form__group">
-      <label class="register-form__label" for="reg-password">Senha</label>
-      <div class="register-form__input-wrapper">
-        <span class="material-symbols-outlined">lock</span>
-        <input class="register-form__input register-form__input--password" id="reg-password" placeholder="••••••••"
-          [type]="passwordVisible ? 'text' : 'password'" formControlName="password" />
-        <button type="button" (click)="togglePasswordVisibility()">
-          <span class="material-symbols-outlined">{{ passwordVisible ? 'visibility_off' : 'visibility' }}</span>
-        </button>
-      </div>
-    </div>
+    <app-login-field fieldId="password"
+      label="Senha"
+      placeholder="••••••••"
+      [type]="password.type()"
+      icon="lock"
+      [buttonIcon]="password.icon()"
+      (buttonClick)="password.toggle()"></app-login-field>
 
-    <div class="register-form__group">
-      <label class="register-form__label" for="reg-confirm-password">Confirmar Senha</label>
-      <div class="register-form__input-wrapper">
-        <span class="material-symbols-outlined">lock_reset</span>
-        <input class="register-form__input register-form__input--password" id="reg-confirm-password"
-          placeholder="••••••••" [type]="confirmPasswordVisible ? 'text' : 'password'"
-          formControlName="confirmPassword" />
-        <button type="button" (click)="toggleConfirmPasswordVisibility()">
-          <span class="material-symbols-outlined">{{ confirmPasswordVisible ? 'visibility_off' : 'visibility' }}</span>
-        </button>
-      </div>
-    </div>
+    <app-login-field fieldId="confirmPassword"
+      label="Confirmar Senha"
+      placeholder="••••••••"
+      [type]="confirmPassword.type()"
+      icon="lock"
+      [buttonIcon]="confirmPassword.icon()"
+      (buttonClick)="confirmPassword.toggle()"></app-login-field>
 
-    <button class="register-form__submit" type="submit">
+    <button class="register-form__submit"
+      type="submit">
       <span>Criar Conta</span>
       <span class="material-symbols-outlined">arrow_forward</span>
     </button>
@@ -67,7 +55,8 @@
     </div>
     <p class="register-divider__login">
       Já possui uma conta?
-      <a href="#" (click)="goBack(); $event.preventDefault()">Fazer Login</a>
+      <a href="#"
+        (click)="goBack(); $event.preventDefault()">Fazer Login</a>
     </p>
   </div>
 </div>

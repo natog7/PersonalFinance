@@ -1,5 +1,6 @@
-import { Component, inject, output } from '@angular/core';
+import { Component, signal, computed, inject, output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl } from '@angular/forms';
+import { LoginField } from '../login-field/login-field';
 
 function passwordMatchValidator(control: AbstractControl): { [key: string]: boolean } | null {
   const password = control.get('password');
@@ -10,10 +11,20 @@ function passwordMatchValidator(control: AbstractControl): { [key: string]: bool
   return null;
 }
 
+function passwordVisibility() {
+  const visible = signal(false);
+  return {
+    visible,
+    type: computed(() => visible() ? 'text' : 'password'),
+    icon: computed(() => visible() ? 'visibility_off' : 'visibility'),
+    toggle: () => visible.update(v => !v)
+  };
+}
+
 @Component({
   selector: 'app-login-register-form',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, LoginField],
   templateUrl: './login-register-form.html',
   styleUrl: './login-register-form.scss'
 })
@@ -29,16 +40,8 @@ export class LoginRegisterFormComponent {
     confirmPassword: ['', Validators.required]
   }, { validators: passwordMatchValidator });
 
-  passwordVisible = false;
-  confirmPasswordVisible = false;
-
-  togglePasswordVisibility(): void {
-    this.passwordVisible = !this.passwordVisible;
-  }
-
-  toggleConfirmPasswordVisibility(): void {
-    this.confirmPasswordVisible = !this.confirmPasswordVisible;
-  }
+  password = passwordVisibility();
+  confirmPassword = passwordVisibility();
 
   register(): void {
     if (this.registerForm.valid) {
