@@ -46,6 +46,9 @@
   --color-on-error: #ffffff;
   --color-on-error-container: #93000a;
 
+  --color-good: #6ee7b7;
+  --color-bad: #fca5a5;
+
   // Neutral / Surface
   --color-background: #f9f9fa;
   --color-on-background: #1a1c1d;
@@ -437,11 +440,11 @@ ion-app {
     font-weight: 700;
 
     &--good {
-      color: #6ee7b7;
+      color: var(--color-good);
     }
 
     &--bad {
-      color: #fca5a5;
+      color: var(--color-bad);
     }
   }
 

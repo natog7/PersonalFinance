@@ -206,7 +206,7 @@
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   transition: transform 0.65s cubic-bezier(0.45, 0.05, 0.55, 0.95),
-              opacity 0.65s ease;
+    opacity 0.65s ease;
 
   &--front {
     transform: rotateY(0deg);
@@ -273,7 +273,11 @@
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background-color: var(--color-secondary);
+      background-color: var(--color-good);
+
+      &--off {
+        background-color: var(--color-bad);
+      }
     }
   }
 }

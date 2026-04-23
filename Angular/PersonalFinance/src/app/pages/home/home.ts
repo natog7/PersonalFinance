@@ -19,7 +19,6 @@ import { SidebarStateService } from '../../shared/services/sidebar-state.service
     HeaderComponent,
     BalanceCardComponent,
     ProjectionCardComponent,
-    CashFlowCardComponent,
     CategoryChartCardComponent,
     TransactionsCardComponent,
     ShortcutsComponent,

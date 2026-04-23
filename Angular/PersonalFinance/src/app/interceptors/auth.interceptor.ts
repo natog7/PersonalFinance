@@ -7,11 +7,11 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
   const token = localStorage.getItem('access_token');
 
-  // Do not add Authorization header to the login request
-  const isLoginRequest = req.url.includes('/api/auth/login');
+  // Do not add Authorization header to the login request and health check
+  const isAuthless = req.url.includes('/api/auth/login') || req.url.includes('/health');
 
   let processedReq = req;
-  if (token && !isLoginRequest) {
+  if (token && !isAuthless) {
     processedReq = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`
@@ -22,7 +22,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   return next(processedReq).pipe(
     catchError((error) => {
       // If unauthorized and it's not the login request itself
-      if (error.status === 401 && !isLoginRequest) {
+      if (error.status === 401 && !isAuthless) {
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
         localStorage.removeItem('user_nickname');
