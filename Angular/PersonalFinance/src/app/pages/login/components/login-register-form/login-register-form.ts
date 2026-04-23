@@ -1,6 +1,7 @@
 import { Component, signal, computed, inject, output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl } from '@angular/forms';
 import { LoginField } from '../login-field/login-field';
+import { AuthService } from '../../../../shared/services/auth.service';
 
 function passwordMatchValidator(control: AbstractControl): { [key: string]: boolean } | null {
   const password = control.get('password');
@@ -30,6 +31,7 @@ function passwordVisibility() {
 })
 export class LoginRegisterFormComponent {
   private readonly fb = inject(FormBuilder);
+  private readonly authService = inject(AuthService);
 
   backToLogin = output<void>();
 
@@ -45,7 +47,14 @@ export class LoginRegisterFormComponent {
 
   register(): void {
     if (this.registerForm.valid) {
-      console.log('Register:', this.registerForm.value);
+      const { email, password, nickname } = this.registerForm.value;
+      this.authService.register({ email, password, nickname }).subscribe({
+        next: () => this.goBack(),
+        error: (err) => {
+          console.error('Register failed', err);
+          alert('Erro ao criar conta. Tente novamente.');
+        }
+      });
     }
   }
 

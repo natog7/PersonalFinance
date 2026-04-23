@@ -15,16 +15,22 @@ interface AuthResponse {
   };
 }
 
+interface RegisterResponse {
+  userId: string;
+  email: string;
+  nickname: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
-  private readonly apiUrl = 'https://localhost:55784/api/auth/login';
+  private readonly apiUrl = 'https://localhost:55784/api/auth';
 
   isAuthenticated = signal<boolean>(!!localStorage.getItem('access_token'));
 
   login(credentials: { email: string; password: string }) {
-    return this.http.post<AuthResponse>(this.apiUrl, credentials).pipe(
+    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, credentials).pipe(
       tap((response) => {
         localStorage.setItem('access_token', response.token.accessToken);
         localStorage.setItem('refresh_token', response.token.refreshToken);
@@ -34,6 +40,10 @@ export class AuthService {
         this.router.navigate(['/home']);
       })
     );
+  }
+
+  register(credentials: { email: string; password: string; nickname: string }) {
+    return this.http.post<RegisterResponse>(`${this.apiUrl}/register`, credentials);
   }
 
   logout() {
