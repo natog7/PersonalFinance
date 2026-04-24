@@ -10,6 +10,7 @@ public record UpdateCategoryCommand
 	string? Name,
 	string? Description,
 	string? Color,
+	string? Icon,
 	Guid? ParentCategoryId,
 	bool? IsActive
 ) : IRequest<CategoryDto>, IEntityFields<Guid>, ICategoryFields;
@@ -29,6 +30,7 @@ public class UpdateCategoryCommandHandler : CommandHandler<UpdateCategoryCommand
 			request.Name,
 			request.Description,
 			request.Color,
+			request.Icon,
 			request.ParentCategoryId,
 			request.IsActive
 		);
@@ -42,6 +44,7 @@ public class UpdateCategoryCommandHandler : CommandHandler<UpdateCategoryCommand
 			Name = category.Name,
 			Description = category.Description,
 			Color = category.Color,
+			Icon = category.Icon,
 			ParentCategoryId = category.ParentCategoryId,
 			IsActive = category.IsActive
 		};

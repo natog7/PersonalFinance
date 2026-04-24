@@ -10,6 +10,7 @@ public class Category : UserEntity<Guid>, ICategoryFields
     public string Name { get; private set; } = string.Empty;
     public string? Description { get; private set; }
 	public string Color { get; private set; } = "#000000";
+	public string? Icon { get; private set; }
 	public Guid? ParentCategoryId { get; private set; }
     public bool IsActive { get; private set; }
     public DateTime CreatedAt { get; private set; }
@@ -25,7 +26,7 @@ public class Category : UserEntity<Guid>, ICategoryFields
     /// <summary>
     /// Creates a new category.
     /// </summary>
-    public static Category Create(Guid? userId, string name, string? description = null, string color = "#000000", Guid? parentCategoryId = null)
+    public static Category Create(Guid? userId, string name, string? description = null, string color = "#000000", string? icon = null, Guid? parentCategoryId = null)
     {
         if (string.IsNullOrWhiteSpace(name))
             throw new ArgumentException("Category name cannot be empty.", nameof(name));
@@ -37,6 +38,7 @@ public class Category : UserEntity<Guid>, ICategoryFields
 			Name = name.Trim(),
             Description = description?.Trim(),
 			Color = ValidateColor(color),
+			Icon = icon?.Trim(),
 			ParentCategoryId = parentCategoryId,
             IsActive = true,
             CreatedAt = DateTime.UtcNow
@@ -46,7 +48,7 @@ public class Category : UserEntity<Guid>, ICategoryFields
 	/// <summary>
 	/// Updates category.
 	/// </summary>
-	public void Update(string? name, string? description = null, string? color = "#000000", Guid? parentCategoryId = null, bool? isActive = true)
+	public void Update(string? name, string? description = null, string? color = "#000000", string? icon = null, Guid? parentCategoryId = null, bool? isActive = true)
 	{
 		if (string.IsNullOrWhiteSpace(name))
 			throw new ArgumentException("Category name cannot be empty.", nameof(name));
@@ -57,7 +59,9 @@ public class Category : UserEntity<Guid>, ICategoryFields
 			Description = description?.Trim();
 		if(!string.IsNullOrWhiteSpace(color))
 			Color = ValidateColor(color);
-		if(parentCategoryId.HasValue)
+		if (!string.IsNullOrWhiteSpace(icon))
+			Icon = icon?.Trim();
+		if (parentCategoryId.HasValue)
 			ParentCategoryId = parentCategoryId;
 		if(isActive.HasValue)
 			IsActive = isActive.Value;

@@ -166,7 +166,10 @@ public class ApplicationDbContext : DbContext
         builder.Property(c => c.Description)
             .HasMaxLength(512);
 
-        builder.Property(c => c.CreatedAt)
+		builder.Property(c => c.Icon)
+			.HasMaxLength(128);
+
+		builder.Property(c => c.CreatedAt)
             .IsRequired()
             .HasDefaultValueSql("CURRENT_TIMESTAMP");
 

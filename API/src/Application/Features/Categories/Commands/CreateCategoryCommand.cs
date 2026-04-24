@@ -10,6 +10,7 @@ public record CreateCategoryCommand
 	string Name = "",
 	string? Description = null,
 	string Color = "#000000",
+	string? Icon = null,
 	Guid? ParentCategoryId = null
 ) : IRequest<IdDto<Guid>>, ICategoryFields;
 
@@ -26,6 +27,7 @@ public class CreateCategoryCommandHandler : CommandHandler<CreateCategoryCommand
 			request.Name,
 			request.Description,
 			request.Color,
+			request.Icon,
 			request.ParentCategoryId
 		);
 
