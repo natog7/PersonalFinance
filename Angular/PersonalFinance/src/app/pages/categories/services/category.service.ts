@@ -14,7 +14,7 @@ export class CategoryService {
       name: 'Moradia',
       description: 'Aluguel, condomínio, luz e internet.',
       icon: 'home',
-      iconColor: '#1d4ed8', // blue-700
+      color: '#1d4ed8', // blue-700
       iconBg: '#dbeafe', // blue-100
       isActive: true,
     },
@@ -23,7 +23,7 @@ export class CategoryService {
       name: 'Alimentação',
       description: 'Supermercado, restaurantes e delivery.',
       icon: 'restaurant',
-      iconColor: '#15803d', // green-700
+      color: '#15803d', // green-700
       iconBg: '#dcfce3', // green-100
       isActive: true,
     },
@@ -32,7 +32,7 @@ export class CategoryService {
       name: 'Transporte',
       description: 'Combustível, IPVA e transporte público.',
       icon: 'directions_car',
-      iconColor: '#c2410c', // orange-700
+      color: '#c2410c', // orange-700
       iconBg: '#ffedd5', // orange-100
       isActive: true,
     },
@@ -41,7 +41,7 @@ export class CategoryService {
       name: 'Lazer',
       description: 'Viagens, cinema e hobbies.',
       icon: 'confirmation_number',
-      iconColor: '#7e22ce', // purple-700
+      color: '#7e22ce', // purple-700
       iconBg: '#f3e8ff', // purple-100
       isActive: false,
     },

@@ -1,21 +1,28 @@
-<div class="cat-form-drawer" [class.cat-form-drawer--open]="isOpen">
+<div class="cat-form-drawer"
+    [class.cat-form-drawer--open]="isOpen">
     <div class="cat-form-drawer__inner">
         <div class="cat-form-card">
             <h3 class="cat-form-card__title">{{ editingId ? 'Editar Categoria' : 'Nova Categoria' }}</h3>
             <p class="cat-form-card__subtitle">Adicione novas ou edite existentes.</p>
 
-            <form [formGroup]="categoryForm" (ngSubmit)="onSave()" class="cat-form">
+            <form [formGroup]="categoryForm"
+                (ngSubmit)="onSave()"
+                class="cat-form">
                 <div class="cat-form__row">
                     <div class="cat-form__column">
                         <div class="cat-form__field">
                             <label class="cat-form__label">Nome da Categoria</label>
-                            <input type="text" formControlName="name" class="cat-form__input"
+                            <input type="text"
+                                formControlName="name"
+                                class="cat-form__input"
                                 placeholder="Ex: Investimentos" />
                         </div>
 
                         <div class="cat-form__field">
                             <label class="cat-form__label">Descrição</label>
-                            <textarea formControlName="description" class="cat-form__textarea" rows="3"
+                            <textarea formControlName="description"
+                                class="cat-form__textarea"
+                                rows="3"
                                 placeholder="Para que serve esta categoria?"></textarea>
                         </div>
                     </div>
@@ -25,8 +32,10 @@
                             <div class="cat-form__field">
                                 <label class="cat-form__label">Cor</label>
                                 <div class="cat-color-picker">
-                                    <input type="color" formControlName="iconColor" class="cat-color-picker__input" />
-                                    <span class="cat-color-picker__value">{{ categoryForm.get('iconColor')?.value
+                                    <input type="color"
+                                        formControlName="color"
+                                        class="cat-color-picker__input" />
+                                    <span class="cat-color-picker__value">{{ categoryForm.get('color')?.value
                                         }}</span>
                                 </div>
                             </div>
@@ -35,7 +44,8 @@
                                 <label class="cat-form__label">Ativo</label>
                                 <div class="cat-form__toggle-row">
                                     <label class="cat-toggle">
-                                        <input type="checkbox" formControlName="isActive"
+                                        <input type="checkbox"
+                                            formControlName="isActive"
                                             class="cat-toggle__input sr-only" />
                                         <div class="cat-toggle__track"></div>
                                     </label>
@@ -47,9 +57,11 @@
                             <label class="cat-form__label">Ícone</label>
                             <div class="cat-icon-grid">
                                 @for (icon of iconOptions; track icon) {
-                                <button type="button" class="cat-icon-btn"
+                                <button type="button"
+                                    class="cat-icon-btn"
                                     [ngClass]="{'cat-icon-btn--selected': categoryForm.get('icon')?.value === icon}"
-                                    (click)="onIconClick(icon)" [attr.aria-label]="icon">
+                                    (click)="onIconClick(icon)"
+                                    [attr.aria-label]="icon">
                                     <span class="material-symbols-outlined">{{ icon }}</span>
                                 </button>
                                 }
@@ -59,10 +71,14 @@
                 </div>
 
                 <div class="cat-form__actions">
-                    <button type="button" class="cat-form__btn cat-form__btn--cancel" (click)="onCancel()">
+                    <button type="button"
+                        class="cat-form__btn cat-form__btn--cancel"
+                        (click)="onCancel()">
                         Cancelar
                     </button>
-                    <button type="submit" class="cat-form__btn cat-form__btn--save" [disabled]="categoryForm.invalid">
+                    <button type="submit"
+                        class="cat-form__btn cat-form__btn--save"
+                        [disabled]="categoryForm.invalid">
                         Salvar Alterações
                     </button>
                 </div>

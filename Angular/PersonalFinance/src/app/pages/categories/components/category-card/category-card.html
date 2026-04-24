@@ -1,5 +1,8 @@
-<div class="cat-card" [ngClass]="{'cat-card--inactive': !category.isActive}">
-    <div class="cat-card__icon-wrap" [style.background-color]="category.iconBg" [style.color]="category.iconColor">
+<div class="cat-card"
+    [ngClass]="{'cat-card--inactive': !category.isActive}">
+    <div class="cat-card__icon-wrap"
+        [style.background-color]="category.iconBg"
+        [style.color]="category.color">
         <span class="material-symbols-outlined">{{ category.icon }}</span>
     </div>
 
@@ -15,12 +18,19 @@
     </div>
 
     <div class="cat-card__actions">
-        <div class="cat-card__color-dot" [style.background-color]="category.iconColor"></div>
+        <div class="cat-card__color-dot"
+            [style.background-color]="category.color"></div>
         <div class="cat-card__btn-group">
-            <button type="button" class="cat-card__btn cat-card__btn--edit" (click)="onEdit()" aria-label="Editar">
+            <button type="button"
+                class="cat-card__btn cat-card__btn--edit"
+                (click)="onEdit()"
+                aria-label="Editar">
                 <span class="material-symbols-outlined">edit</span>
             </button>
-            <button type="button" class="cat-card__btn cat-card__btn--delete" (click)="onDelete()" aria-label="Excluir">
+            <button type="button"
+                class="cat-card__btn cat-card__btn--delete"
+                (click)="onDelete()"
+                aria-label="Excluir">
                 <span class="material-symbols-outlined">delete</span>
             </button>
         </div>

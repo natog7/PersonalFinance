@@ -59,7 +59,7 @@ export class CategoriesComponent implements OnInit {
       name: ['', Validators.required],
       description: [''],
       icon: ['home', Validators.required],
-      iconColor: ['#2563eb', Validators.required],
+      color: ['#2563eb', Validators.required],
       isActive: [true],
     });
   }
@@ -88,7 +88,7 @@ export class CategoriesComponent implements OnInit {
       name: category.name,
       description: category.description,
       icon: category.icon,
-      iconColor: category.iconColor,
+      color: category.color,
       isActive: category.isActive,
     });
     this.isFormVisible.set(true);
@@ -118,7 +118,7 @@ export class CategoriesComponent implements OnInit {
       } : null;
     };
 
-    const rgb = hexToRgb(formValue.iconColor);
+    const rgb = hexToRgb(formValue.color);
     const iconBg = rgb ? `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.15)` : 'rgba(0,0,0,0.05)';
 
     const categoryData: Omit<Category, 'id'> = {
@@ -126,7 +126,7 @@ export class CategoriesComponent implements OnInit {
       description: formValue.description,
       isActive: formValue.isActive,
       icon: formValue.icon,
-      iconColor: formValue.iconColor,
+      color: formValue.color,
       iconBg: iconBg,
     };
 
@@ -145,7 +145,7 @@ export class CategoriesComponent implements OnInit {
       name: '',
       description: '',
       icon: 'home',
-      iconColor: '#2563eb',
+      color: '#2563eb',
       isActive: true,
     });
     this.isFormVisible.set(false);

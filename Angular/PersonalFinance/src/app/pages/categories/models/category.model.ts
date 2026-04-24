@@ -2,8 +2,8 @@ export interface Category {
   id: string;
   name: string;
   description: string;
+  color: string;
   icon: string;
-  iconColor: string;
   iconBg: string;
   isActive: boolean;
 }
