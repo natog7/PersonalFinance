@@ -16,13 +16,15 @@
       label="Nome / Apelido"
       placeholder="Seu nome ou apelido"
       type="text"
-      icon="badge"></app-login-field>
+      icon="badge"
+      [error]="getErrorMessage('nickname')"></app-login-field>
 
     <app-login-field fieldId="email"
       label="Email"
       placeholder="nome@exemplo.com"
       type="email"
-      icon="mail"></app-login-field>
+      icon="mail"
+      [error]="getErrorMessage('email')"></app-login-field>
 
     <app-login-field fieldId="password"
       label="Senha"
@@ -30,7 +32,8 @@
       [type]="password.type()"
       icon="lock"
       [buttonIcon]="password.icon()"
-      (buttonClick)="password.toggle()"></app-login-field>
+      (buttonClick)="password.toggle()"
+      [error]="getErrorMessage('password')"></app-login-field>
 
     <app-login-field fieldId="confirmPassword"
       label="Confirmar Senha"
@@ -38,7 +41,8 @@
       [type]="confirmPassword.type()"
       icon="lock"
       [buttonIcon]="confirmPassword.icon()"
-      (buttonClick)="confirmPassword.toggle()"></app-login-field>
+      (buttonClick)="confirmPassword.toggle()"
+      [error]="getErrorMessage('confirmPassword')"></app-login-field>
 
     <button class="register-form__submit"
       type="submit">

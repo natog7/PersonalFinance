@@ -113,4 +113,22 @@
         background-color: var(--color-surface-container-lowest);
         border-color: var(--color-primary);
     }
+
+    &--error {
+        border-color: var(--color-error);
+        background-color: rgba(186, 26, 26, 0.05);
+
+        &:focus {
+            box-shadow: 0 0 0 2px rgba(186, 26, 26, 0.2);
+            border-color: var(--color-error);
+        }
+    }
+}
+
+.field__error-text {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color-error);
+    margin-left: 16px;
+    margin-top: -2px;
 }

@@ -8,7 +8,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const token = localStorage.getItem('access_token');
 
   // Do not add Authorization header to the login request and health check
-  const isAuthless = req.url.includes('/api/auth/login') || req.url.includes('/health');
+  const isAuthless = req.url.includes('/api/auth/login') || req.url.includes('/api/auth/register') || req.url.includes('/health');
 
   let processedReq = req;
   if (token && !isAuthless) {

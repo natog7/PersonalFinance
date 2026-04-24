@@ -16,7 +16,7 @@ public static class AuthEndpoints
 
         group.MapPost("/register", Register)
             .WithName("Register")
-			.RequireAuthorization()
+			.AllowAnonymous()
 			.Produces<RegisterResponse>(StatusCodes.Status201Created)
             .Produces<ValidationErrorResponse>(StatusCodes.Status400BadRequest)
             .Produces<ErrorResponse>(StatusCodes.Status409Conflict);

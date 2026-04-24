@@ -24,6 +24,7 @@ export class LoginField {
   type = input.required<string>();
   icon = input<string>();
   buttonIcon = input<string>();
+  error = input<string>();
 
   buttonClick = output<void>();
   labelLinkClick = output<void>();

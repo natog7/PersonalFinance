@@ -23,6 +23,14 @@ public static class ValidationExtensions
 			.Length(length).WithMessage(string.Format("{PropertyName} must be {0} characters.", length));
 	}
 
+	public static IRuleBuilderOptions<T, string?> NotEmptyMinMaxLength<T>(this IRuleBuilder<T, string?> ruleBuilder, int minLength, int maxLength)
+	{
+		return ruleBuilder
+			.NotEmptyOrNull()
+			.Length(minLength).WithMessage(string.Format("{PropertyName} must be {0} characters.", minLength))
+			.MaximumLength(maxLength).WithMessage(string.Format("{PropertyName} cannot exceed {0} characters.", maxLength));
+	}
+
 	public static IRuleBuilderOptions<T, string?> IsHexColor<T>(this IRuleBuilder<T, string?> ruleBuilder)
 	{
 		return ruleBuilder

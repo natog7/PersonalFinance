@@ -15,6 +15,7 @@
         <span class="material-symbols-outlined">{{ icon() }}</span>
         }
         <input class="field__input"
+            [class.field__input--error]="!!error()"
             [id]="fieldId()"
             [placeholder]="placeholder() || ''"
             [type]="type()"
@@ -26,4 +27,7 @@
         </button>
         }
     </div>
+    @if(error()){
+        <span class="field__error-text">{{ error() }}</span>
+    }
 </div>

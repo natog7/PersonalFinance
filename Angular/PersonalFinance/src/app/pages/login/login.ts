@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   showRegister = signal(false);
   isOnline = computed(() => this.generalService.isOnline());
   textOnline = computed(() => this.isOnline() ? 'Online' : 'Offline');
+  email = signal('');
 
   constructor() {
     this.checkOnline();
@@ -34,6 +35,11 @@ export class LoginComponent implements OnInit {
 
   closeRegister(): void {
     this.showRegister.set(false);
+  }
+
+  registerCompleted(email: string): void {
+    this.email.set(email);
+    this.closeRegister();
   }
 }
 
