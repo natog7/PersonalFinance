@@ -38,9 +38,11 @@ export class CategoriesComponent implements OnInit {
     if (!query) {
       return this.allCategories();
     }
-    return this.allCategories().filter((cat) =>
-      cat.name.toLowerCase().includes(query) || cat.description.toLowerCase().includes(query)
-    );
+    return this.allCategories().filter((cat) => {
+      const matchName = cat.name?.toLowerCase().includes(query) || false;
+      const matchDesc = (cat.description || '').toLowerCase().includes(query);
+      return matchName || matchDesc;
+    });
   });
 
   categoryForm: FormGroup;

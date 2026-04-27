@@ -26,6 +26,7 @@ public class GetCategoriesQueryHandler : CommandHandler<GetCategoriesQuery, List
 				Name = x.Name,
 				Description = x.Description,
 				Color = x.Color,
+				Icon = x.Icon,
 				ParentCategoryId = x.ParentCategoryId,
 				IsActive = x.IsActive
 			}).ToList()

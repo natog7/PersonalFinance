@@ -20,6 +20,7 @@ public class GetCategoryQueryHandler : CommandHandler<GetByIdQuery<CategoryDto?>
 			Name = category.Name,
 			Description = category.Description,
 			Color = category.Color,
+			Icon = category.Icon,
 			ParentCategoryId = category.ParentCategoryId,
 			IsActive = category.IsActive
 		};

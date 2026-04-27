@@ -8,57 +8,73 @@ export class CategoryService {
   private readonly apiUrl = 'https://localhost:55784/api/categories';
 
   // Using signals for reactive state, simulating a database/API.
-  private readonly _categories = signal<Category[]>([
-    {
-      id: '1',
-      name: 'Moradia',
-      description: 'Aluguel, condomínio, luz e internet.',
-      icon: 'home',
-      color: '#1d4ed8', // blue-700
-      iconBg: '#dbeafe', // blue-100
-      isActive: true,
-    },
-    {
-      id: '2',
-      name: 'Alimentação',
-      description: 'Supermercado, restaurantes e delivery.',
-      icon: 'restaurant',
-      color: '#15803d', // green-700
-      iconBg: '#dcfce3', // green-100
-      isActive: true,
-    },
-    {
-      id: '3',
-      name: 'Transporte',
-      description: 'Combustível, IPVA e transporte público.',
-      icon: 'directions_car',
-      color: '#c2410c', // orange-700
-      iconBg: '#ffedd5', // orange-100
-      isActive: true,
-    },
-    {
-      id: '4',
-      name: 'Lazer',
-      description: 'Viagens, cinema e hobbies.',
-      icon: 'confirmation_number',
-      color: '#7e22ce', // purple-700
-      iconBg: '#f3e8ff', // purple-100
-      isActive: false,
-    },
-  ]);
+  // private readonly _categories = signal<Category[]>([
+  //   {
+  //     id: '1',
+  //     name: 'Moradia',
+  //     description: 'Aluguel, condomínio, luz e internet.',
+  //     icon: 'home',
+  //     color: '#1d4ed8', // blue-700
+  //     iconBg: '#dbeafe', // blue-100
+  //     isActive: true,
+  //   },
+  //   {
+  //     id: '2',
+  //     name: 'Alimentação',
+  //     description: 'Supermercado, restaurantes e delivery.',
+  //     icon: 'restaurant',
+  //     color: '#15803d', // green-700
+  //     iconBg: '#dcfce3', // green-100
+  //     isActive: true,
+  //   },
+  //   {
+  //     id: '3',
+  //     name: 'Transporte',
+  //     description: 'Combustível, IPVA e transporte público.',
+  //     icon: 'directions_car',
+  //     color: '#c2410c', // orange-700
+  //     iconBg: '#ffedd5', // orange-100
+  //     isActive: true,
+  //   },
+  //   {
+  //     id: '4',
+  //     name: 'Lazer',
+  //     description: 'Viagens, cinema e hobbies.',
+  //     icon: 'confirmation_number',
+  //     color: '#7e22ce', // purple-700
+  //     iconBg: '#f3e8ff', // purple-100
+  //     isActive: false,
+  //   },
+  // ]);
 
-  readonly categories = this._categories.asReadonly();
-  public totalCategories = computed(() => this._categories().length);
+  // readonly categories = this._categories.asReadonly();
+  readonly categories = signal<Category[]>([]);
+  public totalCategories = computed(() => this.categories().length);
 
   fetch() {
-    this.http.get<Category[]>(this.apiUrl).subscribe({
-      next: (data) => this._categories.set(data),
+    const filterPayload = {
+      name: null,
+      description: null,
+      parentCategoryId: null,
+      isActive: null
+    };
+
+    this.http.post<{ items: Category[] }>(`${this.apiUrl}/filter`, filterPayload).subscribe({
+      next: (response) => {
+        const mappedItems = response.items.map(item => ({
+          ...item,
+          description: item.description ?? '',
+          icon: item.icon ?? 'category',
+          iconBg: item.color ? `${item.color}33` : '#e2e8f0'
+        }));
+        this.categories.set(mappedItems);
+      },
       error: (err) => console.error('Erro ao buscar.', err)
     });
   }
 
   getAll(): Category[] {
-    return this._categories();
+    return this.categories();
   }
 
   create(category: Omit<Category, 'id'>): void {
@@ -70,7 +86,7 @@ export class CategoryService {
 
     this.http.post<Category>(this.apiUrl, category).subscribe({
       next: (newCategory) => {
-        this._categories.update((list) => [...list, newCategory]);
+        this.categories.update((list) => [...list, newCategory]);
       },
       error: (err) => console.error('Erro ao criar.', err)
     });
@@ -83,7 +99,7 @@ export class CategoryService {
 
     this.http.put<Category>(`${this.apiUrl}/${updatedCategory.id}`, updatedCategory).subscribe({
       next: (resp) => {
-        this._categories.update((list) =>
+        this.categories.update((list) =>
           list.map((c) => (c.id === resp.id ? resp : c))
         );
       },
@@ -92,12 +108,12 @@ export class CategoryService {
   }
 
   delete(id: string): void {
-    const current = this._categories();
-    this._categories.set(current.filter((c) => c.id !== id));
+    const current = this.categories();
+    this.categories.set(current.filter((c) => c.id !== id));
 
     this.http.delete(`${this.apiUrl}/${id}`).subscribe({
       error: () => {
-        this._categories.set(current);
+        this.categories.set(current);
         alert('Erro ao apagar.');
       }
     });
