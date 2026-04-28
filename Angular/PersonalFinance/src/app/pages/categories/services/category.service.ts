@@ -78,17 +78,26 @@ export class CategoryService {
   }
 
   create(category: Omit<Category, 'id'>): void {
-    // const newCategory: Category = {
-    //   ...category,
-    //   id: Math.random().toString(36).substring(2, 9),
-    // };
-    // this._categories.update((list) => [...list, newCategory]);
+    const tempId = Math.random().toString(36).substring(2, 9);
+    const optimisticCategory: Category = { ...category, id: tempId };
+    
+    this.categories.update((list) => [...list, optimisticCategory]);
 
     this.http.post<Category>(this.apiUrl, category).subscribe({
       next: (newCategory) => {
-        this.categories.update((list) => [...list, newCategory]);
+        const mappedCategory = {
+          ...optimisticCategory,
+          ...newCategory,
+          description: newCategory.description ?? optimisticCategory.description,
+          icon: newCategory.icon ?? optimisticCategory.icon,
+          iconBg: newCategory.color ? `${newCategory.color}33` : optimisticCategory.iconBg
+        };
+        this.categories.update((list) => list.map((c) => (c.id === tempId ? mappedCategory : c)));
       },
-      error: (err) => console.error('Erro ao criar.', err)
+      error: (err) => {
+        this.categories.update((list) => list.filter((c) => c.id !== tempId));
+        console.error('Erro ao criar.', err);
+      }
     });
   }
 
