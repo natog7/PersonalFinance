@@ -2,6 +2,8 @@ import { Component, signal, computed, inject, output, input, effect } from '@ang
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { LoginField } from '../login-field/login-field';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ToastService } from '../../../../shared/services/toast.service';
 
 @Component({
   selector: 'app-login-card',
@@ -13,6 +15,7 @@ import { LoginField } from '../login-field/login-field';
 export class LoginCardComponent {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
+  private readonly toastService = inject(ToastService);
 
   email = input<string>();
 
@@ -52,9 +55,8 @@ export class LoginCardComponent {
   login(): void {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe({
-        error: (err) => {
-          console.error('Login failed', err);
-          alert('E-mail ou senha incorretos.');
+        error: (err: HttpErrorResponse) => {
+          this.toastService.httpError(err.status, 'E-mail ou senha incorretos.');
         }
       });
     }

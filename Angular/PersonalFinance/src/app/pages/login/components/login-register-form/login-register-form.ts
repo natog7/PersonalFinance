@@ -2,6 +2,8 @@ import { Component, signal, computed, inject, output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl } from '@angular/forms';
 import { LoginField } from '../login-field/login-field';
 import { AuthService } from '../../../../shared/services/auth.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ToastService } from '../../../../shared/services/toast.service';
 
 function passwordMatchValidator(control: AbstractControl): { [key: string]: boolean } | null {
   const password = control.get('password');
@@ -32,6 +34,7 @@ function passwordVisibility() {
 export class LoginRegisterFormComponent {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
+  private readonly toastService = inject(ToastService);
 
   backToLogin = output<void>();
   registerCompleted = output<string>();
@@ -77,9 +80,8 @@ export class LoginRegisterFormComponent {
       const { email, password, nickname } = this.registerForm.value;
       this.authService.register({ email, password, nickname }).subscribe({
         next: () => this.registerCompleted.emit(email),
-        error: (err) => {
-          console.error('Register failed', err);
-          alert('Erro ao criar conta. Tente novamente.');
+        error: (err: HttpErrorResponse) => {
+          this.toastService.httpError(err.status, 'Erro ao criar conta.');
         }
       });
     } else {

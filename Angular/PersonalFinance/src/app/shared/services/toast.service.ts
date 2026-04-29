@@ -32,6 +32,33 @@ export class ToastService {
     this.show(message, 'error', duration);
   }
 
+  httpError(statusCode: number, message: string, duration?: number) {
+    switch (statusCode) {
+      case 0:
+        message = "Erro de conexão. O servidor pode estar offline.";
+        break;
+      case 400:
+        message = "Dados inválidos. Verifique os campos e tente novamente.";
+        break;
+      case 401:
+        message = "Sessão expirada. Faça login novamente.";
+        break;
+      case 403:
+        message = "Você não tem permissão para realizar esta ação.";
+        break;
+      case 404:
+        message = "Não encontrado. Verifique e tente novamente.";
+        break;
+      case 500:
+        message = "Erro interno. Tente novamente mais tarde.";
+        break;
+      default:
+        message = message ?? "Ocorreu um erro. Tente novamente mais tarde.";
+        break;
+    }
+    this.show(message, 'error', duration);
+  }
+
   info(message: string, duration?: number) {
     this.show(message, 'info', duration);
   }

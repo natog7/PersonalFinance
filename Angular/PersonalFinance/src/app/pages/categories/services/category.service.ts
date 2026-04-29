@@ -1,10 +1,12 @@
 import { Injectable, signal, inject, computed } from '@angular/core';
 import { Category } from '../models/category.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { ToastService } from '../../../shared/services/toast.service';
 
 @Injectable({ providedIn: 'root' })
 export class CategoryService {
   private http = inject(HttpClient);
+  private toastService = inject(ToastService);
   private readonly apiUrl = 'https://localhost:55784/api/categories';
 
   // Using signals for reactive state, simulating a database/API.
@@ -69,7 +71,10 @@ export class CategoryService {
         }));
         this.categories.set(mappedItems);
       },
-      error: (err) => console.error('Erro ao buscar.', err)
+      error: (err: HttpErrorResponse) => {
+        console.error('Erro ao buscar.', err);
+        this.toastService.httpError(err.status, 'Erro ao buscar categorias.');
+      }
     });
   }
 
@@ -80,7 +85,7 @@ export class CategoryService {
   create(category: Omit<Category, 'id'>): void {
     const tempId = Math.random().toString(36).substring(2, 9);
     const optimisticCategory: Category = { ...category, id: tempId };
-    
+
     this.categories.update((list) => [...list, optimisticCategory]);
 
     this.http.post<Category>(this.apiUrl, category).subscribe({
@@ -93,10 +98,12 @@ export class CategoryService {
           iconBg: newCategory.color ? `${newCategory.color}33` : optimisticCategory.iconBg
         };
         this.categories.update((list) => list.map((c) => (c.id === tempId ? mappedCategory : c)));
+        this.toastService.success('Categoria criada com sucesso!');
       },
-      error: (err) => {
+      error: (err: HttpErrorResponse) => {
         this.categories.update((list) => list.filter((c) => c.id !== tempId));
         console.error('Erro ao criar.', err);
+        this.toastService.httpError(err.status, 'Erro ao criar categoria.');
       }
     });
   }
@@ -111,8 +118,12 @@ export class CategoryService {
         this.categories.update((list) =>
           list.map((c) => (c.id === resp.id ? resp : c))
         );
+        this.toastService.success('Categoria atualizada com sucesso!');
       },
-      error: (err) => console.error('Erro ao atualizar.', err)
+      error: (err: HttpErrorResponse) => {
+        console.error('Erro ao atualizar.', err);
+        this.toastService.httpError(err.status, 'Erro ao atualizar categoria.');
+      }
     });
   }
 
@@ -121,9 +132,12 @@ export class CategoryService {
     this.categories.set(current.filter((c) => c.id !== id));
 
     this.http.delete(`${this.apiUrl}/${id}`).subscribe({
-      error: () => {
+      next: () => {
+        this.toastService.success('Categoria excluída com sucesso!');
+      },
+      error: (err: HttpErrorResponse) => {
         this.categories.set(current);
-        alert('Erro ao apagar.');
+        this.toastService.httpError(err.status, 'Erro ao excluir categoria.');
       }
     });
   }
