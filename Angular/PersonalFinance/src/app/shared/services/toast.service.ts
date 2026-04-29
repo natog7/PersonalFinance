@@ -6,21 +6,24 @@ export interface Toast {
   id: number;
   message: string;
   type: ToastType;
+  isClosing?: boolean;
 }
 
 @Injectable({ providedIn: 'root' })
 export class ToastService {
   private toastIdCounter = 0;
+  private timeouts = new Map<number, any>();
   readonly toasts = signal<Toast[]>([]);
 
-  show(message: string, type: ToastType = 'info', duration: number = 3000) {
+  show(message: string, type: ToastType = 'info', duration: number = 4000) {
     const id = this.toastIdCounter++;
     const newToast: Toast = { id, message, type };
 
     this.toasts.update(current => [...current, newToast]);
 
     if (duration > 0) {
-      setTimeout(() => this.remove(id), duration);
+      const timeoutId = setTimeout(() => this.remove(id), duration);
+      this.timeouts.set(id, timeoutId);
     }
   }
 
@@ -68,6 +71,19 @@ export class ToastService {
   }
 
   remove(id: number) {
-    this.toasts.update(current => current.filter(t => t.id !== id));
+    if (this.timeouts.has(id)) {
+      clearTimeout(this.timeouts.get(id));
+      this.timeouts.delete(id);
+    }
+
+    const toast = this.toasts().find(t => t.id === id);
+    if (toast && !toast.isClosing) {
+      this.toasts.update(current => 
+        current.map(t => t.id === id ? { ...t, isClosing: true } : t)
+      );
+      setTimeout(() => {
+        this.toasts.update(current => current.filter(t => t.id !== id));
+      }, 300); // 300ms matches the fadeOut animation duration
+    }
   }
 }

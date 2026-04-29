@@ -75,6 +75,10 @@
     border-left: 4px solid var(--color-warning, #f59e0b);
     .toast__icon { color: var(--color-warning, #f59e0b); }
   }
+
+  &--closing {
+    animation: fadeOut 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
 }
 
 @keyframes slideIn {
@@ -85,6 +89,17 @@
   to {
     transform: translateX(0);
     opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
   }
 }
 
