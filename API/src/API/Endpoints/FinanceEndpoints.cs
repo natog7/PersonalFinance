@@ -16,6 +16,13 @@ public static class FinanceEndpoints
 			.Produces(StatusCodes.Status200OK)
 			.Produces(StatusCodes.Status400BadRequest)
 			.Produces(StatusCodes.Status401Unauthorized);
+
+		group.MapPost("/transactions-by-category/", GetTransactionsByCategory)
+			.WithName("Get Transactions By Category")
+			.RequireAuthorization()
+			.Produces(StatusCodes.Status200OK)
+			.Produces(StatusCodes.Status400BadRequest)
+			.Produces(StatusCodes.Status401Unauthorized);
 	}
 
 	private static async Task<IResult> GetBalanceProjection(
@@ -28,6 +35,24 @@ public static class FinanceEndpoints
 		{
 			var userId = Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? Guid.Empty.ToString());
 
+			var result = await mediator.Send(query, ct);
+			return Results.Ok(result);
+		}
+		catch (Exception ex)
+		{
+			return Results.BadRequest(new { error = ex.Message });
+		}
+	}
+	
+	private static async Task<IResult> GetTransactionsByCategory(
+		GetTransactionsByCategoryQuery query,
+		ClaimsPrincipal user,
+		IMediator mediator,
+		CancellationToken ct)
+	{
+		try
+		{
+			var userId = Guid.Parse(user.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? Guid.Empty.ToString());
 			var result = await mediator.Send(query, ct);
 			return Results.Ok(result);
 		}

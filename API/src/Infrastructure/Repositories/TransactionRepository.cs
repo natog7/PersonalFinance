@@ -1,6 +1,8 @@
+using PersonalFinanceAPI.Application.Features.Finance;
 using PersonalFinanceAPI.Application.Features.Transactions.Queries;
 using PersonalFinanceAPI.Application.Repositories;
 using PersonalFinanceAPI.Domain.Enums;
+using PersonalFinanceAPI.Domain.ValueObjects;
 using PersonalFinanceAPI.Infrastructure.Persistence;
 using System.Linq.Expressions;
 
@@ -103,6 +105,46 @@ public class TransactionRepository : BaseRepository, ITransactionRepository
 				x => (x.Year, x.Month, x.Currency, x.Type),
 				x => x.Total,
 				ct);
+	}
+
+	public async Task<List<CategoryTransactionSumDto>> GetTransactionsByCategoryAsync(
+	DateOnlyPeriod date,
+	TransactionType? type,
+	List<Guid>? categoryIds,
+	Guid? userId,
+	CancellationToken ct)
+	{
+		var query = _dbContext.Transactions
+			.AsNoTracking()
+			.Where(t => t.UserId == userId);
+
+		query = query.Where(t => t.Date >= date.Start && t.Date <= (date.End ?? date.Start));
+
+		if (type.HasValue)
+		{
+			query = query.Where(t => t.Type == type.Value);
+		}
+
+		if (categoryIds is { Count: > 0 })
+		{
+			query = query.Where(t => categoryIds.Contains(t.CategoryId));
+		}
+
+		return await query
+			.GroupBy(t => new
+			{
+				t.CategoryId,
+				CategoryName = t.Category.Name,
+				t.Amount.Currency
+			})
+			.Select(g => new CategoryTransactionSumDto
+			{
+				CategoryId = g.Key.CategoryId,
+				CategoryName = g.Key.CategoryName,
+				Currency = g.Key.Currency,
+				TotalAmount = g.Sum(t => t.Amount.Amount)
+			})
+			.ToListAsync(ct);
 	}
 
 	public async Task<int> GetCountAsync(CancellationToken ct = default)
