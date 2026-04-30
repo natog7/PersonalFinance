@@ -114,6 +114,7 @@ app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 app.MapAuthEndpoints();
 app.MapTransactionEndpoints();
 app.MapCategoryEndpoints();
+app.MapFinanceEndpoints();
 
 app.MapGet("/health", () => Results.Ok(new { status = "healthy" }))
     .WithName("Health Check")
