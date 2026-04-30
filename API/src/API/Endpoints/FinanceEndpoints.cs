@@ -1,4 +1,6 @@
-﻿using PersonalFinanceAPI.Application.Features.Finance;
+﻿using PersonalFinanceAPI.Application.Exceptions;
+using PersonalFinanceAPI.Application.Features.Categories;
+using PersonalFinanceAPI.Application.Features.Finance;
 
 namespace PersonalFinanceAPI.API.Endpoints;
 
@@ -13,23 +15,23 @@ public static class FinanceEndpoints
 		group.MapPost("/balance-projection/", GetBalanceProjection)
 			.WithName("Get Balance Projection")
 			.RequireAuthorization()
-			.Produces(StatusCodes.Status200OK)
-			.Produces(StatusCodes.Status400BadRequest)
-			.Produces(StatusCodes.Status401Unauthorized);
+			.Produces<ListResult<MonthlyProjection>>(StatusCodes.Status200OK)
+			.Produces<ErrorResponse>(StatusCodes.Status400BadRequest)
+			.Produces<ErrorResponse>(StatusCodes.Status401Unauthorized);
 
 		group.MapPost("/transactions-by-category/", GetTransactionsByCategory)
 			.WithName("Get Transactions By Category")
 			.RequireAuthorization()
-			.Produces(StatusCodes.Status200OK)
-			.Produces(StatusCodes.Status400BadRequest)
-			.Produces(StatusCodes.Status401Unauthorized);
+			.Produces<ListResult<CategoryTransactionSumDto>>(StatusCodes.Status200OK)
+			.Produces<ErrorResponse>(StatusCodes.Status400BadRequest)
+			.Produces<ErrorResponse>(StatusCodes.Status401Unauthorized);
 
 		group.MapPost("/balance-by-month/", GetBalanceByMonth)
-			.WithName("Get Transactions By Category")
+			.WithName("Get Balance By Month")
 			.RequireAuthorization()
-			.Produces(StatusCodes.Status200OK)
-			.Produces(StatusCodes.Status400BadRequest)
-			.Produces(StatusCodes.Status401Unauthorized);
+			.Produces<ListResult<BalanceByMonthDto>>(StatusCodes.Status200OK)
+			.Produces<ErrorResponse>(StatusCodes.Status400BadRequest)
+			.Produces<ErrorResponse>(StatusCodes.Status401Unauthorized);
 	}
 
 	private static async Task<IResult> GetBalanceProjection(
@@ -47,7 +49,7 @@ public static class FinanceEndpoints
 		}
 		catch (Exception ex)
 		{
-			return Results.BadRequest(new { error = ex.Message });
+			return Results.BadRequest(new ErrorResponse(ex.Message));
 		}
 	}
 	
@@ -65,7 +67,7 @@ public static class FinanceEndpoints
 		}
 		catch (Exception ex)
 		{
-			return Results.BadRequest(new { error = ex.Message });
+			return Results.BadRequest(new ErrorResponse(ex.Message));
 		}
 	}
 
@@ -83,7 +85,7 @@ public static class FinanceEndpoints
 		}
 		catch (Exception ex)
 		{
-			return Results.BadRequest(new { error = ex.Message });
+			return Results.BadRequest(new ErrorResponse(ex.Message));
 		}
 	}
 }

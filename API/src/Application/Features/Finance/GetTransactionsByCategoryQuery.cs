@@ -37,7 +37,6 @@ public class GetTransactionsByCategoryQueryHandler : CommandHandler<GetTransacti
             request.Date,
             request.Type,
             request.CategoryIds,
-            _userService.UserId,
             ct);
 
         return transactions;
