@@ -1,0 +1,32 @@
+<div class="tx-card">
+  <div class="tx-card__info">
+    <div class="tx-card__icon" [ngClass]="transaction().categoryColor">
+      <span class="material-symbols-outlined">{{ transaction().categoryIcon }}</span>
+    </div>
+    <div class="tx-card__details">
+      <h4 class="tx-card__title">{{ transaction().title }}</h4>
+      <p class="tx-card__date">
+        {{ transaction().categoryName }} • {{ transaction().date | date:'dd MMM yyyy' }}
+      </p>
+    </div>
+  </div>
+  
+  <div class="tx-card__actions">
+    <div class="tx-card__amount-group">
+      <span class="tx-card__amount"
+            [ngClass]="transaction().type === 'Income' ? 'tx-card__amount--income' : 'tx-card__amount--expense'">
+        {{ transaction().type === 'Income' ? '+' : '-' }} {{ transaction().amount | currency:transaction().currency }}
+      </span>
+      <p class="tx-card__status">{{ transaction().status }}</p>
+    </div>
+    
+    <div class="tx-card__btn-group">
+      <button type="button" class="tx-card__btn tx-card__btn--edit" (click)="onEdit()" aria-label="Editar">
+        <span class="material-symbols-outlined">edit</span>
+      </button>
+      <button type="button" class="tx-card__btn tx-card__btn--delete" (click)="onDelete($event)" aria-label="Excluir">
+        <span class="material-symbols-outlined">delete</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,130 @@
+:host {
+  display: block;
+}
+
+.tx-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background-color: var(--color-surface-container-lowest);
+  border-radius: var(--radius-xl);
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+
+  &:hover {
+    background-color: var(--color-surface-container-low);
+    border-color: rgba(195, 198, 214, 0.4);
+  }
+
+  &__info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  &__icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &.bg-secondary-container {
+      background-color: var(--color-secondary-container);
+      color: var(--color-on-secondary-container);
+    }
+
+    &.bg-tertiary-fixed {
+      background-color: var(--color-tertiary-fixed);
+      color: var(--color-tertiary);
+    }
+
+    &.bg-surface-container-high {
+      background-color: var(--color-surface-container-high);
+      color: var(--color-on-surface-variant);
+    }
+  }
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__title {
+    font-weight: 700;
+    color: var(--color-on-surface);
+    font-size: 0.875rem;
+  }
+
+  &__date {
+    font-size: 0.75rem;
+    color: var(--color-outline);
+    font-weight: 500;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  &__amount-group {
+    text-align: right;
+  }
+
+  &__amount {
+    font-family: var(--font-headline);
+    font-weight: 800;
+    font-size: 1.125rem;
+
+    &--income {
+      color: var(--color-secondary);
+    }
+
+    &--expense {
+      color: var(--color-tertiary);
+    }
+  }
+
+  &__status {
+    font-size: 0.625rem;
+    color: var(--color-outline);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.05em;
+  }
+
+  &__btn-group {
+    display: flex;
+    gap: 4px;
+  }
+
+  &__btn {
+    padding: 8px;
+    border-radius: var(--radius-md);
+    background: transparent;
+    border: none;
+    color: var(--color-outline);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .material-symbols-outlined {
+      font-size: 20px;
+    }
+
+    &--edit:hover {
+      color: var(--color-primary);
+      background: rgba(0, 64, 161, 0.08);
+    }
+
+    &--delete:hover {
+      color: var(--color-tertiary);
+      background: rgba(148, 0, 16, 0.08);
+    }
+  }
+}

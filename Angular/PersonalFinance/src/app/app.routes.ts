@@ -24,4 +24,16 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/categories/categories').then((m) => m.CategoriesComponent),
   },
+  {
+    path: 'transactions',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./pages/transactions/transactions').then((m) => m.TransactionsComponent),
+  },
+  {
+    path: 'projection',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./pages/categories/categories').then((m) => m.CategoriesComponent),
+  },
 ];

@@ -23,10 +23,10 @@ export class SidebarComponent {
   logoutClick = output<void>();
 
   readonly navItems: NavItem[] = [
-    { label: 'Início',       icon: 'dashboard',               route: '/home' },
-    { label: 'Projeção',     icon: 'trending_up',             route: '/projection' },
-    { label: 'Transações',   icon: 'account_balance_wallet',  route: '/transactions' },
-    { label: 'Categorias',   icon: 'category',                route: '/categories' },
+    { label: 'Início', icon: 'dashboard', route: '/home' },
+    { label: 'Projeção', icon: 'trending_up', route: '/projection' },
+    { label: 'Transações', icon: 'account_balance_wallet', route: '/transactions' },
+    { label: 'Categorias', icon: 'category', route: '/categories' },
   ];
 
   onInvest(): void {

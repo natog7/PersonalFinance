@@ -1,0 +1,85 @@
+<div class="tx-form-drawer" [class.tx-form-drawer--open]="isOpen()">
+  <div class="tx-form-drawer__inner">
+    <div class="tx-form-card">
+      <div class="tx-form-card__header">
+        <h3 class="tx-form-card__title">
+          {{ editingId() ? 'Editar Lançamento' : 'Registro Rápido' }}
+        </h3>
+        <p class="tx-form-card__subtitle">Insira ou modifique uma movimentação instantaneamente.</p>
+      </div>
+      
+      <form [formGroup]="transactionForm()" (ngSubmit)="onSave()" class="tx-form">
+        <div class="tx-form__field">
+          <label class="tx-form__label">Título do Lançamento</label>
+          <input formControlName="title" class="tx-form__input" placeholder="Ex: Assinatura Netflix" type="text" />
+        </div>
+        
+        <div class="tx-form__row">
+          <div class="tx-form__field">
+            <label class="tx-form__label">Moeda</label>
+            <div class="tx-form__select-wrapper">
+              <select formControlName="currency" class="tx-form__select">
+                <option value="BRL">BRL (R$)</option>
+                <option value="USD">USD ($)</option>
+                <option value="EUR">EUR (€)</option>
+              </select>
+              <span class="material-symbols-outlined tx-form__select-icon">expand_more</span>
+            </div>
+          </div>
+          <div class="tx-form__field">
+            <label class="tx-form__label">Valor</label>
+            <input formControlName="amount" class="tx-form__input tx-form__input--large" placeholder="0,00" type="number" />
+          </div>
+        </div>
+        
+        <div class="tx-form__row">
+          <div class="tx-form__field">
+            <label class="tx-form__label">Tipo</label>
+            <div class="tx-form__select-wrapper">
+              <select formControlName="type" class="tx-form__select">
+                <option value="Income">Receita</option>
+                <option value="Expense">Despesa</option>
+              </select>
+              <span class="material-symbols-outlined tx-form__select-icon">expand_more</span>
+            </div>
+          </div>
+          
+          <div class="tx-form__field">
+            <label class="tx-form__label">Categoria</label>
+            <div class="tx-form__select-wrapper">
+              <select formControlName="categoryId" class="tx-form__select">
+                <option value="cat1">Investimentos</option>
+                <option value="cat2">Alimentação</option>
+                <option value="cat3">Moradia</option>
+              </select>
+              <span class="material-symbols-outlined tx-form__select-icon">expand_more</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="tx-form__row">
+          <div class="tx-form__field">
+            <label class="tx-form__label">Data do Fluxo</label>
+            <input formControlName="date" class="tx-form__input" type="date" />
+          </div>
+          <div class="tx-form__field">
+            <label class="tx-form__label">Status</label>
+            <div class="tx-form__select-wrapper">
+              <select formControlName="status" class="tx-form__select">
+                <option value="Confirmado">Confirmado</option>
+                <option value="Agendado">Agendado</option>
+                <option value="Débito">Débito</option>
+              </select>
+              <span class="material-symbols-outlined tx-form__select-icon">expand_more</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="tx-form__actions">
+          <button type="button" class="tx-form__btn tx-form__btn--cancel" (click)="onCancel()">Cancelar</button>
+          <button type="submit" [disabled]="transactionForm().invalid" class="tx-form__btn tx-form__btn--save">Salvar Lançamento</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
