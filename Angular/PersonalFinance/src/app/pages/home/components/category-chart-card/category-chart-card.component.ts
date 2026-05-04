@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed } from '@angular/core';
+import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { DashboardService } from '../../services/dashboard.service';
 import { CategoryExpense } from '../../models/dashboard.model';
@@ -10,10 +10,21 @@ import { CategoryExpense } from '../../models/dashboard.model';
   templateUrl: './category-chart-card.component.html',
   styleUrl: './category-chart-card.component.scss',
 })
-export class CategoryChartCardComponent {
+export class CategoryChartCardComponent implements OnInit {
   private readonly dashboardService = inject(DashboardService);
   readonly spending = this.dashboardService.spending;
   readonly isBalanceHidden = this.dashboardService.isBalanceHidden;
+
+  ngOnInit(): void {
+    const today = new Date();
+    const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+    const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+
+    const start = `${firstDay.getFullYear()}-${String(firstDay.getMonth() + 1).padStart(2, '0')}-01`;
+    const end = `${lastDay.getFullYear()}-${String(lastDay.getMonth() + 1).padStart(2, '0')}-${String(lastDay.getDate()).padStart(2, '0')}`;
+
+    this.dashboardService.fetchSpendingByCategory(start, end);
+  }
 
   hoveredIndex = signal<number | null>(null);
 
