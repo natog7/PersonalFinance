@@ -1,13 +1,10 @@
 <div class="tx-list">
-  <div class="tx-list__header">
-    <h3 class="tx-list__title">Histórico Recente</h3>
-    <span class="tx-list__subtitle">{{ transactions().length }} registros</span>
-  </div>
-  
   <div class="tx-list__grid">
     @for (transaction of transactions(); track transaction.id) {
       <app-transaction-card 
         [transaction]="transaction"
+        [isExpanded]="expandedCardId() === transaction.id"
+        (toggleExpand)="onToggleExpand($event)"
         (edit)="onEdit($event)"
         (delete)="onDelete($event)">
       </app-transaction-card>

@@ -1,25 +1,36 @@
 import { Component, input, output } from '@angular/core';
 import { Transaction } from '../../models/transaction.model';
-import { NgClass, CurrencyPipe, DatePipe } from '@angular/common';
+import { NgClass, CurrencyPipe, DatePipe, TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-transaction-card',
   standalone: true,
-  imports: [NgClass, CurrencyPipe, DatePipe],
+  imports: [NgClass, CurrencyPipe, DatePipe, TitleCasePipe],
   templateUrl: './transaction-card.html',
   styleUrl: './transaction-card.scss'
 })
 export class TransactionCard {
   transaction = input.required<Transaction>();
+  isExpanded = input<boolean>(false);
+  
   edit = output<Transaction>();
   delete = output<string>();
+  toggleExpand = output<string>();
 
-  onEdit(): void {
+  onEdit(event: Event): void {
+    event.stopPropagation();
     this.edit.emit(this.transaction());
   }
 
   onDelete(event: Event): void {
     event.stopPropagation();
     this.delete.emit(this.transaction().id);
+  }
+
+  onToggle(event?: Event): void {
+    if (event) {
+      event.stopPropagation();
+    }
+    this.toggleExpand.emit(this.transaction().id);
   }
 }
