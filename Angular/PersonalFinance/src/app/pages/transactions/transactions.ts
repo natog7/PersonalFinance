@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed } from '@angular/core';
+import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
@@ -16,10 +16,14 @@ import { Transaction } from './models/transaction.model';
   templateUrl: './transactions.html',
   styleUrl: './transactions.scss'
 })
-export class TransactionsComponent {
+export class TransactionsComponent implements OnInit {
   sidebarState = inject(SidebarStateService);
   private transactionService = inject(TransactionService);
   private fb = inject(NonNullableFormBuilder);
+
+  ngOnInit(): void {
+    this.transactionService.fetchFiltered('2024-01-01');
+  }
 
   transactions = this.transactionService.transactions;
 

@@ -48,9 +48,10 @@
             <label class="tx-form__label">Categoria</label>
             <div class="tx-form__select-wrapper">
               <select formControlName="categoryId" class="tx-form__select">
-                <option value="cat1">Investimentos</option>
-                <option value="cat2">Alimentação</option>
-                <option value="cat3">Moradia</option>
+                <option value="" disabled selected>Selecione uma categoria</option>
+                @for (cat of categories(); track cat.id) {
+                  <option [value]="cat.id">{{ cat.name }}</option>
+                }
               </select>
               <span class="material-symbols-outlined tx-form__select-icon">expand_more</span>
             </div>

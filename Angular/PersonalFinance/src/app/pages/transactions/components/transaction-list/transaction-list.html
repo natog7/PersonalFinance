@@ -1,13 +1,16 @@
 <div class="tx-list">
   <div class="tx-list__grid">
     @for (transaction of transactions(); track transaction.id) {
-      <app-transaction-card 
-        [transaction]="transaction"
-        [isExpanded]="expandedCardId() === transaction.id"
-        (toggleExpand)="onToggleExpand($event)"
-        (edit)="onEdit($event)"
-        (delete)="onDelete($event)">
-      </app-transaction-card>
+    <app-transaction-card [transaction]="transaction"
+      [isExpanded]="expandedCardId() === transaction.id"
+      (toggleExpand)="onToggleExpand($event)"
+      (edit)="onEdit($event)"
+      (delete)="onDelete($event)">
+    </app-transaction-card>
+    } @empty {
+    <div class="tx-list__empty">
+      Nenhuma transação encontrada.
+    </div>
     }
   </div>
 </div>

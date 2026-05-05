@@ -1,46 +1,46 @@
-<div class="cat-layout" [ngClass]="{'cat-layout--sidebar-collapsed': !sidebarState.isOpen()}">
+<div class="tx-layout"
+  [ngClass]="{'tx-layout--sidebar-collapsed': !sidebarState.isOpen()}">
   <app-sidebar></app-sidebar>
 
-  <main class="cat-layout__main">
+  <main class="tx-layout__main">
     <app-header></app-header>
 
-    <div class="cat-layout__content">
-      <div class="cat-grid">
+    <div class="tx-layout__content">
+      <div class="tx-grid">
 
-        <section class="cat-list-section">
-          <div class="cat-list-section__header">
+        <section class="tx-list-section">
+          <div class="tx-list-section__header">
             <div>
-              <h3 class="cat-list-section__title">Transações</h3>
-              <p class="cat-list-section__subtitle">Gerencie as suas entradas e saídas.</p>
+              <h3 class="tx-list-section__title">Transações</h3>
+              <p class="tx-list-section__subtitle">Gerencie as suas entradas e saídas.</p>
             </div>
 
-            <div class="cat-list-section__actions">
-              <span class="cat-list-section__count">{{ transactions().length }} registros</span>
+            <div class="tx-list-section__actions">
+              <span class="tx-list-section__count">{{ transactions().length }} registros</span>
               <div class="search-box">
                 <span class="material-symbols-outlined search-box__icon">search</span>
-                <input type="text" 
-                       class="search-box__input" 
-                       placeholder="Procurar..." 
-                       (input)="onSearch($event)" />
+                <input type="text"
+                  class="search-box__input"
+                  placeholder="Procurar..."
+                  (input)="onSearch($event)" />
               </div>
-              <button class="btn-primary" (click)="onNew()">
+              <button class="btn-primary"
+                (click)="onNew()">
                 <span class="material-symbols-outlined">add</span>
                 <span class="btn-primary__text">Novo</span>
               </button>
             </div>
           </div>
 
-          <app-transaction-form 
-            [transactionForm]="transactionForm" 
-            [isOpen]="isFormVisible()" 
+          <app-transaction-form [transactionForm]="transactionForm"
+            [isOpen]="isFormVisible()"
             [editingId]="editingId()"
-            (save)="onSave()" 
+            (save)="onSave()"
             (cancel)="resetForm()">
           </app-transaction-form>
 
-          <app-transaction-list 
-            [transactions]="filteredTransactions()" 
-            (edit)="onEdit($event)" 
+          <app-transaction-list [transactions]="filteredTransactions()"
+            (edit)="onEdit($event)"
             (delete)="onDelete($event)">
           </app-transaction-list>
         </section>

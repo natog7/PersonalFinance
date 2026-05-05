@@ -1,7 +1,10 @@
-<div class="tx-card" [class.tx-card--expanded]="isExpanded()" (click)="onToggle()">
+<div class="tx-card"
+  [class.tx-card--expanded]="isExpanded()"
+  (click)="onToggle()">
   <div class="tx-card__main">
     <div class="tx-card__info">
-      <div class="tx-card__icon" [ngClass]="transaction().categoryColor">
+      <div class="tx-card__icon"
+        [ngClass]="transaction().categoryColor">
         <span class="material-symbols-outlined">{{ transaction().categoryIcon }}</span>
       </div>
       <div class="tx-card__details">
@@ -11,66 +14,75 @@
         </p>
       </div>
     </div>
-    
+
     <div class="tx-card__actions">
       <div class="tx-card__amount-group">
         <span class="tx-card__amount"
-              [ngClass]="transaction().type === 'Income' ? 'tx-card__amount--income' : 'tx-card__amount--expense'">
+          [ngClass]="transaction().type === 'Income' ? 'tx-card__amount--income' : 'tx-card__amount--expense'">
           {{ transaction().type === 'Income' ? '+' : '-' }} {{ transaction().amount | currency:transaction().currency }}
         </span>
         <p class="tx-card__status">{{ transaction().status }}</p>
       </div>
-      
+
       <div class="tx-card__btn-group">
-        <button type="button" class="tx-card__btn tx-card__btn--expand" (click)="onToggle($event)" [attr.aria-label]="isExpanded() ? 'Recolher' : 'Expandir'">
-          <span class="material-symbols-outlined">{{ isExpanded() ? 'expand_less' : 'expand_more' }}</span>
-        </button>
-        <button type="button" class="tx-card__btn tx-card__btn--edit" (click)="onEdit($event)" aria-label="Editar">
+        <button type="button"
+          class="tx-card__btn tx-card__btn--edit"
+          (click)="onEdit($event)"
+          aria-label="Editar">
           <span class="material-symbols-outlined">edit</span>
         </button>
-        <button type="button" class="tx-card__btn tx-card__btn--delete" (click)="onDelete($event)" aria-label="Excluir">
+        <button type="button"
+          class="tx-card__btn tx-card__btn--delete"
+          (click)="onDelete($event)"
+          aria-label="Excluir">
           <span class="material-symbols-outlined">delete</span>
+        </button>
+        <button type="button"
+          class="tx-card__btn tx-card__btn--expand"
+          (click)="onToggle($event)"
+          [attr.aria-label]="isExpanded() ? 'Recolher' : 'Expandir'">
+          <span class="material-symbols-outlined">{{ isExpanded() ? 'expand_less' : 'expand_more' }}</span>
         </button>
       </div>
     </div>
   </div>
 
   @if (isExpanded()) {
-    <div class="tx-card__expanded">
-      <div class="tx-card__expanded-grid">
-        <div class="tx-card__expanded-item">
-          <span class="tx-card__expanded-label">ID</span>
-          <span class="tx-card__expanded-value">{{ transaction().id }}</span>
-        </div>
-        <div class="tx-card__expanded-item">
-          <span class="tx-card__expanded-label">Título</span>
-          <span class="tx-card__expanded-value">{{ transaction().title }}</span>
-        </div>
-        <div class="tx-card__expanded-item">
-          <span class="tx-card__expanded-label">Valor</span>
-          <span class="tx-card__expanded-value">{{ transaction().amount | currency:transaction().currency }}</span>
-        </div>
-        <div class="tx-card__expanded-item">
-          <span class="tx-card__expanded-label">Moeda</span>
-          <span class="tx-card__expanded-value">{{ transaction().currency }}</span>
-        </div>
-        <div class="tx-card__expanded-item">
-          <span class="tx-card__expanded-label">Tipo</span>
-          <span class="tx-card__expanded-value">{{ transaction().type === 'Income' ? 'Receita' : 'Despesa' }}</span>
-        </div>
-        <div class="tx-card__expanded-item">
-          <span class="tx-card__expanded-label">Categoria</span>
-          <span class="tx-card__expanded-value">{{ transaction().categoryName }}</span>
-        </div>
-        <div class="tx-card__expanded-item">
-          <span class="tx-card__expanded-label">Data</span>
-          <span class="tx-card__expanded-value">{{ transaction().date | date:'dd/MM/yyyy' }}</span>
-        </div>
-        <div class="tx-card__expanded-item">
-          <span class="tx-card__expanded-label">Status</span>
-          <span class="tx-card__expanded-value">{{ transaction().status }}</span>
-        </div>
+  <div class="tx-card__expanded">
+    <div class="tx-card__expanded-grid">
+      <div class="tx-card__expanded-item">
+        <span class="tx-card__expanded-label">ID</span>
+        <span class="tx-card__expanded-value">{{ transaction().id }}</span>
+      </div>
+      <div class="tx-card__expanded-item">
+        <span class="tx-card__expanded-label">Título</span>
+        <span class="tx-card__expanded-value">{{ transaction().title }}</span>
+      </div>
+      <div class="tx-card__expanded-item">
+        <span class="tx-card__expanded-label">Valor</span>
+        <span class="tx-card__expanded-value">{{ transaction().amount | currency:transaction().currency }}</span>
+      </div>
+      <div class="tx-card__expanded-item">
+        <span class="tx-card__expanded-label">Moeda</span>
+        <span class="tx-card__expanded-value">{{ transaction().currency }}</span>
+      </div>
+      <div class="tx-card__expanded-item">
+        <span class="tx-card__expanded-label">Tipo</span>
+        <span class="tx-card__expanded-value">{{ transaction().type === 'Income' ? 'Receita' : 'Despesa' }}</span>
+      </div>
+      <div class="tx-card__expanded-item">
+        <span class="tx-card__expanded-label">Categoria</span>
+        <span class="tx-card__expanded-value">{{ transaction().categoryName }}</span>
+      </div>
+      <div class="tx-card__expanded-item">
+        <span class="tx-card__expanded-label">Data</span>
+        <span class="tx-card__expanded-value">{{ transaction().date | date:'dd/MM/yyyy' }}</span>
+      </div>
+      <div class="tx-card__expanded-item">
+        <span class="tx-card__expanded-label">Status</span>
+        <span class="tx-card__expanded-value">{{ transaction().status }}</span>
       </div>
     </div>
+  </div>
   }
 </div>

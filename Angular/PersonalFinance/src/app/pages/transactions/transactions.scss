@@ -4,7 +4,7 @@
   overflow: hidden;
 }
 
-.cat-layout {
+.tx-layout {
   display: flex;
   height: 100vh;
   overflow: hidden;
@@ -31,14 +31,14 @@
   }
 }
 
-.cat-grid {
+.tx-grid {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: 32px;
   margin: 0 auto;
 }
 
-.cat-list-section {
+.tx-list-section {
   grid-column: span 12 / span 12;
 
   &__header {
@@ -67,13 +67,13 @@
 }
 
 @media (max-width: 1024px) {
-  .cat-list-section {
+  .tx-list-section {
     grid-column: span 12 / span 12;
   }
 }
 
 @media (max-width: 768px) {
-  .cat-layout {
+  .tx-layout {
     &__main {
       margin-left: 0;
     }
@@ -83,8 +83,7 @@
     }
   }
 
-  .cat-grid {
+  .tx-grid {
     gap: 24px;
   }
 }
-
