@@ -1,0 +1,50 @@
+<div class="field__group" [class.field__group--disabled]="isDisabled()">
+    <div class="field__label-row">
+        @if(label()){
+        <label class="field__label" [for]="fieldId()">{{ label() }}</label>
+        }
+    </div>
+    <div class="field__input-wrapper">
+        @if(icon()){
+        <span class="material-symbols-outlined">{{ icon() }}</span>
+        }
+        
+        <input class="field__input"
+            [class.field__input--error]="!!error()"
+            [class.field__input--with-icon]="!!icon()"
+            [id]="fieldId()"
+            [placeholder]="placeholder() || ''"
+            type="text"
+            [value]="inputValue()"
+            (input)="onSearch($event)"
+            (focus)="onFocus()"
+            (click)="onInputClick($event)"
+            [disabled]="isDisabled()"
+            autocomplete="off" />
+            
+        <button type="button" class="select-dropdown__button" (click)="toggleOpen()" [disabled]="isDisabled()">
+            <span class="material-symbols-outlined">
+                {{ isOpen() ? 'expand_less' : 'expand_more' }}
+            </span>
+        </button>
+        
+        @if(isOpen()){
+        <div class="select-dropdown" (click)="$event.stopPropagation()">
+            <ul class="select-dropdown__list">
+                @for(option of filteredOptions(); track option.value) {
+                <li class="select-dropdown__item" 
+                    [class.select-dropdown__item--selected]="option.value === selectedValue()"
+                    (mousedown)="selectOption(option)">
+                    {{ option.label }}
+                </li>
+                } @empty {
+                <li class="select-dropdown__empty">Nenhuma opção encontrada</li>
+                }
+            </ul>
+        </div>
+        }
+    </div>
+    @if(error()){
+        <span class="field__error-text">{{ error() }}</span>
+    }
+</div>
