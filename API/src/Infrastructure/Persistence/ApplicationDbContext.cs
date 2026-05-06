@@ -51,6 +51,15 @@ public class ApplicationDbContext : DbContext
             .IsRequired()
             .HasMaxLength(256);
 
+        builder.Property(u => u.Currency)
+            .IsRequired()
+            .HasMaxLength(3)
+            .HasDefaultValue("USD");
+
+        builder.Property(u => u.DarkTheme)
+            .IsRequired()
+            .HasDefaultValue(false);
+
         builder.Property(u => u.PasswordHash)
             .IsRequired();
 

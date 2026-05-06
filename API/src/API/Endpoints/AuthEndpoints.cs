@@ -39,6 +39,13 @@ public static class AuthEndpoints
             .RequireAuthorization()
             .Produces(StatusCodes.Status200OK)
             .Produces<ErrorResponse>(StatusCodes.Status401Unauthorized);
+
+        group.MapPut("/edit", Edit)
+            .WithName("Edit User")
+            .RequireAuthorization()
+            .Produces<EditUserResponse>(StatusCodes.Status200OK)
+            .Produces<ValidationErrorResponse>(StatusCodes.Status400BadRequest)
+            .Produces<ErrorResponse>(StatusCodes.Status401Unauthorized);
     }
 
     private static async Task<IResult> Register(
@@ -115,6 +122,32 @@ public static class AuthEndpoints
         catch (Exception ex)
         {
             return Results.BadRequest(new ErrorResponse(ex.Message));
+        }
+    }
+
+    private static async Task<IResult> Edit(
+        EditUserCommand command,
+        IMediator mediator,
+        CancellationToken ct)
+    {
+        try
+        {
+            var result = await mediator.Send(command, ct);
+
+            if (result is null)
+                return Results.Unauthorized();
+
+            return Results.Ok(result);
+        }
+        catch (FluentValidation.ValidationException ex)
+        {
+            var errors = ex.Errors.GroupBy(e => e.PropertyName)
+                .ToDictionary(g => g.Key, g => g.Select(e => e.ErrorMessage).ToArray());
+            return Results.BadRequest(new ValidationErrorResponse(errors));
+        }
+        catch (Exception ex)
+        {
+            return Results.BadRequest(ValidationErrorResponse.Create(ex.Message));
         }
     }
 }
