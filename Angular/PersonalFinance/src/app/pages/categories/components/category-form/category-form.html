@@ -10,21 +10,20 @@
                 class="cat-form">
                 <div class="cat-form__row">
                     <div class="cat-form__column">
-                        <div class="cat-form__field">
-                            <label class="cat-form__label">Nome da Categoria</label>
-                            <input type="text"
-                                formControlName="name"
-                                class="cat-form__input"
-                                placeholder="Ex: Investimentos" />
-                        </div>
+                        <app-input-field
+                            fieldId="name"
+                            label="Nome da Categoria"
+                            type="text"
+                            placeholder="Ex: Investimentos">
+                        </app-input-field>
 
-                        <div class="cat-form__field">
-                            <label class="cat-form__label">Descrição</label>
-                            <textarea formControlName="description"
-                                class="cat-form__textarea"
-                                rows="3"
-                                placeholder="Para que serve esta categoria?"></textarea>
-                        </div>
+                        <app-input-field
+                            fieldId="description"
+                            label="Descrição"
+                            type="textarea"
+                            [rows]="3"
+                            placeholder="Para que serve esta categoria?">
+                        </app-input-field>
                     </div>
 
                     <div class="cat-form__column">

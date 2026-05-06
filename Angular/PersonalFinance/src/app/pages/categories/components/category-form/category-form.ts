@@ -1,11 +1,12 @@
 import { Component, ChangeDetectionStrategy, input, output } from '@angular/core';
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { NgClass } from '@angular/common';
+import { InputField } from '../../../../shared/components/input-field/input-field';
 
 @Component({
   selector: 'app-category-form',
   standalone: true,
-  imports: [ReactiveFormsModule, NgClass],
+  imports: [ReactiveFormsModule, NgClass, InputField],
   templateUrl: './category-form.html',
   styleUrl: './category-form.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

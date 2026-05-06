@@ -33,29 +33,21 @@
         </div>
         
         <div class="tx-form__row">
-          <div class="tx-form__field">
-            <label class="tx-form__label">Tipo</label>
-            <div class="tx-form__select-wrapper">
-              <select formControlName="type" class="tx-form__select">
-                <option value="Income">Receita</option>
-                <option value="Expense">Despesa</option>
-              </select>
-              <span class="material-symbols-outlined tx-form__select-icon">expand_more</span>
-            </div>
-          </div>
+          <app-select-field
+            fieldId="type"
+            label="Tipo"
+            [options]="typeOptions"
+            placeholder="Selecione um tipo"
+            formControlName="type">
+          </app-select-field>
           
-          <div class="tx-form__field">
-            <label class="tx-form__label">Categoria</label>
-            <div class="tx-form__select-wrapper">
-              <select formControlName="categoryId" class="tx-form__select">
-                <option value="" disabled selected>Selecione uma categoria</option>
-                @for (cat of categories(); track cat.id) {
-                  <option [value]="cat.id">{{ cat.name }}</option>
-                }
-              </select>
-              <span class="material-symbols-outlined tx-form__select-icon">expand_more</span>
-            </div>
-          </div>
+          <app-select-field
+            fieldId="categoryId"
+            label="Categoria"
+            [options]="categoryOptions()"
+            placeholder="Selecione uma categoria"
+            formControlName="categoryId">
+          </app-select-field>
         </div>
         
         <div class="tx-form__row">
