@@ -25,6 +25,7 @@ export class InputField {
   icon = input<string>();
   buttonIcon = input<string>();
   error = input<string>();
+  rows = input<number>(3);
 
   buttonClick = output<void>();
   labelLinkClick = output<void>();

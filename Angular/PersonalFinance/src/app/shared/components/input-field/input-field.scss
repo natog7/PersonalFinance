@@ -88,7 +88,6 @@
 .field__input {
     width: 100%;
     padding: 14px 16px;
-    padding-left: 48px;
     background-color: var(--color-surface-container-high);
     border: 1px solid transparent;
     border-radius: var(--radius-xl);
@@ -98,6 +97,10 @@
     outline: none;
     transition: all 0.2s ease;
     display: block;
+
+    &--with-icon {
+        padding-left: 48px;
+    }
 
     &--password {
         padding-right: 48px;

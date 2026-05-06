@@ -14,12 +14,23 @@
         @if(icon()){
         <span class="material-symbols-outlined">{{ icon() }}</span>
         }
+        @if(type() === 'textarea') {
+        <textarea class="field__input"
+            [class.field__input--error]="!!error()"
+            [class.field__input--with-icon]="!!icon()"
+            [id]="fieldId()"
+            [placeholder]="placeholder() || ''"
+            [rows]="rows()"
+            [formControlName]="fieldId()"></textarea>
+        } @else {
         <input class="field__input"
             [class.field__input--error]="!!error()"
+            [class.field__input--with-icon]="!!icon()"
             [id]="fieldId()"
             [placeholder]="placeholder() || ''"
             [type]="type()"
             [formControlName]="fieldId()" />
+        }
         @if(buttonIcon()){
         <button type="button"
             (click)="onButtonClick()">
