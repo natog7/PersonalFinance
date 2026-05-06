@@ -9,6 +9,10 @@ export class CategoryService {
   private toastService = inject(ToastService);
   private readonly apiUrl = 'https://localhost:55784/api/categories';
 
+  constructor() {
+    this.fetch();
+  }
+
   // Using signals for reactive state, simulating a database/API.
   // private readonly _categories = signal<Category[]>([
   //   {

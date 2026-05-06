@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, output } from '@angular/core';
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { NgClass } from '@angular/common';
 
@@ -11,14 +11,14 @@ import { NgClass } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CategoryForm {
-  @Input({ required: true }) categoryForm!: FormGroup;
-  @Input({ required: true }) isOpen = false;
-  @Input() editingId: string | null = null;
-  @Input() iconOptions: string[] = [];
+  categoryForm = input.required<FormGroup>();
+  isOpen = input.required<boolean>();
+  editingId = input<string | null>(null);
+  iconOptions = input<string[]>([]);
 
-  @Output() save = new EventEmitter<void>();
-  @Output() cancel = new EventEmitter<void>();
-  @Output() selectIcon = new EventEmitter<string>();
+  save = output<void>();
+  cancel = output<void>();
+  selectIcon = output<string>();
 
   onSave(): void {
     this.save.emit();

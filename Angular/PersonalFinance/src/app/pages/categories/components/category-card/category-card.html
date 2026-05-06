@@ -1,25 +1,25 @@
 <div class="cat-card"
-    [ngClass]="{'cat-card--inactive': !category.isActive}">
+    [ngClass]="{'cat-card--inactive': !category().isActive}">
     <div class="cat-card__icon-wrap"
-        [style.background-color]="category.iconBg"
-        [style.color]="category.color">
-        <span class="material-symbols-outlined">{{ category.icon }}</span>
+        [style.background-color]="category().iconBg"
+        [style.color]="category().color">
+        <span class="material-symbols-outlined">{{ category().icon }}</span>
     </div>
 
     <div class="cat-card__info">
         <div class="cat-card__name-row">
-            <h4 class="cat-card__name">{{ category.name }}</h4>
+            <h4 class="cat-card__name">{{ category().name }}</h4>
             <span class="cat-card__status-badge"
-                [ngClass]="category.isActive ? 'cat-card__status-badge--active' : 'cat-card__status-badge--inactive'">
-                {{ category.isActive ? 'Ativo' : 'Inativo' }}
+                [ngClass]="category().isActive ? 'cat-card__status-badge--active' : 'cat-card__status-badge--inactive'">
+                {{ category().isActive ? 'Ativo' : 'Inativo' }}
             </span>
         </div>
-        <p class="cat-card__desc">{{ category.description }}</p>
+        <p class="cat-card__desc">{{ category().description }}</p>
     </div>
 
     <div class="cat-card__actions">
         <div class="cat-card__color-dot"
-            [style.background-color]="category.color"></div>
+            [style.background-color]="category().color"></div>
         <div class="cat-card__btn-group">
             <button type="button"
                 class="cat-card__btn cat-card__btn--edit"

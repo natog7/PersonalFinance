@@ -1,6 +1,6 @@
 import { Component, signal, computed, inject, output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl } from '@angular/forms';
-import { LoginField } from '../login-field/login-field';
+import { InputField } from '../../../../shared/components/input-field/input-field';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ToastService } from '../../../../shared/services/toast.service';
@@ -27,7 +27,7 @@ function passwordVisibility() {
 @Component({
   selector: 'app-login-register-form',
   standalone: true,
-  imports: [ReactiveFormsModule, LoginField],
+  imports: [ReactiveFormsModule, InputField],
   templateUrl: './login-register-form.html',
   styleUrl: './login-register-form.scss'
 })

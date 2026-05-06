@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, input, inject } from '@angular/core';
+import { Component, input, inject, output } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -12,8 +12,8 @@ export class AccountMenu {
   private readonly authService = inject(AuthService);
 
   isOpen = input<boolean>(false);
-  @Output() logout = new EventEmitter<void>();
-  @Output() settings = new EventEmitter<void>();
+  logout = output<void>();
+  settings = output<void>();
 
   get nickname(): string {
     return localStorage.getItem('user_nickname') || 'Usuário';

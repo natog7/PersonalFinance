@@ -9,13 +9,13 @@
   <form class="login-form"
     [formGroup]="loginForm"
     (ngSubmit)="login()">
-    <app-login-field fieldId="email"
+    <app-input-field fieldId="email"
       label="Email"
       placeholder="nome@exemplo.com"
       type="email"
-      icon="mail"></app-login-field>
+      icon="mail"></app-input-field>
 
-    <app-login-field fieldId="password"
+    <app-input-field fieldId="password"
       label="Senha"
       labelLink="Esqueceu a senha?"
       placeholder="••••••••"
@@ -23,7 +23,7 @@
       icon="lock"
       [buttonIcon]="passwordIcon()"
       (buttonClick)="togglePasswordVisibility()"
-      (labelLinkClick)="forgotPassword()"></app-login-field>
+      (labelLinkClick)="forgotPassword()"></app-input-field>
 
     <button class="login-form__submit"
       type="submit">

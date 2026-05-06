@@ -3,11 +3,11 @@ import { ReactiveFormsModule, ControlContainer, FormGroupDirective } from '@angu
 import { NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-login-field',
+  selector: 'app-input-field',
   standalone: true,
   imports: [NgClass, ReactiveFormsModule],
-  templateUrl: './login-field.html',
-  styleUrl: './login-field.scss',
+  templateUrl: './input-field.html',
+  styleUrl: './input-field.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   viewProviders: [
     {
@@ -16,7 +16,7 @@ import { NgClass } from '@angular/common';
     },
   ],
 })
-export class LoginField {
+export class InputField {
   fieldId = input.required<string>();
   label = input<string>();
   labelLink = input<string>();

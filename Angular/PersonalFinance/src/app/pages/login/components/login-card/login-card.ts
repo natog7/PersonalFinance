@@ -1,14 +1,14 @@
 import { Component, signal, computed, inject, output, input, effect } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../../shared/services/auth.service';
-import { LoginField } from '../login-field/login-field';
+import { InputField } from '../../../../shared/components/input-field/input-field';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ToastService } from '../../../../shared/services/toast.service';
 
 @Component({
   selector: 'app-login-card',
   standalone: true,
-  imports: [ReactiveFormsModule, LoginField],
+  imports: [ReactiveFormsModule, InputField],
   templateUrl: './login-card.html',
   styleUrl: './login-card.scss'
 })

@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, inject } from '@angular/core';
+import { Component, inject, output } from '@angular/core';
 import { DashboardService } from '../../services/dashboard.service';
 import { NgClass } from '@angular/common';
 
@@ -13,9 +13,9 @@ export class ShortcutsComponent {
   private readonly dashboardService = inject(DashboardService);
   readonly isBalanceHidden = this.dashboardService.isBalanceHidden;
   
-  @Output() createTransaction = new EventEmitter<void>();
-  @Output() createCategory = new EventEmitter<void>();
-  @Output() createGoal = new EventEmitter<void>();
+  createTransaction = output<void>();
+  createCategory = output<void>();
+  createGoal = output<void>();
 
   toggleBalance(): void {
     const currentState = this.dashboardService.isBalanceHidden();

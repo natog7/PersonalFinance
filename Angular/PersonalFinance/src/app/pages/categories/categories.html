@@ -1,4 +1,5 @@
-<div class="cat-layout" [ngClass]="{'cat-layout--sidebar-collapsed': !sidebarState.isOpen()}">
+<div class="cat-layout"
+  [ngClass]="{'cat-layout--sidebar-collapsed': !sidebarState.isOpen()}">
   <!-- Sidebar -->
   <app-sidebar></app-sidebar>
 
@@ -16,26 +17,38 @@
           <div class="cat-list-section__header">
             <div>
               <h3 class="cat-list-section__title">Suas Categorias</h3>
-              <p class="cat-list-section__subtitle">Gerencie como seus gastos são organizados.</p>
+              <p class="cat-list-section__subtitle">Gerencie como seus gastos e rendimentos são organizados.</p>
             </div>
 
             <div class="cat-list-section__actions">
+              <span class="cat-list-section__count">{{ filteredCategories().length }} registros</span>
               <div class="search-box">
                 <span class="material-symbols-outlined search-box__icon">search</span>
-                <input type="text" class="search-box__input" placeholder="Procurar..." (input)="onSearch($event)" />
+                <input type="text"
+                  class="search-box__input"
+                  placeholder="Procurar..."
+                  (input)="onSearch($event)" />
               </div>
-              <button class="btn-primary" (click)="onNew()">
+              <button class="btn-primary"
+                (click)="onNew()">
                 <span class="material-symbols-outlined">add</span>
-                <span class="btn-primary__text">Nova</span>
+                <span class="btn-primary__text">Novo</span>
               </button>
             </div>
           </div>
 
-          <app-category-form [categoryForm]="categoryForm" [isOpen]="isFormVisible()" [editingId]="editingId"
-            [iconOptions]="iconOptions" (save)="onSave()" (cancel)="resetForm()" (selectIcon)="onSelectIcon($event)">
+          <app-category-form [categoryForm]="categoryForm"
+            [isOpen]="isFormVisible()"
+            [editingId]="editingId"
+            [iconOptions]="iconOptions"
+            (save)="onSave()"
+            (cancel)="resetForm()"
+            (selectIcon)="onSelectIcon($event)">
           </app-category-form>
 
-          <app-category-list [categories]="filteredCategories()" (edit)="onEdit($event)" (delete)="onDelete($event)">
+          <app-category-list [categories]="filteredCategories()"
+            (edit)="onEdit($event)"
+            (delete)="onDelete($event)">
           </app-category-list>
         </section>
 

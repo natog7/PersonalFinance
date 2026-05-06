@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, output } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { Category } from '../../models/category.model';
 
@@ -11,16 +11,16 @@ import { Category } from '../../models/category.model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CategoryCard {
-  @Input({ required: true }) category!: Category;
+  category = input.required<Category>();
 
-  @Output() edit = new EventEmitter<Category>();
-  @Output() delete = new EventEmitter<string>();
+  edit = output<Category>();
+  delete = output<string>();
 
   onEdit(): void {
-    this.edit.emit(this.category);
+    this.edit.emit(this.category());
   }
 
   onDelete(): void {
-    this.delete.emit(this.category.id);
+    this.delete.emit(this.category().id);
   }
 }
