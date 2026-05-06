@@ -20,7 +20,7 @@ public class JwtTokenService : Application.Services.ITokenService
             ?? throw new InvalidOperationException("Jwt:SecretKey not configured");
         _issuer = configuration["Jwt:Issuer"] ?? "PersonalFinanceAPI";
         _audience = configuration["Jwt:Audience"] ?? "PersonalFinanceAPI-Clients";
-        _expiryMinutes = int.Parse(configuration["Jwt:ExpiryMinutes"] ?? "60");
+        _expiryMinutes = int.Parse(configuration["Jwt:ExpiryMinutes"] ?? "43200");
     }
 
     public string GenerateAccessToken(Guid userId, string email, UserRole role)
