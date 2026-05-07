@@ -34,14 +34,15 @@ export class TransactionService {
               id: item.id,
               title: item.title,
               amount: item.amount,
-              currency: item.currency,
-              type: item.type === 0 ? 'Income' : 'Expense',
+              type: item.type as 'Income' | 'Expense',
               categoryId: item.categoryId,
               categoryName: item.categoryName,
               categoryIcon: item.categoryId === 'cat1' ? 'payments' : item.categoryId === 'cat2' ? 'shopping_cart' : 'home',
               categoryColor: item.categoryId === 'cat1' ? 'bg-secondary-container text-on-secondary-container' : item.categoryId === 'cat2' ? 'bg-tertiary-fixed text-tertiary' : 'bg-surface-container-high text-on-surface-variant',
               date: item.date,
-              status: 'Confirmado' // Default status for API items if not returned
+              status: 'Confirmado', // Default status for API items if not returned
+              isRecurrent: item.isRecurrent,
+              recurrent: item.recurrent
             }));
             this._transactions.set(mappedItems);
           }
@@ -56,8 +57,9 @@ export class TransactionService {
       title: transaction.title,
       amount: transaction.amount,
       date: transaction.date,
-      type: transaction.type === 'Income' ? 0 : 1,
-      categoryId: transaction.categoryId
+      type: transaction.type,
+      categoryId: transaction.categoryId,
+      recurrent: transaction.recurrent || null
     };
 
     this.http.post<{ id: string }>(this.apiUrl, payload)
@@ -79,8 +81,9 @@ export class TransactionService {
       title: transaction.title,
       amount: transaction.amount,
       date: transaction.date,
-      type: transaction.type === 'Income' ? 0 : 1,
-      categoryId: transaction.categoryId
+      type: transaction.type,
+      categoryId: transaction.categoryId,
+      recurrent: transaction.recurrent || null
     };
 
     this.http.put<Transaction>(`${this.apiUrl}/${transaction.id}`, payload)

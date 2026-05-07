@@ -1,3 +1,8 @@
+export interface Recurrence {
+  endDate: string | null;
+  period: 'Daily' | 'Weekly' | 'Monthly' | 'Yearly';
+}
+
 export interface Transaction {
   id: string;
   title: string;
@@ -9,4 +14,6 @@ export interface Transaction {
   categoryColor: string;
   date: string;
   status: 'Confirmado' | 'Débito' | 'Agendado';
+  isRecurrent?: boolean;
+  recurrent?: Recurrence | null;
 }
