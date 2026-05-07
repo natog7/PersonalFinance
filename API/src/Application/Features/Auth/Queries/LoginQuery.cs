@@ -6,7 +6,10 @@ using PersonalFinanceAPI.Domain.Services;
 namespace PersonalFinanceAPI.Application.Features.Auth.Queries;
 
 public record LoginQuery(string Email, string Password) : IRequest<LoginResponse?>;
-public record LoginResponse(Guid UserId, string Email, string Nickname, TokenDto Token);
+public record LoginResponse : UserDto
+{
+	public TokenDto Token { get; init; } = new TokenDto(string.Empty, string.Empty);
+}
 public record TokenDto(string AccessToken, string RefreshToken, int ExpiresIn = 3600, string TokenType = "Bearer");
 
 public class LoginQueryHandler : CommandHandler<LoginQuery, LoginResponse?, IUserRepository>
@@ -14,7 +17,7 @@ public class LoginQueryHandler : CommandHandler<LoginQuery, LoginResponse?, IUse
 	protected readonly ITokenService _tokenService;
 	protected readonly IPasswordHasher _passwordHasher;
 
-	public LoginQueryHandler(IUserRepository repository, ICurrentUserService userService, 
+	public LoginQueryHandler(IUserRepository repository, ICurrentUserService userService,
 		ITokenService tokenService, IPasswordHasher passwordHasher)
 		 : base(repository, userService)
 	{
@@ -38,7 +41,15 @@ public class LoginQueryHandler : CommandHandler<LoginQuery, LoginResponse?, IUse
 		var accessToken = _tokenService.GenerateAccessToken(user.Id, user.Email, user.Role);
 		var refreshToken = _tokenService.GenerateRefreshToken();
 
-		return new LoginResponse(user.Id, user.Email, user.Nickname, new TokenDto(accessToken, refreshToken));
+		return new LoginResponse()
+		{
+			Id = user.Id,
+			Email = user.Email,
+			Nickname = user.Nickname,
+			Currency = user.Currency,
+			DarkTheme = user.DarkTheme,
+			Token = new TokenDto(accessToken, refreshToken)
+		};
 	}
 }
 

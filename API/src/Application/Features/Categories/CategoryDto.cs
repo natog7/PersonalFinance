@@ -1,7 +1,4 @@
 ﻿using PersonalFinanceAPI.Domain.Entities.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PersonalFinanceAPI.Application.Features.Categories;
 

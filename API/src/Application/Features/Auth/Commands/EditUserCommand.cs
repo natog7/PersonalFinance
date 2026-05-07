@@ -1,20 +1,23 @@
 using PersonalFinanceAPI.Application.Extensions;
 using PersonalFinanceAPI.Application.Repositories;
+using PersonalFinanceAPI.Application.Services;
 using PersonalFinanceAPI.Domain.Services;
 
 namespace PersonalFinanceAPI.Application.Features.Auth.Commands;
 
-public record EditUserCommand(string Email, string Nickname, string? Currency, bool? DarkTheme) : IRequest<EditUserResponse?>;
-public record EditUserResponse(Guid UserId, string Email, string Nickname, string Currency, bool DarkTheme);
+public record EditUserCommand(string Email, string Password, string Nickname, string? Currency, bool? DarkTheme) : IRequest<UserDto?>;
 
-public class EditUserCommandHandler : CommandHandler<EditUserCommand, EditUserResponse?, IUserRepository>
+public class EditUserCommandHandler : CommandHandler<EditUserCommand, UserDto?, IUserRepository>
 {
-	public EditUserCommandHandler(IUserRepository repository, ICurrentUserService userService)
+	private readonly IPasswordHasher _passwordHasher;
+
+	public EditUserCommandHandler(IUserRepository repository, ICurrentUserService userService, IPasswordHasher passwordHasher)
 		 : base(repository, userService)
 	{
+		_passwordHasher = passwordHasher ?? throw new ArgumentNullException(nameof(passwordHasher));
 	}
 
-	public override async Task<EditUserResponse?> Handle(EditUserCommand request, CancellationToken ct)
+	public override async Task<UserDto?> Handle(EditUserCommand request, CancellationToken ct)
 	{
 		CheckAuthenticated();
 
@@ -27,6 +30,8 @@ public class EditUserCommandHandler : CommandHandler<EditUserCommand, EditUserRe
 		if (user == null)
 			return null;
 
+		var passwordHash = _passwordHasher.HashPassword(request.Password);
+
 		// Check if email is being changed and if it already exists
 		if (!string.Equals(user.Email, request.Email, StringComparison.OrdinalIgnoreCase))
 		{
@@ -35,11 +40,18 @@ public class EditUserCommandHandler : CommandHandler<EditUserCommand, EditUserRe
 				throw new Exception("Email already registered by another user.");
 		}
 
-		user.Update(request.Email, request.Nickname, request.Currency, request.DarkTheme);
+		user.Update(request.Email, passwordHash, request.Nickname, request.Currency, request.DarkTheme);
 
 		await _repository.UpdateAsync(user, ct);
 
-		return new EditUserResponse(user.Id, user.Email, user.Nickname, user.Currency, user.DarkTheme);
+		return new UserDto()
+		{
+			Id = user.Id,
+			Email = user.Email,
+			Nickname = user.Nickname,
+			Currency = user.Currency,
+			DarkTheme = user.DarkTheme
+		};
 	}
 }
 

@@ -8,4 +8,11 @@ namespace PersonalFinanceAPI.Application.Features.Shared;
 public record IdDto<TId> : IEntityFields<TId> where TId : struct, IEquatable<TId>
 {
 	public required TId Id { get; set; }
+
+	public IdDto() { }
+
+	public IdDto(TId id)
+	{
+		Id = id;
+	}
 }

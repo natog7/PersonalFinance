@@ -44,10 +44,13 @@ public class User : Entity<Guid>
         LastLoginAt = DateTime.UtcNow;
     }
 
-    public void Update(string? email, string? nickname, string? currency, bool? darkTheme)
+    public void Update(string? email, string? passwordHash, string? nickname, string? currency, bool? darkTheme)
     {
         if (!string.IsNullOrWhiteSpace(email))
             Email = email.ToLower().Trim();
+
+        if (!string.IsNullOrWhiteSpace(passwordHash))
+            PasswordHash = passwordHash;
 
         if (!string.IsNullOrWhiteSpace(nickname))
             Nickname = nickname.Trim();

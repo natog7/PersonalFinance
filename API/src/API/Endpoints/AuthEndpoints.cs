@@ -1,4 +1,5 @@
 using PersonalFinanceAPI.Application.Exceptions;
+using PersonalFinanceAPI.Application.Features.Auth;
 using PersonalFinanceAPI.Application.Features.Auth.Commands;
 using PersonalFinanceAPI.Application.Features.Auth.Queries;
 
@@ -16,8 +17,8 @@ public static class AuthEndpoints
 
         group.MapPost("/register", Register)
             .WithName("Register")
-			.AllowAnonymous()
-			.Produces<RegisterResponse>(StatusCodes.Status201Created)
+            .AllowAnonymous()
+            .Produces<UserDto>(StatusCodes.Status201Created)
             .Produces<ValidationErrorResponse>(StatusCodes.Status400BadRequest)
             .Produces<ErrorResponse>(StatusCodes.Status409Conflict);
 
@@ -43,7 +44,7 @@ public static class AuthEndpoints
         group.MapPut("/edit", Edit)
             .WithName("Edit User")
             .RequireAuthorization()
-            .Produces<EditUserResponse>(StatusCodes.Status200OK)
+            .Produces<UserDto>(StatusCodes.Status200OK)
             .Produces<ValidationErrorResponse>(StatusCodes.Status400BadRequest)
             .Produces<ErrorResponse>(StatusCodes.Status401Unauthorized);
     }
@@ -56,11 +57,11 @@ public static class AuthEndpoints
         try
         {
             var result = await mediator.Send(command, ct);
-            
+
             if (result is null)
                 return Results.Conflict(new ErrorResponse("Email already registered"));
 
-            return Results.Created($"/api/auth/user/{result.UserId}", result);
+            return Results.Created($"/api/auth/user/{result.Id}", result);
         }
         catch (FluentValidation.ValidationException ex)
         {
@@ -75,7 +76,7 @@ public static class AuthEndpoints
     }
 
     private static async Task<IResult> Login(
-		LoginQuery query,
+        LoginQuery query,
         IMediator mediator,
         CancellationToken ct)
     {

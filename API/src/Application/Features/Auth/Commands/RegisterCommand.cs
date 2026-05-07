@@ -6,10 +6,9 @@ using PersonalFinanceAPI.Domain.Services;
 
 namespace PersonalFinanceAPI.Application.Features.Auth.Commands;
 
-public record RegisterCommand(string Email, string Password, string Nickname) : IRequest<RegisterResponse?>;
-public record RegisterResponse(Guid UserId, string Email, string Nickname);
+public record RegisterCommand(string Email, string Password, string Nickname) : IRequest<UserDto?>;
 
-public class RegisterCommandHandler : CommandHandler<RegisterCommand, RegisterResponse?, IUserRepository>
+public class RegisterCommandHandler : CommandHandler<RegisterCommand, UserDto?, IUserRepository>
 {
 	private readonly IPasswordHasher _passwordHasher;
 
@@ -19,7 +18,7 @@ public class RegisterCommandHandler : CommandHandler<RegisterCommand, RegisterRe
 		_passwordHasher = passwordHasher ?? throw new ArgumentNullException(nameof(passwordHasher));
 	}
 
-	public override async Task<RegisterResponse?> Handle(RegisterCommand request, CancellationToken ct)
+	public override async Task<UserDto?> Handle(RegisterCommand request, CancellationToken ct)
 	{
 		var emailExists = await _repository.EmailExistsAsync(request.Email, ct);
 		if (emailExists)
@@ -30,7 +29,14 @@ public class RegisterCommandHandler : CommandHandler<RegisterCommand, RegisterRe
 
 		await _repository.AddAsync(user, ct);
 
-		return new RegisterResponse(user.Id, user.Email, user.Nickname);
+		return new UserDto
+		{
+			Id = user.Id,
+			Email = user.Email,
+			Nickname = user.Nickname,
+			Currency = user.Currency,
+			DarkTheme = user.DarkTheme
+		};
 	}
 }
 
