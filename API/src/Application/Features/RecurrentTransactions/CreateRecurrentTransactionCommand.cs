@@ -15,7 +15,7 @@ public record CreateRecurrentTransactionCommand(
 	string Title,
 	decimal Amount,
 	DateOnly Date,
-	int Type,
+	TransactionType Type,
 	Guid CategoryId
 ): CreateTransactionCommand(Title, Amount, Date, Type, CategoryId);
 
@@ -33,7 +33,7 @@ public class CreateRecurrentTransactionCommandHandler : CommandHandler<CreateRec
 			Money.Create(request.Amount, _userService.Currency),
 			request.Date,
 			request.EndDate,
-			(TransactionType)request.Type,
+			request.Type,
 			request.CategoryId,
 			(RecurrentPeriod)request.Period
 		);

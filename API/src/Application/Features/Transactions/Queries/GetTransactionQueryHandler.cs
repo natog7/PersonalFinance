@@ -1,4 +1,5 @@
 using PersonalFinanceAPI.Application.Repositories;
+using PersonalFinanceAPI.Domain.Entities;
 using PersonalFinanceAPI.Domain.Services;
 
 namespace PersonalFinanceAPI.Application.Features.Transactions.Queries;
@@ -21,10 +22,11 @@ public class GetTransactionQueryHandler : CommandHandler<GetByIdQuery<Transactio
 			Amount = transaction.Amount.Amount,
 			Currency = transaction.Amount.Currency,
 			Date = transaction.Date,
-			Type = (int)transaction.Type,
+			Type = transaction.Type,
 			CategoryId = transaction.CategoryId,
 			CategoryName = transaction.Category.Name,
-			IsRecurrent = transaction.IsRecurrent
+			IsRecurrent = transaction.IsRecurrent,
+			Recurrent = transaction is RecurrentTransaction rt ? new RecurrentTransactionData(rt.EndDate, rt.Period) : null
 		};
 	}
 }

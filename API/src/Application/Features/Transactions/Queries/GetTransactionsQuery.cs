@@ -1,4 +1,5 @@
 using PersonalFinanceAPI.Application.Repositories;
+using PersonalFinanceAPI.Domain.Entities;
 using PersonalFinanceAPI.Domain.Enums;
 using PersonalFinanceAPI.Domain.Services;
 using PersonalFinanceAPI.Domain.ValueObjects;
@@ -30,10 +31,11 @@ public class GetTransactionsQueryHandler : CommandHandler<GetTransactionsQuery, 
 				Amount = x.Amount.Amount,
 				Currency = x.Amount.Currency,
 				Date = x.Date,
-				Type = (int)x.Type,
+				Type = x.Type,
 				CategoryId = x.CategoryId,
 				CategoryName = x.Category.Name,
-				IsRecurrent = x.IsRecurrent
+				IsRecurrent = x.IsRecurrent,
+				Recurrent = x is RecurrentTransaction rt ? new RecurrentTransactionData(rt.EndDate, rt.Period) : null
 			}).ToList()
 		};
 	}

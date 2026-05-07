@@ -7,13 +7,15 @@ using PersonalFinanceAPI.Domain.ValueObjects;
 
 namespace PersonalFinanceAPI.Application.Features.Transactions.Commands;
 
+
 public record CreateTransactionCommand
 (
 	string Title,
 	decimal Amount,
 	DateOnly Date,
-	int Type,
-	Guid CategoryId
+	TransactionType Type,
+	Guid CategoryId,
+	RecurrentTransactionData? Recurrent = null
 ) : IRequest<IdDto<Guid>>, ITransactionFields;
 
 public class CreateTransactionCommandHandler : CommandHandler<CreateTransactionCommand, IdDto<Guid>, ITransactionRepository>
@@ -25,14 +27,32 @@ public class CreateTransactionCommandHandler : CommandHandler<CreateTransactionC
 	{
 		CheckAuthenticated();
 
-		var transaction = Transaction.Create(
-			_userService.UserId,
-			request.Title,
-			Money.Create(request.Amount, _userService.Currency),
-			request.Date,
-			(TransactionType)request.Type,
-			request.CategoryId
-		);
+		Transaction transaction;
+
+		if (request.Recurrent is not null)
+		{
+			transaction = RecurrentTransaction.Create(
+				_userService.UserId,
+				request.Title,
+				Money.Create(request.Amount, _userService.Currency),
+				request.Date,
+				request.Recurrent.EndDate ?? DateOnly.MaxValue,
+				request.Type,
+				request.CategoryId,
+				request.Recurrent.Period
+			);
+		}
+		else
+		{
+			transaction = Transaction.Create(
+				_userService.UserId,
+				request.Title,
+				Money.Create(request.Amount, _userService.Currency),
+				request.Date,
+				request.Type,
+				request.CategoryId
+			);
+		}
 
 		// Save to database
 		await _repository.AddAsync(transaction, ct);
@@ -49,5 +69,9 @@ public class CreateTransactionCommandValidator : AbstractValidator<CreateTransac
 	public CreateTransactionCommandValidator()
 	{
 		Include(new TransactionFieldsValidator<CreateTransactionCommand>());
+
+       RuleFor(x => x.Recurrent)
+           .SetValidator(new RecurrentTransactionDataValidator())
+           .When(x => x.Recurrent is not null);
 	}
 }
