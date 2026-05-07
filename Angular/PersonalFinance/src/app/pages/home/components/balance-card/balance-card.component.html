@@ -18,7 +18,7 @@
     @if (isBalanceHidden()) {
     ••••••
     } @else {
-    {{ balance().monthlyBalance | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+    {{ balance().monthlyBalance | currency:authService.userCurrency():'symbol':'1.2-2':'pt-BR' }}
     }
   </h2>
 
@@ -39,7 +39,7 @@
         @if (isBalanceHidden()) {
         ••••
         } @else {
-        {{ balance().monthlyIncome | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+        {{ balance().monthlyIncome | currency:authService.userCurrency():'symbol':'1.2-2':'pt-BR' }}
         }
       </p>
     </div>
@@ -62,7 +62,7 @@
         @if (isBalanceHidden()) {
         ••••
         } @else {
-        {{ balance().monthlyExpenses | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+        {{ balance().monthlyExpenses | currency:authService.userCurrency():'symbol':'1.2-2':'pt-BR' }}
         }
       </p>
     </div>

@@ -57,8 +57,7 @@ export class TransactionService {
       amount: transaction.amount,
       date: transaction.date,
       type: transaction.type === 'Income' ? 0 : 1,
-      categoryId: transaction.categoryId,
-      currency: transaction.currency
+      categoryId: transaction.categoryId
     };
 
     this.http.post<{ id: string }>(this.apiUrl, payload)
@@ -79,7 +78,6 @@ export class TransactionService {
       id: transaction.id,
       title: transaction.title,
       amount: transaction.amount,
-      currency: transaction.currency,
       date: transaction.date,
       type: transaction.type === 'Income' ? 0 : 1,
       categoryId: transaction.categoryId

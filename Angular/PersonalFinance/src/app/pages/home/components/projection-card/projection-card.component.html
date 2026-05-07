@@ -16,7 +16,7 @@
         @if (isBalanceHidden()) {
         ••••••
         } @else {
-        {{ projection().projectedBalance | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+        {{ projection().projectedBalance | currency:authService.userCurrency():'symbol':'1.2-2':'pt-BR' }}
         }
       </p>
       <span class="card__badge" [class.card__badge--good]="projection().projectedGrowthPercent >= 0"
@@ -48,7 +48,7 @@
         @if (isBalanceHidden()) {
         ••••
         } @else {
-        {{ projection().projectedIncome | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+        {{ projection().projectedIncome | currency:authService.userCurrency():'symbol':'1.2-2':'pt-BR' }}
         }
       </p>
     </div>
@@ -72,7 +72,7 @@
         @if (isBalanceHidden()) {
         ••••
         } @else {
-        {{ projection().projectedExpenses | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+        {{ projection().projectedExpenses | currency:authService.userCurrency():'symbol':'1.2-2':'pt-BR' }}
         }
       </p>
     </div>

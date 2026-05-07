@@ -19,7 +19,7 @@
       <div class="tx-card__amount-group">
         <span class="tx-card__amount"
           [ngClass]="transaction().type === 'Income' ? 'tx-card__amount--income' : 'tx-card__amount--expense'">
-          {{ transaction().type === 'Income' ? '+' : '-' }} {{ transaction().amount | currency:transaction().currency }}
+          {{ transaction().type === 'Income' ? '+' : '-' }} {{ transaction().amount | currency:authService.userCurrency():'symbol':'1.2-2':'pt-BR' }}
         </span>
         <p class="tx-card__status">{{ transaction().status }}</p>
       </div>
@@ -60,11 +60,7 @@
       </div>
       <div class="tx-card__expanded-item">
         <span class="tx-card__expanded-label">Valor</span>
-        <span class="tx-card__expanded-value">{{ transaction().amount | currency:transaction().currency }}</span>
-      </div>
-      <div class="tx-card__expanded-item">
-        <span class="tx-card__expanded-label">Moeda</span>
-        <span class="tx-card__expanded-value">{{ transaction().currency }}</span>
+        <span class="tx-card__expanded-value">{{ transaction().amount | currency:authService.userCurrency():'symbol':'1.2-2':'pt-BR' }}</span>
       </div>
       <div class="tx-card__expanded-item">
         <span class="tx-card__expanded-label">Tipo</span>

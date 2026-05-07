@@ -19,7 +19,7 @@
           @if (isBalanceHidden()) {
           ••••
           } @else {
-          {{ cashFlow().totalIncome | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+          {{ cashFlow().totalIncome | currency:authService.userCurrency():'symbol':'1.2-2':'pt-BR' }}
           }
         </span>
       </div>
@@ -36,7 +36,7 @@
           @if (isBalanceHidden()) {
           ••••
           } @else {
-          {{ cashFlow().totalExpenses | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+          {{ cashFlow().totalExpenses | currency:authService.userCurrency():'symbol':'1.2-2':'pt-BR' }}
           }
         </span>
       </div>
@@ -53,7 +53,7 @@
       @if (isBalanceHidden()) {
       ••••
       } @else {
-      {{ cashFlow().netProfit | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+      {{ cashFlow().netProfit | currency:authService.userCurrency():'symbol':'1.2-2':'pt-BR' }}
       }
     </span>
   </div>

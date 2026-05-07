@@ -1,6 +1,8 @@
 import { Component, input, output } from '@angular/core';
 import { Transaction } from '../../models/transaction.model';
 import { NgClass, CurrencyPipe, DatePipe } from '@angular/common';
+import { AuthService } from '../../../../shared/services/auth.service';
+import { inject } from '@angular/core';
 
 @Component({
   selector: 'app-transaction-card',
@@ -12,6 +14,7 @@ import { NgClass, CurrencyPipe, DatePipe } from '@angular/common';
 export class TransactionCard {
   transaction = input.required<Transaction>();
   isExpanded = input<boolean>(false);
+  readonly authService = inject(AuthService);
 
   edit = output<Transaction>();
   delete = output<string>();

@@ -43,7 +43,7 @@
         <p class="card__amount" [class.card__amount--income]="isIncome(tx)"
           [class.card__amount--expense]="!isIncome(tx)">
           {{ isBalanceHidden() ? '' : (isIncome(tx) ? '+' : '-') }}
-          {{ isBalanceHidden() ? '••••' : (tx.amount | currency:'BRL':'symbol':'1.2-2':'pt-BR') }}
+          {{ isBalanceHidden() ? '••••' : (tx.amount | currency:authService.userCurrency():'symbol':'1.2-2':'pt-BR') }}
         </p>
         <p class="card__account">{{ tx.account }}</p>
       </div>

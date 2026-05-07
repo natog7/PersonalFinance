@@ -7,6 +7,7 @@ interface AuthResponse {
   userId: string;
   email: string;
   nickname: string;
+  currency: string;
   token: {
     accessToken: string;
     refreshToken: string;
@@ -28,6 +29,7 @@ export class AuthService {
   private readonly apiUrl = 'https://localhost:55784/api/auth';
 
   isAuthenticated = signal<boolean>(!!localStorage.getItem('access_token'));
+  userCurrency = signal<string>(localStorage.getItem('user_currency') || 'BRL');
 
   login(credentials: { email: string; password: string }) {
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, credentials).pipe(
@@ -36,7 +38,9 @@ export class AuthService {
         localStorage.setItem('refresh_token', response.token.refreshToken);
         localStorage.setItem('user_nickname', response.nickname);
         localStorage.setItem('user_email', response.email);
+        localStorage.setItem('user_currency', response.currency || 'BRL');
         this.isAuthenticated.set(true);
+        this.userCurrency.set(response.currency || 'BRL');
         this.router.navigate(['/home']);
       })
     );
@@ -51,7 +55,9 @@ export class AuthService {
     localStorage.removeItem('refresh_token');
     localStorage.removeItem('user_nickname');
     localStorage.removeItem('user_email');
+    localStorage.removeItem('user_currency');
     this.isAuthenticated.set(false);
+    this.userCurrency.set('BRL');
     this.router.navigate(['/login']);
   }
 }

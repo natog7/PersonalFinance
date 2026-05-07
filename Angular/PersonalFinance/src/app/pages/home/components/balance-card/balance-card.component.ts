@@ -1,6 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { DashboardService } from '../../services/dashboard.service';
+import { AuthService } from '../../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-balance-card',
@@ -13,6 +14,7 @@ export class BalanceCardComponent implements OnInit {
   private readonly dashboardService = inject(DashboardService);
   readonly balance = this.dashboardService.balance;
   readonly isBalanceHidden = this.dashboardService.isBalanceHidden;
+  readonly authService = inject(AuthService);
 
   ngOnInit(): void {
     const today = new Date();

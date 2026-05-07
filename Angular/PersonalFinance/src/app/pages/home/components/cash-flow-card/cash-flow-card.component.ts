@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { DashboardService } from '../../services/dashboard.service';
+import { AuthService } from '../../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-cash-flow-card',
@@ -13,6 +14,7 @@ export class CashFlowCardComponent {
   private readonly dashboardService = inject(DashboardService);
   readonly cashFlow = this.dashboardService.cashFlow;
   readonly isBalanceHidden = this.dashboardService.isBalanceHidden;
+  readonly authService = inject(AuthService);
 
   /** Percentage of expenses vs income for the progress bar */
   get expenseBarWidth(): number {

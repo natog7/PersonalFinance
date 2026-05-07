@@ -3,6 +3,7 @@ import { CurrencyPipe } from '@angular/common';
 import { TransactionService } from '../../services/transaction.service';
 import { Transaction } from '../../models/transaction.model';
 import { DashboardService } from '../../services/dashboard.service';
+import { AuthService } from '../../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-transactions-card',
@@ -16,6 +17,7 @@ export class TransactionsCardComponent {
   private readonly dashboardService = inject(DashboardService);
   readonly transactions = this.transactionService.transactions;
   readonly isBalanceHidden = this.dashboardService.isBalanceHidden;
+  readonly authService = inject(AuthService);
 
   trackById(_: number, item: Transaction): string {
     return item.id;

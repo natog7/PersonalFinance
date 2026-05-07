@@ -46,10 +46,9 @@ export class TransactionsComponent implements OnInit {
   transactionForm = this.fb.group({
     title: ['', [Validators.required, Validators.maxLength(100)]],
     amount: [0, [Validators.required, Validators.min(0.01)]],
-    currency: ['BRL', Validators.required],
     type: ['Expense', Validators.required],
     categoryId: ['', Validators.required],
-    date: ['', Validators.required],
+    date: [new Date().toISOString().split('T')[0], Validators.required],
     status: ['Confirmado', Validators.required]
   });
 
@@ -68,7 +67,6 @@ export class TransactionsComponent implements OnInit {
     this.transactionForm.patchValue({
       title: transaction.title,
       amount: transaction.amount,
-      currency: transaction.currency,
       type: transaction.type,
       categoryId: transaction.categoryId,
       date: transaction.date,
@@ -92,7 +90,6 @@ export class TransactionsComponent implements OnInit {
     const partialTx = {
       title: formValue.title,
       amount: formValue.amount,
-      currency: formValue.currency,
       type: formValue.type as any,
       categoryId: formValue.categoryId,
       categoryName: formValue.categoryId === 'cat1' ? 'Investimentos' : formValue.categoryId === 'cat2' ? 'Alimentação' : 'Moradia',
@@ -115,10 +112,9 @@ export class TransactionsComponent implements OnInit {
     this.transactionForm.reset({
       title: '',
       amount: 0,
-      currency: 'BRL',
       type: 'Expense',
       categoryId: '',
-      date: '',
+      date: new Date().toISOString().split('T')[0],
       status: 'Confirmado'
     });
     this.editingId.set(null);

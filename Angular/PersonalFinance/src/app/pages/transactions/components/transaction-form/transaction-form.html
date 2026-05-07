@@ -14,25 +14,12 @@
           <input formControlName="title" class="tx-form__input" placeholder="Ex: Assinatura Netflix" type="text" />
         </div>
         
-        <div class="tx-form__row">
-          <div class="tx-form__field">
-            <label class="tx-form__label">Moeda</label>
-            <div class="tx-form__select-wrapper">
-              <select formControlName="currency" class="tx-form__select">
-                <option value="BRL">BRL (R$)</option>
-                <option value="USD">USD ($)</option>
-                <option value="EUR">EUR (€)</option>
-              </select>
-              <span class="material-symbols-outlined tx-form__select-icon">expand_more</span>
-            </div>
-          </div>
+        <div class="tx-form__grid">
           <div class="tx-form__field">
             <label class="tx-form__label">Valor</label>
             <input formControlName="amount" class="tx-form__input tx-form__input--large" placeholder="0,00" type="number" />
           </div>
-        </div>
-        
-        <div class="tx-form__row">
+
           <app-select-field
             fieldId="type"
             label="Tipo"
@@ -48,13 +35,12 @@
             placeholder="Selecione uma categoria"
             formControlName="categoryId">
           </app-select-field>
-        </div>
-        
-        <div class="tx-form__row">
+
           <div class="tx-form__field">
             <label class="tx-form__label">Data do Fluxo</label>
             <input formControlName="date" class="tx-form__input" type="date" />
           </div>
+
           <div class="tx-form__field">
             <label class="tx-form__label">Status</label>
             <div class="tx-form__select-wrapper">
