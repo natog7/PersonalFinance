@@ -15,5 +15,14 @@ public class CurrentUserService(IHttpContextAccessor httpContextAccessor) : ICur
 		}
 	}
 
+	public string Currency
+	{
+		get
+		{
+			var currency = httpContextAccessor.HttpContext?.User?.FindFirst("currency")?.Value;
+			return string.IsNullOrEmpty(currency) ? "BRL" : currency;
+		}
+	}
+
 	public bool isAuthenticated => UserId.HasValue;
 }

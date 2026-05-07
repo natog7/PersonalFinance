@@ -16,9 +16,8 @@ public record CreateRecurrentTransactionCommand(
 	decimal Amount,
 	DateOnly Date,
 	int Type,
-	Guid CategoryId,
-	string Currency = "BRL"
-): CreateTransactionCommand(Title, Amount, Date, Type, CategoryId, Currency);
+	Guid CategoryId
+): CreateTransactionCommand(Title, Amount, Date, Type, CategoryId);
 
 public class CreateRecurrentTransactionCommandHandler : CommandHandler<CreateRecurrentTransactionCommand, IdDto<Guid>, ITransactionRepository>
 {
@@ -31,7 +30,7 @@ public class CreateRecurrentTransactionCommandHandler : CommandHandler<CreateRec
 		var transaction = RecurrentTransaction.Create(
 			_userService.UserId,
 			request.Title,
-			Money.Create(request.Amount, request.Currency),
+			Money.Create(request.Amount, _userService.Currency),
 			request.Date,
 			request.EndDate,
 			(TransactionType)request.Type,

@@ -13,13 +13,13 @@ public record CreateTransactionCommand
 	decimal Amount,
 	DateOnly Date,
 	int Type,
-	Guid CategoryId,
-	string Currency = "BRL"
+	Guid CategoryId
 ) : IRequest<IdDto<Guid>>, ITransactionFields;
 
 public class CreateTransactionCommandHandler : CommandHandler<CreateTransactionCommand, IdDto<Guid>, ITransactionRepository>
 {
 	public CreateTransactionCommandHandler(ITransactionRepository repository, ICurrentUserService userService) : base(repository, userService) { }
+
 
 	public override async Task<IdDto<Guid>> Handle(CreateTransactionCommand request, CancellationToken ct)
 	{
@@ -28,7 +28,7 @@ public class CreateTransactionCommandHandler : CommandHandler<CreateTransactionC
 		var transaction = Transaction.Create(
 			_userService.UserId,
 			request.Title,
-			Money.Create(request.Amount, request.Currency),
+			Money.Create(request.Amount, _userService.Currency),
 			request.Date,
 			(TransactionType)request.Type,
 			request.CategoryId

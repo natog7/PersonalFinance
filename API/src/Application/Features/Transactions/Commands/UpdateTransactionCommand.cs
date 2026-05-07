@@ -11,7 +11,6 @@ public record UpdateTransactionCommand
 	Guid Id,
 	string Title,
 	decimal Amount,
-	string Currency,
 	DateOnly Date,
 	int Type,
 	Guid CategoryId
@@ -30,7 +29,7 @@ public class UpdateTransactionCommandHandler : CommandHandler<UpdateTransactionC
 
 		transaction.Update(
 			request.Title,
-			Money.Create(request.Amount, request.Currency),
+			Money.Create(request.Amount, _userService.Currency),
 			request.Date,
 			(TransactionType)request.Type,
 			request.CategoryId
@@ -46,7 +45,7 @@ public class UpdateTransactionCommandHandler : CommandHandler<UpdateTransactionC
 			Amount = transaction.Amount.Amount,
 			Currency = transaction.Amount.Currency,
 			Date = transaction.Date,
-			Type = (int) transaction.Type,
+			Type = (int)transaction.Type,
 			CategoryId = transaction.CategoryId,
 			CategoryName = transaction.Category.Name,
 			IsRecurrent = transaction.IsRecurrent
