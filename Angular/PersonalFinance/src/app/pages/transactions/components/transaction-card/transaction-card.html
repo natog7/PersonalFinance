@@ -78,6 +78,23 @@
         <span class="tx-card__expanded-label">Status</span>
         <span class="tx-card__expanded-value">{{ transaction().status }}</span>
       </div>
+      
+      @if (transaction().recurrent) {
+        <div class="tx-card__expanded-item">
+          <span class="tx-card__expanded-label">Recorrente</span>
+          <span class="tx-card__expanded-value">Sim</span>
+        </div>
+        <div class="tx-card__expanded-item">
+          <span class="tx-card__expanded-label">Frequência</span>
+          <span class="tx-card__expanded-value">{{ transaction().recurrent?.period }}</span>
+        </div>
+        @if (transaction().recurrent?.endDate) {
+          <div class="tx-card__expanded-item">
+            <span class="tx-card__expanded-label">Data Fim</span>
+            <span class="tx-card__expanded-value">{{ transaction().recurrent?.endDate | date:'dd/MM/yyyy' }}</span>
+          </div>
+        }
+      }
     </div>
   </div>
   }
