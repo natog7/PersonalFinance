@@ -1,6 +1,13 @@
+export enum RecurrencePeriod {
+  Daily = 'Daily',
+  Weekly = 'Weekly',
+  Monthly = 'Monthly',
+  Yearly = 'Yearly'
+}
+
 export interface Recurrence {
   endDate: string | null;
-  period: 'Daily' | 'Weekly' | 'Monthly' | 'Yearly';
+  period: RecurrencePeriod;
 }
 
 export interface Transaction {

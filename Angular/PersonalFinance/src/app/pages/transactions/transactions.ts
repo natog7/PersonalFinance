@@ -7,7 +7,7 @@ import { SidebarStateService } from '../../shared/services/sidebar-state.service
 import { TransactionList } from './components/transaction-list/transaction-list';
 import { TransactionForm } from './components/transaction-form/transaction-form';
 import { TransactionService } from './services/transaction.service';
-import { Transaction } from './models/transaction.model';
+import { Transaction, RecurrencePeriod } from './models/transaction.model';
 
 @Component({
   selector: 'app-transactions',
@@ -49,7 +49,12 @@ export class TransactionsComponent implements OnInit {
     type: ['Expense', Validators.required],
     categoryId: ['', Validators.required],
     date: [new Date().toISOString().split('T')[0], Validators.required],
-    status: ['Confirmado', Validators.required]
+    status: ['Confirmado', Validators.required],
+    isRecurrent: [false],
+    recurrent: this.fb.group({
+      endDate: [''],
+      period: [RecurrencePeriod.Monthly]
+    })
   });
 
   onSearch(event: Event): void {
@@ -70,7 +75,12 @@ export class TransactionsComponent implements OnInit {
       type: transaction.type,
       categoryId: transaction.categoryId,
       date: transaction.date,
-      status: transaction.status
+      status: transaction.status,
+      isRecurrent: !!transaction.recurrent,
+      recurrent: {
+        endDate: transaction.recurrent?.endDate || '',
+        period: transaction.recurrent?.period || RecurrencePeriod.Monthly
+      }
     });
     this.isFormVisible.set(true);
   }
@@ -96,7 +106,11 @@ export class TransactionsComponent implements OnInit {
       categoryIcon: formValue.categoryId === 'cat1' ? 'payments' : formValue.categoryId === 'cat2' ? 'shopping_cart' : 'home',
       categoryColor: formValue.categoryId === 'cat1' ? 'bg-secondary-container text-on-secondary-container' : formValue.categoryId === 'cat2' ? 'bg-tertiary-fixed text-tertiary' : 'bg-surface-container-high text-on-surface-variant',
       date: formValue.date,
-      status: formValue.status as any
+      status: formValue.status as any,
+      recurrent: formValue.isRecurrent ? {
+        endDate: formValue.recurrent.endDate || null,
+        period: formValue.recurrent.period as RecurrencePeriod
+      } : null
     };
 
     if (id) {
@@ -115,7 +129,12 @@ export class TransactionsComponent implements OnInit {
       type: 'Expense',
       categoryId: '',
       date: new Date().toISOString().split('T')[0],
-      status: 'Confirmado'
+      status: 'Confirmado',
+      isRecurrent: false,
+      recurrent: {
+        endDate: '',
+        period: RecurrencePeriod.Monthly
+      }
     });
     this.editingId.set(null);
     this.isFormVisible.set(false);

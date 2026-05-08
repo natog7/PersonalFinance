@@ -2,11 +2,12 @@ import { Component, input, output, inject, OnInit, computed } from '@angular/cor
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CategoryService } from '../../../categories/services/category.service';
 import { SelectField, SelectOption } from '../../../../shared/components/select-field/select-field';
+import { CurrencyMaskDirective } from '../../../../shared/directives/currency-mask.directive';
 
 @Component({
   selector: 'app-transaction-form',
   standalone: true,
-  imports: [ReactiveFormsModule, SelectField],
+  imports: [ReactiveFormsModule, SelectField, CurrencyMaskDirective],
   templateUrl: './transaction-form.html',
   styleUrl: './transaction-form.scss'
 })

@@ -17,7 +17,12 @@
         <div class="tx-form__grid">
           <div class="tx-form__field">
             <label class="tx-form__label">Valor</label>
-            <input formControlName="amount" class="tx-form__input tx-form__input--large" placeholder="0,00" type="number" />
+            <input 
+              formControlName="amount" 
+              appCurrencyMask
+              class="tx-form__input tx-form__input--large" 
+              placeholder="0,00" 
+              type="text" />
           </div>
 
           <app-select-field
@@ -50,6 +55,37 @@
                 <option value="Débito">Débito</option>
               </select>
               <span class="material-symbols-outlined tx-form__select-icon">expand_more</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tx-form__recurrent-toggle">
+          <label class="tx-form__checkbox-label">
+            <input type="checkbox" formControlName="isRecurrent" class="tx-form__checkbox" />
+            <span class="tx-form__checkbox-text">Transação Recorrente</span>
+          </label>
+        </div>
+
+        <div class="tx-form__recurrent-fields" [class.tx-form__recurrent-fields--open]="transactionForm().get('isRecurrent')?.value" formGroupName="recurrent">
+          <div>
+            <div class="tx-form__grid" style="padding-top: 16px;">
+              <div class="tx-form__field">
+                <label class="tx-form__label">Frequência</label>
+                <div class="tx-form__select-wrapper">
+                  <select formControlName="period" class="tx-form__select">
+                    <option value="Daily">Diário</option>
+                    <option value="Weekly">Semanal</option>
+                    <option value="Monthly">Mensal</option>
+                    <option value="Yearly">Anual</option>
+                  </select>
+                  <span class="material-symbols-outlined tx-form__select-icon">expand_more</span>
+                </div>
+              </div>
+
+              <div class="tx-form__field">
+                <label class="tx-form__label">Data Fim (Opcional)</label>
+                <input formControlName="endDate" class="tx-form__input" type="date" />
+              </div>
             </div>
           </div>
         </div>
