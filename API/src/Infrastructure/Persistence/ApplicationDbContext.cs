@@ -121,14 +121,14 @@ public class ApplicationDbContext : DbContext
                 .IsRequired();
         });
 
-        // Relationships
-        builder.HasOne<Category>()
-            .WithMany()
-            .HasForeignKey(t => t.CategoryId)
-            .OnDelete(DeleteBehavior.Restrict);
+		// Relationships
+		builder.HasOne(t => t.Category)
+	        .WithMany(c => c.Transactions)
+	        .HasForeignKey(t => t.CategoryId)
+	        .OnDelete(DeleteBehavior.Restrict);
 
-        // Indices
-        builder.HasIndex(t => t.Type);
+		// Indices
+		builder.HasIndex(t => t.Type);
         builder.HasIndex(t => t.Date);
         builder.HasIndex(t => t.CategoryId);
         builder.HasIndex(t => t.CreatedAt);
@@ -187,9 +187,9 @@ public class ApplicationDbContext : DbContext
             .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
         // Self-referencing relationship for parent-child categories
-        builder.HasOne<Category>()
-            .WithMany()
-            .HasForeignKey(c => c.ParentCategoryId)
+        builder.HasOne(c => c.ParentCategory)
+			.WithMany(c => c.Subcategories)
+			.HasForeignKey(c => c.ParentCategoryId)
             .OnDelete(DeleteBehavior.Restrict)
             .IsRequired(false);
 

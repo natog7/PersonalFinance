@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PersonalFinanceAPI.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using PersonalFinanceAPI.Infrastructure.Persistence;
 namespace PersonalFinanceAPI.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260508210402_FixCategoryIdOnTransactions")]
+    partial class FixCategoryIdOnTransactions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,6 +59,9 @@ namespace PersonalFinanceAPI.Infrastructure.Persistence.Migrations
                     b.Property<Guid?>("ParentCategoryId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("ParentCategoryId1")
+                        .HasColumnType("uuid");
+
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -67,6 +73,8 @@ namespace PersonalFinanceAPI.Infrastructure.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ParentCategoryId");
+
+                    b.HasIndex("ParentCategoryId1");
 
                     b.ToTable("Categories");
                 });
@@ -208,10 +216,14 @@ namespace PersonalFinanceAPI.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("PersonalFinanceAPI.Domain.Entities.Category", b =>
                 {
-                    b.HasOne("PersonalFinanceAPI.Domain.Entities.Category", "ParentCategory")
-                        .WithMany("Subcategories")
+                    b.HasOne("PersonalFinanceAPI.Domain.Entities.Category", null)
+                        .WithMany()
                         .HasForeignKey("ParentCategoryId")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("PersonalFinanceAPI.Domain.Entities.Category", "ParentCategory")
+                        .WithMany("Subcategories")
+                        .HasForeignKey("ParentCategoryId1");
 
                     b.Navigation("ParentCategory");
                 });
