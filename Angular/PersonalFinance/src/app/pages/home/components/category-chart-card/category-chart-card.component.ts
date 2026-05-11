@@ -1,17 +1,19 @@
 import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { DashboardService } from '../../services/dashboard.service';
-import { CategoryExpense } from '../../models/dashboard.model';
+import { CurrencyPipe } from '@angular/common';
+import { AuthService } from '../../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-category-chart-card',
   standalone: true,
-  imports: [DecimalPipe],
+  imports: [DecimalPipe, CurrencyPipe],
   templateUrl: './category-chart-card.component.html',
   styleUrl: './category-chart-card.component.scss',
 })
 export class CategoryChartCardComponent implements OnInit {
   private readonly dashboardService = inject(DashboardService);
+  readonly authService = inject(AuthService);
   readonly spending = this.dashboardService.spending;
   readonly isBalanceHidden = this.dashboardService.isBalanceHidden;
 

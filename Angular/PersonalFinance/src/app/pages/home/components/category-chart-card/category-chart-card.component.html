@@ -14,12 +14,22 @@
     <!-- Donut Chart -->
     <div class="card__chart-area">
       <div class="card__donut">
-        <svg viewBox="0 0 42 42" class="card__donut-svg">
+        <svg viewBox="0 0 42 42"
+          class="card__donut-svg">
           @for (seg of segments(); track seg.label; let i = $index) {
-          <circle class="card__donut-segment" cx="21" cy="21" r="15.915494309189533" fill="none"
-            [attr.stroke]="seg.colorVar" stroke-width="6" [attr.stroke-dasharray]="seg.dashArray"
-            [attr.stroke-dashoffset]="seg.dashOffset" (mouseenter)="setHovered(i)" (mouseleave)="setHovered(null)"
-            [class.is-hovered]="hoveredIndex() === i" style="pointer-events: stroke;">
+          <circle class="card__donut-segment"
+            cx="21"
+            cy="21"
+            r="15.915494309189533"
+            fill="none"
+            [attr.stroke]="seg.colorVar"
+            stroke-width="6"
+            [attr.stroke-dasharray]="seg.dashArray"
+            [attr.stroke-dashoffset]="seg.dashOffset"
+            (mouseenter)="setHovered(i)"
+            (mouseleave)="setHovered(null)"
+            [class.is-hovered]="hoveredIndex() === i"
+            style="pointer-events: stroke;">
           </circle>
           }
         </svg>
@@ -30,7 +40,7 @@
             @if (isBalanceHidden()) {
             ••••
             } @else {
-            R$ {{ spending().totalSpent | number:'1.0-0':'pt-BR' }}
+            {{ spending().totalSpent | currency:authService.userCurrency():'symbol':'1.2-2':'pt-BR' }}
             }
           </p>
         </div>
@@ -40,9 +50,12 @@
     <!-- Legend -->
     <div class="card__legend">
       @for (cat of spending().categories; track cat.label; let i = $index) {
-      <div class="card__legend-item" [class.is-highlighted]="hoveredIndex() === i" (mouseenter)="setHovered(i)"
+      <div class="card__legend-item"
+        [class.is-highlighted]="hoveredIndex() === i"
+        (mouseenter)="setHovered(i)"
         (mouseleave)="setHovered(null)">
-        <span class="card__legend-dot" [style.background]="cat.colorVar"></span>
+        <span class="card__legend-dot"
+          [style.background]="cat.colorVar"></span>
         <div class="card__legend-text">
           <span class="card__legend-label">{{ cat.label }}</span>
           <span class="card__legend-percent">
@@ -51,7 +64,7 @@
             }
             @else
             {
-            R$ {{ cat.value | number:'1.0-0':'pt-BR' }}
+            {{ cat.value | currency:authService.userCurrency():'symbol':'1.2-2':'pt-BR' }}
             }
             ({{ cat.percent }}%)</span>
         </div>
