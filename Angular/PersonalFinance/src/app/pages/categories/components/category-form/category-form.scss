@@ -22,7 +22,7 @@
 
     &__subtitle {
         font-size: 0.875rem;
-        color: var(--color-on-surface-variant);
+        color: var(--color-on-surface);
         margin-top: 4px;
     }
 }
@@ -44,7 +44,7 @@
 
     &__subtitle {
         font-size: 0.875rem;
-        color: var(--color-on-surface-variant);
+        color: var(--color-on-surface);
         margin-bottom: 32px;
     }
 }
@@ -84,7 +84,7 @@
         font-weight: 800;
         text-transform: uppercase;
         letter-spacing: 0.08em;
-        color: var(--color-outline);
+        color: var(--color-on-surface);
     }
 
     &__input,
@@ -193,7 +193,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--color-outline);
+    color: var(--color-on-surface);
 
     &:hover {
         background: var(--color-surface-container-high);

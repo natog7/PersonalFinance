@@ -35,7 +35,6 @@
   display: flex;
   flex-direction: column;
   gap: 32px;
-  max-width: 1000px;
   margin: 0 auto;
 }
 
@@ -52,7 +51,7 @@
 
   &__subtitle {
     font-size: 0.9375rem;
-    color: var(--color-outline);
+    color: var(--color-on-surface);
   }
 }
 
@@ -102,7 +101,7 @@
 
   &__subtitle {
     font-size: 0.875rem;
-    color: var(--color-outline);
+    color: var(--color-on-surface);
   }
 }
 
@@ -135,7 +134,7 @@
   &__label {
     font-size: 0.75rem;
     font-weight: 700;
-    color: var(--color-outline);
+    color: var(--color-on-surface);
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
@@ -381,8 +380,13 @@
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 // ── Responsive ────────────────────────────────────────────────

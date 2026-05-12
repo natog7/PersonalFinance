@@ -40,7 +40,7 @@
 
   &__subtitle {
     font-size: 0.875rem;
-    color: var(--color-outline);
+    color: var(--color-on-surface);
     margin-top: 4px;
   }
 }
@@ -75,7 +75,7 @@
   &__label {
     font-size: 0.75rem;
     font-weight: 700;
-    color: var(--color-outline);
+    color: var(--color-on-surface);
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
@@ -155,8 +155,8 @@
     display: grid;
     grid-template-rows: 0fr;
     transition: grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    
-    & > div {
+
+    &>div {
       overflow: hidden;
     }
 
