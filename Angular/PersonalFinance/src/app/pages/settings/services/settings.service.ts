@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ToastService } from '../../../shared/services/toast.service';
 import { AuthService } from '../../../shared/services/auth.service';
-import { tap, catchError, throwError } from 'rxjs';
+import { catchError, tap, throwError } from 'rxjs';
 
 export interface UpdateProfilePayload {
   email: string;
@@ -45,12 +45,23 @@ export class SettingsService {
           currency: response.currency
         });
         this.toastService.success('Perfil atualizado com sucesso!');
+      }),
+      catchError((err: HttpErrorResponse) => {
+        this.toastService.httpError(err.status, 'Erro ao atualizar perfil.');
+        return throwError(() => err);
       })
     );
   }
 
   updatePassword(payload: UpdatePasswordPayload) {
-    this.toastService.success('Senha atualizada com sucesso!');
-    return this.http.put(`${this.apiUrl}/password`, payload);
+    return this.http.put(`${this.apiUrl}/password`, payload).pipe(
+      tap(() => {
+        this.toastService.success('Senha atualizada com sucesso!');
+      }),
+      catchError((err: HttpErrorResponse) => {
+        this.toastService.httpError(err.status, 'Erro ao atualizar senha.');
+        return throwError(() => err);
+      })
+    );
   }
 }

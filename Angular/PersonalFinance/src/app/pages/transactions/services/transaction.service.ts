@@ -70,6 +70,7 @@ export class TransactionService {
             id: response.id
           };
           this._transactions.update(list => [newTx, ...list]);
+          this.toastService.success('Transação criada com sucesso!');
         },
         error: (err: HttpErrorResponse) => this.toastService.httpError(err.status, 'Erro ao criar transação.')
       });
@@ -90,6 +91,7 @@ export class TransactionService {
       .subscribe({
         next: (response) => {
           this._transactions.update(list => list.map(t => t.id === transaction.id ? { ...transaction, ...response } : t));
+          this.toastService.success('Transação atualizada com sucesso!');
         },
         error: (err: HttpErrorResponse) => this.toastService.httpError(err.status, 'Erro ao atualizar transação.')
       });
@@ -100,6 +102,7 @@ export class TransactionService {
       .subscribe({
         next: () => {
           this._transactions.update(list => list.filter(t => t.id !== id));
+          this.toastService.success('Transação excluída com sucesso!');
         },
         error: (err: HttpErrorResponse) => this.toastService.httpError(err.status, 'Erro ao excluir transação.')
       });

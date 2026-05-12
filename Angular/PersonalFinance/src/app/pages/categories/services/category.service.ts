@@ -106,7 +106,6 @@ export class CategoryService {
       },
       error: (err: HttpErrorResponse) => {
         this.categories.update((list) => list.filter((c) => c.id !== tempId));
-        console.error('Erro ao criar.', err);
         this.toastService.httpError(err.status, 'Erro ao criar categoria.');
       }
     });
@@ -125,7 +124,6 @@ export class CategoryService {
         this.toastService.success('Categoria atualizada com sucesso!');
       },
       error: (err: HttpErrorResponse) => {
-        console.error('Erro ao atualizar.', err);
         this.toastService.httpError(err.status, 'Erro ao atualizar categoria.');
       }
     });

@@ -79,9 +79,12 @@ export class LoginRegisterFormComponent {
     if (this.registerForm.valid) {
       const { email, password, nickname } = this.registerForm.value;
       this.authService.register({ email, password, nickname }).subscribe({
-        next: () => this.registerCompleted.emit(email),
+        next: () => {
+          this.registerCompleted.emit(email);
+          this.toastService.success('Registro realizado com sucesso!');
+        },
         error: (err: HttpErrorResponse) => {
-          this.toastService.httpError(err.status, 'Erro ao criar conta.');
+          this.toastService.httpError(err.status, 'Erro ao registrar.');
         }
       });
     } else {
