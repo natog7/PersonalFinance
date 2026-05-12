@@ -27,6 +27,7 @@ export class SidebarComponent {
     { label: 'Projeção', icon: 'trending_up', route: '/projection' },
     { label: 'Transações', icon: 'account_balance_wallet', route: '/transactions' },
     { label: 'Categorias', icon: 'category', route: '/categories' },
+    { label: 'Configurações', icon: 'settings', route: '/settings' },
   ];
 
   onInvest(): void {

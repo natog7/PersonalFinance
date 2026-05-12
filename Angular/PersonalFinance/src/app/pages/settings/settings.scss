@@ -1,0 +1,403 @@
+:host {
+  display: block;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.settings-layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--color-background);
+
+  &__main {
+    margin-left: 288px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+    transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &--sidebar-collapsed &__main {
+    margin-left: 0;
+  }
+
+  &__content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 40px 48px 64px;
+  }
+}
+
+.settings-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+// ── Page Header ───────────────────────────────────────────────
+.settings-header {
+  &__title {
+    font-family: var(--font-headline);
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--color-on-surface);
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+  }
+
+  &__subtitle {
+    font-size: 0.9375rem;
+    color: var(--color-outline);
+  }
+}
+
+// ── Settings Card ─────────────────────────────────────────────
+.settings-card {
+  background: var(--color-surface-container-lowest);
+  border-radius: var(--radius-2xl, 1rem);
+  border: 1px solid rgba(195, 198, 214, 0.1);
+  box-shadow: var(--shadow-sm);
+  padding: 32px;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  &__icon-wrap {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-xl);
+    background: rgba(0, 64, 161, 0.1);
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    .material-symbols-outlined {
+      font-size: 22px;
+    }
+
+    &--danger {
+      background: rgba(186, 26, 26, 0.1);
+      color: var(--color-error, #ba1a1a);
+    }
+  }
+
+  &__title {
+    font-family: var(--font-headline);
+    font-size: 1.125rem;
+    font-weight: 800;
+    color: var(--color-on-surface);
+    margin-bottom: 2px;
+  }
+
+  &__subtitle {
+    font-size: 0.875rem;
+    color: var(--color-outline);
+  }
+}
+
+// ── Settings Form ─────────────────────────────────────────────
+.settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+
+    @media (min-width: 640px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (min-width: 900px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-outline);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  &__input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  &__input-icon {
+    position: absolute;
+    left: 14px;
+    font-size: 18px;
+    color: var(--color-outline);
+    pointer-events: none;
+  }
+
+  &__input {
+    width: 100%;
+    background: var(--color-surface-container-high);
+    border: 2px solid transparent;
+    border-radius: var(--radius-xl);
+    padding: 12px 16px 12px 44px;
+    font-size: 0.875rem;
+    font-family: var(--font-body);
+    color: var(--color-on-surface);
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+    &::placeholder {
+      color: var(--color-outline);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(0, 64, 161, 0.12);
+    }
+  }
+
+  &__select-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  &__select {
+    width: 100%;
+    appearance: none;
+    background: var(--color-surface-container-high);
+    border: 2px solid transparent;
+    border-radius: var(--radius-xl);
+    padding: 12px 44px 12px 44px;
+    font-size: 0.875rem;
+    font-family: var(--font-body);
+    color: var(--color-on-surface);
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+    &:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(0, 64, 161, 0.12);
+    }
+  }
+
+  &__select-chevron {
+    position: absolute;
+    right: 14px;
+    font-size: 18px;
+    color: var(--color-outline);
+    pointer-events: none;
+  }
+
+  &__eye-btn {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-outline);
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    border-radius: 4px;
+    transition: color 0.2s;
+
+    &:hover {
+      color: var(--color-on-surface);
+    }
+
+    .material-symbols-outlined {
+      font-size: 18px;
+    }
+  }
+
+  &__error {
+    font-size: 0.75rem;
+    color: var(--color-error, #ba1a1a);
+    font-weight: 500;
+  }
+
+  // Dark theme toggle row
+  &__toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--color-surface-container-high);
+    border-radius: var(--radius-xl);
+    padding: 16px 20px;
+    gap: 16px;
+  }
+
+  &__toggle-info {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  &__toggle-icon {
+    font-size: 22px;
+    color: var(--color-primary);
+  }
+
+  &__toggle-label {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: var(--color-on-surface);
+    margin-bottom: 2px;
+  }
+
+  &__toggle-desc {
+    font-size: 0.8125rem;
+    color: var(--color-outline);
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 8px;
+  }
+}
+
+// ── Toggle Switch ─────────────────────────────────────────────
+.settings-toggle {
+  position: relative;
+  cursor: pointer;
+  flex-shrink: 0;
+
+  &__input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  &__track {
+    display: flex;
+    align-items: center;
+    width: 52px;
+    height: 28px;
+    background: var(--color-surface-container-highest);
+    border-radius: 100px;
+    padding: 3px;
+    transition: background 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &__thumb {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--color-outline);
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), background 0.25s;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
+  }
+
+  &--active &__track {
+    background: var(--color-primary);
+  }
+
+  &--active &__thumb {
+    transform: translateX(24px);
+    background: var(--color-on-primary);
+  }
+}
+
+// ── Buttons ───────────────────────────────────────────────────
+.settings-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border-radius: var(--radius-xl);
+  font-family: var(--font-headline);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.15s, box-shadow 0.2s, opacity 0.2s;
+
+  .material-symbols-outlined {
+    font-size: 18px;
+  }
+
+  &--primary {
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    box-shadow: 0 8px 20px rgba(0, 64, 161, 0.22);
+
+    &:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 28px rgba(0, 64, 161, 0.32);
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+    }
+  }
+
+  &--danger {
+    background: var(--color-error, #ba1a1a);
+    color: #fff;
+    box-shadow: 0 8px 20px rgba(186, 26, 26, 0.22);
+
+    &:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 28px rgba(186, 26, 26, 0.32);
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+    }
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &__spinner {
+    animation: spin 0.8s linear infinite;
+  }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+// ── Responsive ────────────────────────────────────────────────
+@media (max-width: 768px) {
+  .settings-layout {
+    &__main {
+      margin-left: 0;
+    }
+
+    &__content {
+      padding: 24px 16px;
+    }
+  }
+
+  .settings-card {
+    padding: 20px;
+  }
+}

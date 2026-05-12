@@ -1,0 +1,198 @@
+<div class="settings-layout"
+  [ngClass]="{'settings-layout--sidebar-collapsed': !sidebarState.isOpen()}">
+  <app-sidebar></app-sidebar>
+
+  <main class="settings-layout__main">
+    <app-header></app-header>
+
+    <div class="settings-layout__content">
+      <div class="settings-grid">
+
+        <!-- Page Header -->
+        <div class="settings-header">
+          <div class="settings-header__text">
+            <h2 class="settings-header__title">Configurações</h2>
+            <p class="settings-header__subtitle">Gerencie suas preferências e dados da conta.</p>
+          </div>
+        </div>
+
+        <!-- Profile Card -->
+        <section class="settings-card">
+          <div class="settings-card__header">
+            <div class="settings-card__icon-wrap">
+              <span class="material-symbols-outlined">manage_accounts</span>
+            </div>
+            <div>
+              <h3 class="settings-card__title">Perfil</h3>
+              <p class="settings-card__subtitle">Atualize suas informações pessoais e preferências.</p>
+            </div>
+          </div>
+
+          <form [formGroup]="profileForm" (ngSubmit)="onSaveProfile()" class="settings-form">
+            <div class="settings-form__grid">
+              <!-- Nickname -->
+              <div class="settings-form__field">
+                <label class="settings-form__label" for="nickname">Apelido</label>
+                <div class="settings-form__input-wrapper">
+                  <span class="material-symbols-outlined settings-form__input-icon">person</span>
+                  <input
+                    id="nickname"
+                    formControlName="nickname"
+                    class="settings-form__input"
+                    type="text"
+                    placeholder="Seu apelido" />
+                </div>
+                @if (profileForm.get('nickname')?.invalid && profileForm.get('nickname')?.touched) {
+                  <span class="settings-form__error">Apelido é obrigatório.</span>
+                }
+              </div>
+
+              <!-- Email -->
+              <div class="settings-form__field">
+                <label class="settings-form__label" for="email">Email</label>
+                <div class="settings-form__input-wrapper">
+                  <span class="material-symbols-outlined settings-form__input-icon">mail</span>
+                  <input
+                    id="email"
+                    formControlName="email"
+                    class="settings-form__input"
+                    type="email"
+                    placeholder="seu@email.com" />
+                </div>
+                @if (profileForm.get('email')?.invalid && profileForm.get('email')?.touched) {
+                  <span class="settings-form__error">Insira um email válido.</span>
+                }
+              </div>
+
+              <!-- Currency -->
+              <div class="settings-form__field">
+                <label class="settings-form__label" for="currency">Moeda</label>
+                <div class="settings-form__select-wrapper">
+                  <span class="material-symbols-outlined settings-form__input-icon">currency_exchange</span>
+                  <select id="currency" formControlName="currency" class="settings-form__select">
+                    @for (opt of currencyOptions; track opt.value) {
+                      <option [value]="opt.value">{{ opt.label }}</option>
+                    }
+                  </select>
+                  <span class="material-symbols-outlined settings-form__select-chevron">expand_more</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Dark Theme Toggle -->
+            <div class="settings-form__toggle-row">
+              <div class="settings-form__toggle-info">
+                <span class="material-symbols-outlined settings-form__toggle-icon">dark_mode</span>
+                <div>
+                  <p class="settings-form__toggle-label">Tema Escuro</p>
+                  <p class="settings-form__toggle-desc">Ativar interface em modo escuro.</p>
+                </div>
+              </div>
+              <label class="settings-toggle" [class.settings-toggle--active]="profileForm.get('darkTheme')?.value">
+                <input type="checkbox" formControlName="darkTheme" class="settings-toggle__input" />
+                <span class="settings-toggle__track">
+                  <span class="settings-toggle__thumb"></span>
+                </span>
+              </label>
+            </div>
+
+            <div class="settings-form__actions">
+              <button type="submit"
+                [disabled]="profileForm.invalid || isSavingProfile()"
+                class="settings-btn settings-btn--primary">
+                @if (isSavingProfile()) {
+                  <span class="material-symbols-outlined settings-btn__spinner">progress_activity</span>
+                } @else {
+                  <span class="material-symbols-outlined">save</span>
+                }
+                Salvar Perfil
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <!-- Password Card -->
+        <section class="settings-card">
+          <div class="settings-card__header">
+            <div class="settings-card__icon-wrap settings-card__icon-wrap--danger">
+              <span class="material-symbols-outlined">lock</span>
+            </div>
+            <div>
+              <h3 class="settings-card__title">Segurança</h3>
+              <p class="settings-card__subtitle">Atualize sua senha para manter a conta segura.</p>
+            </div>
+          </div>
+
+          <form [formGroup]="passwordForm" (ngSubmit)="onSavePassword()" class="settings-form">
+            <div class="settings-form__grid">
+              <!-- Current Password -->
+              <div class="settings-form__field">
+                <label class="settings-form__label" for="currentPassword">Senha Atual</label>
+                <div class="settings-form__input-wrapper">
+                  <span class="material-symbols-outlined settings-form__input-icon">lock</span>
+                  <input
+                    id="currentPassword"
+                    formControlName="currentPassword"
+                    class="settings-form__input"
+                    [type]="showCurrentPassword() ? 'text' : 'password'"
+                    placeholder="••••••••" />
+                  <button type="button" class="settings-form__eye-btn" (click)="toggleCurrentPassword()">
+                    <span class="material-symbols-outlined">{{ showCurrentPassword() ? 'visibility_off' : 'visibility' }}</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- New Password -->
+              <div class="settings-form__field">
+                <label class="settings-form__label" for="newPassword">Nova Senha</label>
+                <div class="settings-form__input-wrapper">
+                  <span class="material-symbols-outlined settings-form__input-icon">lock_open</span>
+                  <input
+                    id="newPassword"
+                    formControlName="newPassword"
+                    class="settings-form__input"
+                    [type]="showNewPassword() ? 'text' : 'password'"
+                    placeholder="••••••••" />
+                  <button type="button" class="settings-form__eye-btn" (click)="toggleNewPassword()">
+                    <span class="material-symbols-outlined">{{ showNewPassword() ? 'visibility_off' : 'visibility' }}</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Confirm Password -->
+              <div class="settings-form__field">
+                <label class="settings-form__label" for="confirmPassword">Confirmar Nova Senha</label>
+                <div class="settings-form__input-wrapper">
+                  <span class="material-symbols-outlined settings-form__input-icon">lock_open</span>
+                  <input
+                    id="confirmPassword"
+                    formControlName="confirmPassword"
+                    class="settings-form__input"
+                    [type]="showConfirmPassword() ? 'text' : 'password'"
+                    placeholder="••••••••" />
+                  <button type="button" class="settings-form__eye-btn" (click)="toggleConfirmPassword()">
+                    <span class="material-symbols-outlined">{{ showConfirmPassword() ? 'visibility_off' : 'visibility' }}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-form__actions">
+              <button type="submit"
+                [disabled]="passwordForm.invalid || isSavingPassword()"
+                class="settings-btn settings-btn--danger">
+                @if (isSavingPassword()) {
+                  <span class="material-symbols-outlined settings-btn__spinner">progress_activity</span>
+                } @else {
+                  <span class="material-symbols-outlined">key</span>
+                }
+                Alterar Senha
+              </button>
+            </div>
+          </form>
+        </section>
+
+      </div>
+    </div>
+  </main>
+</div>

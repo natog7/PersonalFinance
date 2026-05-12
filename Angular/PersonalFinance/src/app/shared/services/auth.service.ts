@@ -36,11 +36,12 @@ export class AuthService {
       tap((response) => {
         localStorage.setItem('access_token', response.token.accessToken);
         localStorage.setItem('refresh_token', response.token.refreshToken);
-        localStorage.setItem('user_nickname', response.nickname);
-        localStorage.setItem('user_email', response.email);
-        localStorage.setItem('user_currency', response.currency || 'BRL');
+        this.updateUserInfo({
+          nickname: response.nickname,
+          email: response.email,
+          currency: response.currency || 'BRL'
+        });
         this.isAuthenticated.set(true);
-        this.userCurrency.set(response.currency || 'BRL');
         this.router.navigate(['/home']);
       })
     );
@@ -59,5 +60,12 @@ export class AuthService {
     this.isAuthenticated.set(false);
     this.userCurrency.set('BRL');
     this.router.navigate(['/login']);
+  }
+
+  updateUserInfo(data: { nickname: string; email: string; currency: string }) {
+    localStorage.setItem('user_nickname', data.nickname);
+    localStorage.setItem('user_email', data.email);
+    localStorage.setItem('user_currency', data.currency || 'BRL');
+    this.userCurrency.set(data.currency || 'BRL');
   }
 }
