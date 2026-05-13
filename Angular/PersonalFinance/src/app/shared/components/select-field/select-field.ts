@@ -1,6 +1,5 @@
 import { Component, input, ChangeDetectionStrategy, computed, signal, HostListener, ElementRef, inject, forwardRef } from '@angular/core';
 import { ReactiveFormsModule, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { NgClass } from '@angular/common';
 
 export interface SelectOption {
   value: any;
@@ -10,7 +9,7 @@ export interface SelectOption {
 @Component({
   selector: 'app-select-field',
   standalone: true,
-  imports: [NgClass, ReactiveFormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './select-field.html',
   styleUrl: './select-field.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -57,8 +56,8 @@ export class SelectField implements ControlValueAccessor {
     return this.selectedLabel();
   });
 
-  onChange: any = () => {};
-  onTouched: any = () => {};
+  onChange: any = () => { };
+  onTouched: any = () => { };
 
   writeValue(val: any): void {
     this.selectedValue.set(val);

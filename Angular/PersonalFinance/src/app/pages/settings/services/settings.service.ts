@@ -5,11 +5,10 @@ import { AuthService } from '../../../shared/services/auth.service';
 import { catchError, tap, throwError } from 'rxjs';
 
 export interface UpdateProfilePayload {
-  email: string;
-  password?: string;
-  nickname: string;
-  currency: string | null;
-  darkTheme: boolean | null;
+  email?: string;
+  nickname?: string;
+  currency?: string | null;
+  darkTheme?: boolean | null;
 }
 
 export interface EditProfileResponse {
@@ -21,7 +20,7 @@ export interface EditProfileResponse {
 }
 
 export interface UpdatePasswordPayload {
-  currentPassword: string;
+  oldPassword: string;
   newPassword: string;
 }
 
@@ -33,11 +32,7 @@ export class SettingsService {
   private readonly apiUrl = 'https://localhost:55784/api/auth';
 
   updateProfile(payload: UpdateProfilePayload) {
-    const requestPayload = {
-      ...payload,
-      password: payload.password || ''
-    };
-    return this.http.put<EditProfileResponse>(`${this.apiUrl}/edit`, requestPayload).pipe(
+    return this.http.put<EditProfileResponse>(`${this.apiUrl}/edit`, payload).pipe(
       tap((response) => {
         this.authService.updateUserInfo({
           nickname: response.nickname,
@@ -54,8 +49,8 @@ export class SettingsService {
   }
 
   updatePassword(payload: UpdatePasswordPayload) {
-    return this.http.put(`${this.apiUrl}/password`, payload).pipe(
-      tap(() => {
+    return this.http.put<EditProfileResponse>(`${this.apiUrl}/edit`, payload).pipe(
+      tap((response) => {
         this.toastService.success('Senha atualizada com sucesso!');
       }),
       catchError((err: HttpErrorResponse) => {

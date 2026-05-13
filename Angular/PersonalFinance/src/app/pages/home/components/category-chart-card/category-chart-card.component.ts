@@ -1,5 +1,4 @@
 import { Component, inject, signal, computed, OnInit } from '@angular/core';
-import { DecimalPipe } from '@angular/common';
 import { DashboardService } from '../../services/dashboard.service';
 import { CurrencyPipe } from '@angular/common';
 import { AuthService } from '../../../../shared/services/auth.service';
@@ -7,7 +6,7 @@ import { AuthService } from '../../../../shared/services/auth.service';
 @Component({
   selector: 'app-category-chart-card',
   standalone: true,
-  imports: [DecimalPipe, CurrencyPipe],
+  imports: [CurrencyPipe],
   templateUrl: './category-chart-card.component.html',
   styleUrl: './category-chart-card.component.scss',
 })

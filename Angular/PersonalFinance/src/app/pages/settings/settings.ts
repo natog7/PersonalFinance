@@ -33,6 +33,18 @@ export class SettingsComponent implements OnInit {
     { value: 'USD', label: 'Dólar Americano ($)' },
     { value: 'EUR', label: 'Euro (€)' },
     { value: 'GBP', label: 'Libra Esterlina (£)' },
+    { value: 'JPY', label: 'Iene Japonês (¥)' },
+    { value: 'CNY', label: 'Yuan Chinês (¥)' },
+    { value: 'AUD', label: 'Dólar Australiano ($)' },
+    { value: 'CAD', label: 'Dólar Canadense ($)' },
+    { value: 'CHF', label: 'Franco Suíço (Fr)' },
+    { value: 'SEK', label: 'Coroa Sueca (kr)' },
+    { value: 'NOK', label: 'Coroa Norueguesa (kr)' },
+    { value: 'DKK', label: 'Coroa Dinamarquesa (kr)' },
+    { value: 'NZD', label: 'Dólar Neozelandês ($)' },
+    { value: 'ZAR', label: 'Rand Sul-Africano (R)' },
+    { value: 'INR', label: 'Rúpia Indiana (₹)' },
+    { value: 'MXN', label: 'Peso Mexicano ($)' },
   ];
 
   profileForm = this.fb.group({
@@ -43,12 +55,12 @@ export class SettingsComponent implements OnInit {
   });
 
   passwordForm = this.fb.group({
-    currentPassword: ['', [Validators.required, Validators.minLength(6)]],
+    oldPassword: ['', [Validators.required, Validators.minLength(6)]],
     newPassword: ['', [Validators.required, Validators.minLength(6)]],
     confirmPassword: ['', [Validators.required]],
   });
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   onSaveProfile(): void {
     if (this.profileForm.invalid) return;
@@ -73,7 +85,7 @@ export class SettingsComponent implements OnInit {
   }
 
   onSavePassword(): void {
-    const { currentPassword, newPassword, confirmPassword } = this.passwordForm.getRawValue();
+    const { oldPassword, newPassword, confirmPassword } = this.passwordForm.getRawValue();
     if (this.passwordForm.invalid) return;
     if (newPassword !== confirmPassword) {
       this.toastService.show('As senhas não coincidem.', 'error');
@@ -82,7 +94,7 @@ export class SettingsComponent implements OnInit {
 
     this.isSavingPassword.set(true);
 
-    this.settingsService.updatePassword({ currentPassword, newPassword }).subscribe({
+    this.settingsService.updatePassword({ oldPassword, newPassword }).subscribe({
       next: () => {
         this.toastService.show('Senha atualizada com sucesso!', 'success');
         this.passwordForm.reset();
