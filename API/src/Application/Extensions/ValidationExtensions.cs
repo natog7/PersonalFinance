@@ -1,4 +1,6 @@
-﻿namespace PersonalFinanceAPI.Application.Extensions;
+﻿using PersonalFinanceAPI.Domain.ValueObjects;
+
+namespace PersonalFinanceAPI.Application.Extensions;
 
 public static class ValidationExtensions
 {
@@ -116,5 +118,33 @@ public static class ValidationExtensions
 	{
 		return ruleBuilder
 			.ExclusiveBetween(min, max).WithMessage(string.Format("{PropertyName} must be between {0} and {1}, both inclusive.", min + 1, max - 1));
+	}
+
+	public static IRuleBuilderOptions<T, DateOnlyPeriod?> IsDateRange<T>(this IRuleBuilder<T, DateOnlyPeriod?> ruleBuilder)
+	{
+		return ruleBuilder
+			.NotEmptyOrNull()
+			.IsDateRangeNull();
+	}
+
+	public static IRuleBuilderOptions<T, DateOnlyPeriod?> IsDateRangeNull<T>(this IRuleBuilder<T, DateOnlyPeriod?> ruleBuilder)
+	{
+		return ruleBuilder
+			.Must(period => period == null || period.Start <= period.End)
+			.WithMessage("{PropertyName}: Date start must be less than or equal to end.");
+	}
+
+	public static IRuleBuilderOptions<T, DatePeriod?> IsDateRange<T>(this IRuleBuilder<T, DatePeriod?> ruleBuilder)
+	{
+		return ruleBuilder
+			.NotEmptyOrNull()
+			.IsDateRangeNull();
+	}
+
+	public static IRuleBuilderOptions<T, DatePeriod?> IsDateRangeNull<T>(this IRuleBuilder<T, DatePeriod?> ruleBuilder)
+	{
+		return ruleBuilder
+			.Must(period => period == null || period.Start <= period.End)
+			.WithMessage("{PropertyName}: Date start must be less than or equal to end.");
 	}
 }

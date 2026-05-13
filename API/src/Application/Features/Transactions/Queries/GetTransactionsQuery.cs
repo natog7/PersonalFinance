@@ -1,3 +1,5 @@
+using PersonalFinanceAPI.Application.Extensions;
+using PersonalFinanceAPI.Application.Features.Auth.Commands;
 using PersonalFinanceAPI.Application.Repositories;
 using PersonalFinanceAPI.Domain.Entities;
 using PersonalFinanceAPI.Domain.Enums;
@@ -38,5 +40,27 @@ public class GetTransactionsQueryHandler : CommandHandler<GetTransactionsQuery, 
 				Recurrent = x is RecurrentTransaction rt ? new RecurrentTransactionData(rt.EndDate, rt.Period) : null
 			}).ToList()
 		};
+	}
+}
+
+public class GetTransactionsQueryValidator : AbstractValidator<GetTransactionsQuery>
+{
+	public GetTransactionsQueryValidator()
+	{
+		RuleFor(x => x.Title)
+			.MaxLengthNull(256)
+			.When(x => !string.IsNullOrWhiteSpace(x.Title));
+
+		RuleFor(x => x.Currency)
+			.MaxLengthNull(3)
+			.When(x => !string.IsNullOrWhiteSpace(x.Currency));
+
+		RuleFor(x => x.CategoryIds)
+			.Must(list => list == null || list.All(guid => guid != Guid.Empty))
+			.WithMessage("{PropertyName} must not contain empty GUIDs.");
+
+		RuleFor(x => x.Date)
+			.IsDateRangeNull()
+			.When(x => x.Date != null);
 	}
 }
