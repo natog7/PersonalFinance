@@ -36,6 +36,11 @@ export class HeaderComponent {
     this.isAccountMenuOpen.update(v => !v);
   }
 
+  navigateToSettings(): void {
+    this.isAccountMenuOpen.set(false);
+    this.router.navigate(['/settings']);
+  }
+
   toggleMenu(): void {
     this.sidebarState.toggle();
   }

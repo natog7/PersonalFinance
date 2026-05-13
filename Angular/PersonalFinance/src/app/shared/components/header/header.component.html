@@ -33,7 +33,7 @@
       </button>
 
       <!-- Account Menu Dropdown -->
-      <app-account-menu [isOpen]="isAccountMenuOpen()" (settings)="isAccountMenuOpen.set(false)"
+      <app-account-menu [isOpen]="isAccountMenuOpen()" (settings)="navigateToSettings()"
         (logout)="isAccountMenuOpen.set(false)">
       </app-account-menu>
     </div>
