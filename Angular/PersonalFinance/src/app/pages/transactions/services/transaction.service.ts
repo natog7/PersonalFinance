@@ -14,16 +14,16 @@ export class TransactionService {
   readonly transactions = this._transactions.asReadonly();
   readonly totalTransactions = computed(() => this.transactions().length);
 
-  fetchFiltered(startDate: string, endDate: string | null = null, type: string | null = null, categoryIds: string[] = []) {
+  fetchFiltered(startDate: string | null = null, endDate: string | null = null, type: string | null = null, categoryIds: string[] = []) {
     const payload = {
       title: null,
-      date: {
+      date: startDate ? {
         start: startDate,
         end: endDate
-      },
+      } : null,
       type: type,
       currency: null,
-      categoryIds: categoryIds.length > 0 ? categoryIds : [""]
+      categoryIds: categoryIds.length > 0 ? categoryIds : []
     };
 
     this.http.post<{ items: any[] }>(`${this.apiUrl}/filter`, payload)

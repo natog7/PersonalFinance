@@ -22,7 +22,7 @@ export class TransactionsComponent implements OnInit {
   private fb = inject(NonNullableFormBuilder);
 
   ngOnInit(): void {
-    this.transactionService.fetchFiltered('2024-01-01');
+    this.transactionService.fetchFiltered();
   }
 
   transactions = this.transactionService.transactions;
