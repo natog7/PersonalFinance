@@ -50,7 +50,16 @@ public class User : Entity<Guid>
             Email = email.ToLower().Trim();
 
         if (!string.IsNullOrWhiteSpace(passwordHash))
-            PasswordHash = passwordHash;
+        {
+            if (PasswordHash == passwordHash)
+            {
+                throw new ArgumentException("New password needs to be different from old password.", nameof(passwordHash));
+            }
+            else
+            {
+                PasswordHash = passwordHash;
+            }
+		}
 
         if (!string.IsNullOrWhiteSpace(nickname))
             Nickname = nickname.Trim();
@@ -60,5 +69,5 @@ public class User : Entity<Guid>
 
         if (darkTheme.HasValue)
             DarkTheme = darkTheme.Value;
-    }
+	}
 }

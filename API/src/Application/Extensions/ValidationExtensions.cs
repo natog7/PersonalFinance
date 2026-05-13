@@ -13,10 +13,23 @@ public static class ValidationExtensions
 	{
 		return ruleBuilder
 			.NotEmptyOrNull()
+			.MaxLengthNull(length);
+	}
+
+	public static IRuleBuilderOptions<T, string?> MaxLengthNull<T>(this IRuleBuilder<T, string?> ruleBuilder, int length)
+	{
+		return ruleBuilder
 			.MaximumLength(length).WithMessage(string.Format("{PropertyName} cannot exceed {0} characters.", length));
 	}
 
 	public static IRuleBuilderOptions<T, string?> NotEmptyLength<T>(this IRuleBuilder<T, string?> ruleBuilder, int length)
+	{
+		return ruleBuilder
+			.NotEmptyOrNull()
+			.NotEmptyLengthNull(length);
+	}
+
+	public static IRuleBuilderOptions<T, string?> NotEmptyLengthNull<T>(this IRuleBuilder<T, string?> ruleBuilder, int length)
 	{
 		return ruleBuilder
 			.NotEmptyOrNull()
@@ -27,6 +40,12 @@ public static class ValidationExtensions
 	{
 		return ruleBuilder
 			.NotEmptyOrNull()
+			.NotEmptyMinMaxLengthNull(minLength, maxLength);
+	}
+
+	public static IRuleBuilderOptions<T, string?> NotEmptyMinMaxLengthNull<T>(this IRuleBuilder<T, string?> ruleBuilder, int minLength, int maxLength)
+	{
+		return ruleBuilder
 			.Length(minLength).WithMessage(string.Format("{PropertyName} must be {0} characters.", minLength))
 			.MaximumLength(maxLength).WithMessage(string.Format("{PropertyName} cannot exceed {0} characters.", maxLength));
 	}
@@ -42,6 +61,12 @@ public static class ValidationExtensions
 	{
 		return ruleBuilder
 			.NotEmptyOrNull()
+			.IsEmailNull();
+	}
+
+	public static IRuleBuilderOptions<T, string?> IsEmailNull<T>(this IRuleBuilder<T, string?> ruleBuilder)
+	{
+		return ruleBuilder
 			.EmailAddress().WithMessage("{PropertyName} must be in a valid format (e.g. user@email.com).");
 	}
 
@@ -55,6 +80,12 @@ public static class ValidationExtensions
 	{
 		return ruleBuilder
 			.NotEmptyOrNull()
+			.IsPasswordNull();
+	}
+
+	public static IRuleBuilderOptions<T, string?> IsPasswordNull<T>(this IRuleBuilder<T, string?> ruleBuilder)
+	{
+		return ruleBuilder
 			.MinimumLength(8).WithMessage("{PropertyName} must be at least 8 characters.")
 			.Matches(@"[A-Z]").WithMessage("{PropertyName} must contain at least one uppercase letter.")
 			.Matches(@"[0-9]").WithMessage("{PropertyName} must contain at least one digit.")
@@ -65,6 +96,12 @@ public static class ValidationExtensions
 	{
 		return ruleBuilder
 			.NotEmptyOrNull()
+			.IsInclusiveBetweenNull(min, max);
+	}
+
+	public static IRuleBuilderOptions<T, int> IsInclusiveBetweenNull<T>(this IRuleBuilder<T, int> ruleBuilder, int min, int max)
+	{
+		return ruleBuilder
 			.InclusiveBetween(min, max).WithMessage(string.Format("{PropertyName} must be between {0} and {1}, both inclusive.", min, max));
 	}
 
@@ -72,6 +109,12 @@ public static class ValidationExtensions
 	{
 		return ruleBuilder
 			.NotEmptyOrNull()
+			.IsExclusiveBetweenNull(min, max);
+	}
+
+	public static IRuleBuilderOptions<T, int> IsExclusiveBetweenNull<T>(this IRuleBuilder<T, int> ruleBuilder, int min, int max)
+	{
+		return ruleBuilder
 			.ExclusiveBetween(min, max).WithMessage(string.Format("{PropertyName} must be between {0} and {1}, both inclusive.", min + 1, max - 1));
 	}
 }
