@@ -6,10 +6,12 @@ namespace PersonalFinanceAPI.Domain.ValueObjects;
 
 public class DateOnlyPeriod : IEquatable<DateOnlyPeriod>
 {
-	public DateOnly Start { get; }
-	public DateOnly? End { get; }
+	public DateOnly Start { get; set; }
+	public DateOnly? End { get; set; }
 
-	private DateOnlyPeriod(DateOnly start, DateOnly? end)
+	public DateOnlyPeriod() { }
+
+	public DateOnlyPeriod(DateOnly start, DateOnly? end)
 	{
 		if (End is not null && Start > End)
 			throw new ArgumentException("The first date can't be later than the second.", nameof(Start));
