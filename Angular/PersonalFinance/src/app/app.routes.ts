@@ -34,7 +34,7 @@ export const routes: Routes = [
     path: 'projection',
     canActivate: [authGuard],
     loadComponent: () =>
-      import('./pages/categories/categories').then((m) => m.CategoriesComponent),
+      import('./pages/projection/projection').then((m) => m.ProjectionComponent),
   },
   {
     path: 'settings',

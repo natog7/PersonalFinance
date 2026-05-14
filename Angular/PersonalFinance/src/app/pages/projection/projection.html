@@ -1,0 +1,201 @@
+<div class="projection-layout"
+  [ngClass]="{'projection-layout--sidebar-collapsed': !sidebarState.isOpen()}">
+  <!-- Sidebar -->
+  <app-sidebar></app-sidebar>
+
+  <!-- Main Content -->
+  <main class="projection-layout__main">
+    <app-header></app-header>
+
+    <div class="projection-layout__content">
+      <div class="projection-grid">
+        <!-- Summary Cards Row -->
+        <div class="projection-cards">
+          <!-- Current Balance -->
+          <div class="card card--primary">
+            <span class="card__bg-icon material-symbols-outlined">account_balance_wallet</span>
+            <div class="card__top">
+              <p class="card__label">Saldo Atual</p>
+            </div>
+            <h2 class="card__total">R$ 98.420,15</h2>
+            <div class="card__stats">
+              <p class="card__stat-label"
+                style="text-transform: none;">Saldo total acumulado</p>
+            </div>
+          </div>
+
+          <!-- Goal -->
+          <div class="card card--outline">
+            <span class="card__bg-icon material-symbols-outlined">flag</span>
+            <div class="card__top">
+              <p class="card__label"
+                style="color: var(--color-on-surface-variant);">Meta 6 Meses</p>
+            </div>
+            <h2 class="card__total"
+              style="color: var(--color-on-surface);">R$ 158.000,00</h2>
+            <div class="card__stats">
+              <div class="card__progress-track">
+                <div class="card__progress-fill"
+                  style="width: 62.3%"></div>
+              </div>
+              <p class="card__stat-label"
+                style="color: var(--color-on-surface-variant); text-transform: none;">62,3% da meta alcançada</p>
+            </div>
+          </div>
+
+          <!-- Growth -->
+          <div class="card card--secondary">
+            <span class="card__bg-icon material-symbols-outlined">insights</span>
+            <div class="card__top">
+              <p class="card__label">Crescimento</p>
+            </div>
+            <h2 class="card__total">+ 60,5%</h2>
+            <div class="card__stats">
+              <p class="card__stat-label"
+                style="text-transform: none;">Projetado para o período</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Chart Card -->
+        <div class="card">
+          <!-- Card Header -->
+          <div class="card__header">
+            <div class="card__title-group">
+              <div class="card__icon-wrap">
+                <span class="material-symbols-outlined">trending_up</span>
+              </div>
+              <h3 class="card__title">Projeção Semestral</h3>
+            </div>
+            <div class="card__actions chart-card__legend">
+              <div class="chart-card__legend-item">
+                <span class="chart-card__legend-color chart-card__legend-color--primary"></span>
+                <span class="chart-card__legend-label">Saldo Projetado</span>
+              </div>
+              <div class="chart-card__legend-item">
+                <span class="chart-card__legend-color chart-card__legend-color--error"></span>
+                <span class="chart-card__legend-label">Despesas Previstas</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card__body">
+            <!-- Line Chart Visualization (SVG approach for clarity) -->
+            <div class="projection-chart">
+              <!-- Y-Axis Labels -->
+              <div class="projection-chart__y-axis">
+                <span>200k</span>
+                <span>150k</span>
+                <span>100k</span>
+                <span>50k</span>
+                <span>0k</span>
+              </div>
+
+              <!-- SVG Chart -->
+              <svg class="projection-chart__svg"
+                preserveAspectRatio="none"
+                viewBox="0 0 1000 300">
+                <!-- Grid Lines -->
+                <line stroke="var(--color-surface-container-high)"
+                  stroke-width="1"
+                  x1="0"
+                  x2="1000"
+                  y1="0"
+                  y2="0"></line>
+                <line stroke="var(--color-surface-container-high)"
+                  stroke-width="1"
+                  x1="0"
+                  x2="1000"
+                  y1="75"
+                  y2="75"></line>
+                <line stroke="var(--color-surface-container-high)"
+                  stroke-width="1"
+                  x1="0"
+                  x2="1000"
+                  y1="150"
+                  y2="150"></line>
+                <line stroke="var(--color-surface-container-high)"
+                  stroke-width="1"
+                  x1="0"
+                  x2="1000"
+                  y1="225"
+                  y2="225"></line>
+
+                <!-- Area Balance -->
+                <path d="M0,200 L200,180 L400,150 L600,100 L800,60 L1000,30 L1000,300 L0,300 Z"
+                  fill="url(#gradBalance)"
+                  opacity="0.1"></path>
+
+                <!-- Line Balance (Blue) -->
+                <path d="M0,200 L200,180 L400,150 L600,100 L800,60 L1000,30"
+                  fill="none"
+                  stroke="var(--color-primary)"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="4"></path>
+
+                <!-- Line Expenses (Red) -->
+                <path d="M0,250 L200,260 L400,240 L600,270 L800,230 L1000,250"
+                  fill="none"
+                  stroke="var(--color-error)"
+                  stroke-dasharray="8,4"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="3"></path>
+
+                <!-- Data Points -->
+                <circle cx="0"
+                  cy="200"
+                  fill="var(--color-primary)"
+                  r="4"></circle>
+                <circle cx="200"
+                  cy="180"
+                  fill="var(--color-primary)"
+                  r="4"></circle>
+                <circle cx="400"
+                  cy="150"
+                  fill="var(--color-primary)"
+                  r="4"></circle>
+                <circle cx="600"
+                  cy="100"
+                  fill="var(--color-primary)"
+                  r="4"></circle>
+                <circle cx="800"
+                  cy="60"
+                  fill="var(--color-primary)"
+                  r="4"></circle>
+                <circle cx="1000"
+                  cy="30"
+                  fill="var(--color-primary)"
+                  r="6"></circle>
+
+                <defs>
+                  <linearGradient id="gradBalance"
+                    x1="0%"
+                    x2="0%"
+                    y1="0%"
+                    y2="100%">
+                    <stop offset="0%"
+                      style="stop-color:var(--color-primary);stop-opacity:1"></stop>
+                    <stop offset="100%"
+                      style="stop-color:var(--color-primary);stop-opacity:0"></stop>
+                  </linearGradient>
+                </defs>
+              </svg>
+
+              <!-- X-Axis Labels -->
+              <div class="projection-chart__x-axis">
+                <span>AGO</span>
+                <span>SET</span>
+                <span>OUT</span>
+                <span>NOV</span>
+                <span>DEZ</span>
+                <span>JAN</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

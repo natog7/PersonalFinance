@@ -1,10 +1,11 @@
 <div class="card">
   <!-- Decorative Background Icon -->
-  <span class="card__bg-icon material-symbols-outlined">account_balance</span>
+  <span class="card__bg-icon material-symbols-outlined">account_balance_wallet</span>
 
   <div class="card__top">
     <p class="card__label">Saldo este Mês</p>
-    <span class="card__badge" [class.card__badge--good]="balance().monthlyGrowthPercent >= 0"
+    <span class="card__badge"
+      [class.card__badge--good]="balance().monthlyGrowthPercent >= 0"
       [class.card__badge--bad]="balance().monthlyGrowthPercent < 0">
       <span class="material-symbols-outlined">{{
         balance().monthlyGrowthPercent >= 0 ? 'trending_up' : 'trending_down'
