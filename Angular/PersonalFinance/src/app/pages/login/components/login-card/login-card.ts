@@ -56,7 +56,7 @@ export class LoginCardComponent {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe({
         error: (err: HttpErrorResponse) => {
-          this.toastService.httpError(err.status, 'E-mail ou senha incorretos.');
+          this.toastService.httpErrorCustom(err.status, [{ code: 401, message: 'E-mail ou senha incorretos.' }]);
         }
       });
     }

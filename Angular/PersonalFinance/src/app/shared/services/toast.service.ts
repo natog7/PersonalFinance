@@ -62,6 +62,16 @@ export class ToastService {
     this.show(message, 'error', duration);
   }
 
+  httpErrorCustom(statusCode: number, messages: { code: number; message: string }[], duration?: number) {
+    for (const message of messages) {
+      if (message.code === statusCode) {
+        this.show(message.message, 'error', duration);
+        return;
+      }
+    }
+    this.httpError(statusCode, '', duration);
+  }
+
   info(message: string, duration?: number) {
     this.show(message, 'info', duration);
   }
@@ -78,7 +88,7 @@ export class ToastService {
 
     const toast = this.toasts().find(t => t.id === id);
     if (toast && !toast.isClosing) {
-      this.toasts.update(current => 
+      this.toasts.update(current =>
         current.map(t => t.id === id ? { ...t, isClosing: true } : t)
       );
       setTimeout(() => {
