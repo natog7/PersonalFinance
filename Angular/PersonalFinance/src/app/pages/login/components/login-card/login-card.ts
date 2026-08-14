@@ -20,6 +20,7 @@ export class LoginCardComponent {
   email = input<string>();
 
   openRegister = output<void>();
+  openForgotPassword = output<void>();
 
   loginForm: FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -44,7 +45,7 @@ export class LoginCardComponent {
   }
 
   forgotPassword(): void {
-    console.log('Forgot password');
+    this.openForgotPassword.emit();
   }
 
   onOpenRegister(event: Event): void {

@@ -42,12 +42,14 @@
           <!-- Front: Login Card -->
           <div class="login-card-face login-card-face--front">
             <app-login-card [email]="email()"
-              (openRegister)="openRegister()" />
+              (openRegister)="openRegister()"
+              (openForgotPassword)="openForgotPassword()" />
           </div>
 
           <!-- Back: Register Card -->
           <div class="login-card-face login-card-face--back">
-            <app-login-register-form (backToLogin)="closeRegister()"
+            <app-login-register-form [mode]="formMode()"
+              (backToLogin)="closeRegister()"
               (registerCompleted)="registerCompleted($event)" />
           </div>
 

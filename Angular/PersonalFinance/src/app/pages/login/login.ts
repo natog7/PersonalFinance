@@ -13,6 +13,7 @@ import { GeneralService } from '../../shared/services/general.service';
 export class LoginComponent implements OnInit {
   private readonly generalService = inject(GeneralService);
   showRegister = signal(false);
+  formMode = signal<'register' | 'forgotPassword'>('register');
   isOnline = computed(() => this.generalService.isOnline());
   textOnline = computed(() => this.isOnline() ? 'Online' : 'Offline');
   email = signal('');
@@ -30,6 +31,12 @@ export class LoginComponent implements OnInit {
   }
 
   openRegister(): void {
+    this.formMode.set('register');
+    this.showRegister.set(true);
+  }
+
+  openForgotPassword(): void {
+    this.formMode.set('forgotPassword');
     this.showRegister.set(true);
   }
 

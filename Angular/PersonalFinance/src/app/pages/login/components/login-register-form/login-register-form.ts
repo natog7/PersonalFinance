@@ -1,4 +1,4 @@
-import { Component, signal, computed, inject, output } from '@angular/core';
+import { Component, signal, computed, inject, output, input, effect } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl } from '@angular/forms';
 import { InputField } from '../../../../shared/components/input-field/input-field';
 import { AuthService } from '../../../../shared/services/auth.service';
@@ -36,12 +36,23 @@ export class LoginRegisterFormComponent {
   private readonly authService = inject(AuthService);
   private readonly toastService = inject(ToastService);
 
+  mode = input<'register' | 'forgotPassword'>('register');
+
   backToLogin = output<void>();
   registerCompleted = output<string>();
 
+  cardTitle = computed(() => this.mode() === 'register' ? 'Criar Conta' : 'Esqueceu a Senha?');
+  cardSubtitle = computed(() => this.mode() === 'register' ? 'Comece sua jornada financeira' : 'Informe seus dados para redefinir a senha');
+  cardIcon = computed(() => this.mode() === 'register' ? 'person_add' : 'lock_reset');
+  passwordLabel = computed(() => this.mode() === 'register' ? 'Senha' : 'Nova Senha');
+  confirmPasswordLabel = computed(() => this.mode() === 'register' ? 'Confirmar Senha' : 'Confirmar Nova Senha');
+  submitButtonText = computed(() => this.mode() === 'register' ? 'Criar Conta' : 'Redefinir Senha');
+  submitButtonIcon = computed(() => this.mode() === 'register' ? 'arrow_forward' : 'lock_reset');
+
   registerForm: FormGroup = this.fb.group({
-    nickname: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(128)]],
+    nickname: [''],
     email: ['', [Validators.required, Validators.email]],
+    verifyCode: [''],
     password: ['', [
       Validators.required,
       Validators.minLength(8),
@@ -52,6 +63,28 @@ export class LoginRegisterFormComponent {
 
   password = passwordVisibility();
   confirmPassword = passwordVisibility();
+
+  constructor() {
+    effect(() => {
+      const currentMode = this.mode();
+      this.registerForm.reset();
+      if (currentMode === 'register') {
+        this.registerForm.get('nickname')?.setValidators([
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(128)
+        ]);
+        this.registerForm.get('verifyCode')?.clearValidators();
+      } else {
+        this.registerForm.get('nickname')?.clearValidators();
+        this.registerForm.get('verifyCode')?.setValidators([
+          Validators.required
+        ]);
+      }
+      this.registerForm.get('nickname')?.updateValueAndValidity();
+      this.registerForm.get('verifyCode')?.updateValueAndValidity();
+    });
+  }
 
   getErrorMessage(controlName: string): string | undefined {
     const control = this.registerForm.get(controlName);
@@ -75,21 +108,51 @@ export class LoginRegisterFormComponent {
     return undefined;
   }
 
-  register(): void {
+  onSubmit(): void {
     if (this.registerForm.valid) {
-      const { email, password, nickname } = this.registerForm.value;
-      this.authService.register({ email, password, nickname }).subscribe({
-        next: () => {
-          this.registerCompleted.emit(email);
-          this.toastService.success('Registro realizado com sucesso!');
-        },
-        error: (err: HttpErrorResponse) => {
-          this.toastService.httpError(err.status, 'Erro ao registrar.');
-        }
-      });
+      const { email, password, nickname, verifyCode } = this.registerForm.value;
+      if (this.mode() === 'register') {
+        this.authService.register({ email, password, nickname }).subscribe({
+          next: () => {
+            this.registerCompleted.emit(email);
+            this.toastService.success('Registro realizado com sucesso!');
+          },
+          error: (err: HttpErrorResponse) => {
+            this.toastService.httpError(err.status, 'Erro ao registrar.');
+          }
+        });
+      } else {
+        this.authService.forgotPassword({ email, verifyCode, password }).subscribe({
+          next: () => {
+            this.registerCompleted.emit(email);
+            this.toastService.success('Senha redefinida com sucesso!');
+          },
+          error: (err: HttpErrorResponse) => {
+            this.toastService.httpError(err.status, 'Erro ao redefinir a senha.');
+          }
+        });
+      }
     } else {
       this.registerForm.markAllAsTouched();
     }
+  }
+
+  sendVerificationCode(): void {
+    const emailControl = this.registerForm.get('email');
+    if (!emailControl?.value || emailControl.hasError('email') || emailControl.hasError('required')) {
+      emailControl?.markAsTouched();
+      this.toastService.error('Informe um e-mail válido para enviar o código.');
+      return;
+    }
+
+    this.authService.sendVerificationCode(emailControl.value).subscribe({
+      next: () => {
+        this.toastService.success('Código de verificação enviado para o e-mail!');
+      },
+      error: (err: HttpErrorResponse) => {
+        this.toastService.httpError(err.status, 'Erro ao enviar código de verificação.');
+      }
+    });
   }
 
   goBack(): void {

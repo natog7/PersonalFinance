@@ -2,22 +2,24 @@
   <!-- Header -->
   <div class="register-card__header">
     <div class="register-card__logo">
-      <span class="material-symbols-outlined">person_add</span>
+      <span class="material-symbols-outlined">{{ cardIcon() }}</span>
     </div>
-    <h2 class="register-card__title">Criar Conta</h2>
-    <p class="register-card__subtitle">Comece sua jornada financeira</p>
+    <h2 class="register-card__title">{{ cardTitle() }}</h2>
+    <p class="register-card__subtitle">{{ cardSubtitle() }}</p>
   </div>
 
   <!-- Form -->
   <form class="register-form"
     [formGroup]="registerForm"
-    (ngSubmit)="register()">
-    <app-input-field fieldId="nickname"
-      label="Nome / Apelido"
-      placeholder="Seu nome ou apelido"
-      type="text"
-      icon="badge"
-      [error]="getErrorMessage('nickname')"></app-input-field>
+    (ngSubmit)="onSubmit()">
+    @if (mode() === 'register') {
+      <app-input-field fieldId="nickname"
+        label="Nome / Apelido"
+        placeholder="Seu nome ou apelido"
+        type="text"
+        icon="badge"
+        [error]="getErrorMessage('nickname')"></app-input-field>
+    }
 
     <app-input-field fieldId="email"
       label="Email"
@@ -26,8 +28,19 @@
       icon="mail"
       [error]="getErrorMessage('email')"></app-input-field>
 
+    @if (mode() === 'forgotPassword') {
+      <app-input-field fieldId="verifyCode"
+        label="Código de Verificação"
+        labelLink="Enviar código por e-mail"
+        (labelLinkClick)="sendVerificationCode()"
+        placeholder="Código enviado por e-mail"
+        type="text"
+        icon="verified"
+        [error]="getErrorMessage('verifyCode')"></app-input-field>
+    }
+
     <app-input-field fieldId="password"
-      label="Senha"
+      [label]="passwordLabel()"
       placeholder="••••••••"
       [type]="password.type()"
       icon="lock"
@@ -36,7 +49,7 @@
       [error]="getErrorMessage('password')"></app-input-field>
 
     <app-input-field fieldId="confirmPassword"
-      label="Confirmar Senha"
+      [label]="confirmPasswordLabel()"
       placeholder="••••••••"
       [type]="confirmPassword.type()"
       icon="lock"
@@ -46,8 +59,8 @@
 
     <button class="register-form__submit"
       type="submit">
-      <span>Criar Conta</span>
-      <span class="material-symbols-outlined">arrow_forward</span>
+      <span>{{ submitButtonText() }}</span>
+      <span class="material-symbols-outlined">{{ submitButtonIcon() }}</span>
     </button>
   </form>
 

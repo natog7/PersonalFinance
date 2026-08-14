@@ -33,7 +33,10 @@ export class InputField {
     this.buttonClick.emit();
   }
 
-  onLabelLinkClick(): void {
+  onLabelLinkClick(event?: Event): void {
+    if (event) {
+      event.preventDefault();
+    }
     this.labelLinkClick.emit();
   }
 }

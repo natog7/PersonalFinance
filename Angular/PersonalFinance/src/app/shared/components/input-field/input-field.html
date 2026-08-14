@@ -7,7 +7,7 @@
         @if(labelLink()){
         <a class="field__link"
             href="#"
-            (click)="onLabelLinkClick()">{{ labelLink() }}</a>
+            (click)="onLabelLinkClick($event)">{{ labelLink() }}</a>
         }
     </div>
     <div class="field__input-wrapper">

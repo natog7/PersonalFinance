@@ -51,6 +51,14 @@ export class AuthService {
     return this.http.post<RegisterResponse>(`${this.apiUrl}/register`, credentials);
   }
 
+  forgotPassword(credentials: { email: string; verifyCode: string; password: string }) {
+    return this.http.post(`${this.apiUrl}/reset-password`, credentials);
+  }
+
+  sendVerificationCode(email: string) {
+    return this.http.post(`${this.apiUrl}/send-verification-code`, { email });
+  }
+
   logout() {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
