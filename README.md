@@ -15,10 +15,27 @@ This repository contains both the **Frontend** (Angular/Ionic) and the **Backend
 
 *(Replace the placeholder links below with actual screenshots of your application)*
 
-| Dashboard Overview | Transaction Entry | Financial Projections |
-|:---:|:---:|:---:|
-| <img src="https://via.placeholder.com/250x500.png?text=Dashboard+Mobile" alt="Dashboard" width="250"/> | <img src="https://via.placeholder.com/250x500.png?text=Transactions" alt="Transactions" width="250"/> | <img src="https://via.placeholder.com/250x500.png?text=Projections" alt="Projections" width="250"/> |
-| *Comprehensive view of current balance and recent activity.* | *Quick and intuitive income/expense categorization.* | *Future balance calculations and budgeting.* |
+### 📱 Dashboard & Finances
+
+| Dashboard (Dark Mode) | Dashboard (Light Mode) | Transaction Entry | Financial Projections |
+|:---:|:---:|:---:|:---:|
+| <img src="https://via.placeholder.com/250x500.png?text=Dashboard+(Dark)" alt="Dashboard Dark" width="250"/> | <img src="https://via.placeholder.com/250x500.png?text=Dashboard+(Light)" alt="Dashboard Light" width="250"/> | <img src="https://via.placeholder.com/250x500.png?text=Transactions" alt="Transactions" width="250"/> | <img src="https://via.placeholder.com/250x500.png?text=Projections" alt="Projections" width="250"/> |
+| *Overview & balance (Dark)* | *Clean UI in Light theme* | *Income & expense entry* | *Future balance calculations* |
+
+### ⚙️ Management & Configuration
+
+| Categories Management | Settings & Preferences |
+|:---:|:---:|
+| <img src="https://via.placeholder.com/250x500.png?text=Categories" alt="Categories" width="250"/> | <img src="https://via.placeholder.com/250x500.png?text=Settings" alt="Settings" width="250"/> |
+| *Custom hierarchy & tagging* | *Theme, currency & profile settings* |
+
+### 🔐 Authentication Flow
+
+| Login | Register |
+|:---:|:---:|
+| <img src="https://via.placeholder.com/250x500.png?text=Login" alt="Login" width="250"/> | <img src="https://via.placeholder.com/250x500.png?text=Register" alt="Register" width="250"/> |
+| *Secure JWT authentication* | *New account registration* |
+
 
 ---
 
