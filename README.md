@@ -17,23 +17,28 @@ This repository contains both the **Frontend** (Angular/Ionic) and the **Backend
 
 ### 📱 Dashboard & Finances
 
-| Dashboard (Dark Mode) | Dashboard (Light Mode) | Transaction Entry | Financial Projections |
-|:---:|:---:|:---:|:---:|
-| <img src=".github/assets/dashboard-dark.png" alt="Dashboard Dark" width="250"/> | <img src=".github/assets/dashboard-light.png" alt="Dashboard Light" width="250"/> | <img src=".github/assets/transactions-new.png" alt="Transactions" width="250"/> | <img src=".github/assets/projections.png" alt="Projections" width="250"/> |
-| *Overview & balance (Dark)* | *Clean UI in Light theme* | *Income & expense entry* | *Future balance calculations* |
+| Dashboard (Dark Mode) | Dashboard (Light Mode) |
+|:---:|:---:|
+| <img src=".github/assets/dashboard-dark.png" alt="Dashboard Dark" width="500"/> | <img src=".github/assets/dashboard-light.png" alt="Dashboard Light" width="500"/> |
+| *Overview & balance (Dark)* | *Clean UI in Light theme* |
+
+| Transaction Entry | Financial Projections |
+|:---:|:---:|
+| <img src=".github/assets/transactions-new.png" alt="Transactions" width="500"/> | <img src=".github/assets/projections.png" alt="Projections" width="500"/> |
+| *Income & expense entry* | *Future balance calculations* |
 
 ### ⚙️ Management & Configuration
 
 | Categories Management | Transactions Management | Settings & Preferences |
 |:---:|:---:|:---:|
-| <img src=".github/assets/categories.png" alt="Categories" width="250"/> | <img src=".github/assets/transactions.png" alt="Transactions" width="250"/> | <img src=".github/assets/settings.png" alt="Settings" width="250"/> |
+| <img src=".github/assets/categories.png" alt="Categories" width="500"/> | <img src=".github/assets/transactions.png" alt="Transactions" width="500"/> | <img src=".github/assets/settings.png" alt="Settings" width="500"/> |
 | *Custom hierarchy & tagging* | *Manage income, expenses, and recurring transactions* | *Theme, currency & profile settings* |
 
 ### 🔐 Authentication Flow
 
 | Login | Register |
 |:---:|:---:|
-| <img src=".github/assets/login.png" alt="Login" width="250"/> | <img src=".github/assets/register.png" alt="Register" width="250"/> |
+| <img src=".github/assets/login.png" alt="Login" width="500"/> | <img src=".github/assets/register.png" alt="Register" width="500"/> |
 | *Login (with JWT authentication)* | *New account registration* |
 
 
