@@ -1,4 +1,4 @@
-# Personal Finance Dashboard 🚀
+# Personal Finance Dashboard
 
 A modern, enterprise-grade, cross-platform Personal Finance Management application built to demonstrate advanced software engineering practices, scalable architecture, and cutting-edge web/mobile technologies.
 
@@ -6,16 +6,16 @@ This repository contains both the **Frontend** (Angular/Ionic) and the **Backend
 
 ![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)
 ![.NET](https://img.shields.io/badge/.NET-10.0-512BD4?style=flat-square&logo=.net)
+![C#](https://img.shields.io/badge/C%23-14.0-239120?style=flat-square&logo=csharp)
 ![Angular](https://img.shields.io/badge/Angular-21-DD0031?style=flat-square&logo=angular)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat-square&logo=typescript)
 ![Ionic](https://img.shields.io/badge/Ionic-8-3880FF?style=flat-square&logo=ionic)
 
 ---
 
 ## 📸 Application Screenshots
 
-*(Replace the placeholder links below with actual screenshots of your application)*
-
-### 📱 Dashboard & Finances
+### Dashboard & Finances
 
 | Dashboard (Dark Mode) | Dashboard (Light Mode) |
 |:---:|:---:|
@@ -27,14 +27,14 @@ This repository contains both the **Frontend** (Angular/Ionic) and the **Backend
 | <img src=".github/assets/transactions-new.png" alt="Transactions" width="500"/> | <img src=".github/assets/projections.png" alt="Projections" width="500"/> |
 | *Income & expense entry* | *Future balance calculations* |
 
-### ⚙️ Management & Configuration
+### Management & Configuration
 
 | Categories Management | Transactions Management | Settings & Preferences |
 |:---:|:---:|:---:|
 | <img src=".github/assets/categories.png" alt="Categories" width="500"/> | <img src=".github/assets/transactions.png" alt="Transactions" width="500"/> | <img src=".github/assets/settings.png" alt="Settings" width="500"/> |
 | *Custom hierarchy & tagging* | *Manage income, expenses, and recurring transactions* | *Theme, currency & profile settings* |
 
-### 🔐 Authentication Flow
+### Authentication Flow
 
 | Login | Register |
 |:---:|:---:|
@@ -58,9 +58,9 @@ This repository contains both the **Frontend** (Angular/Ionic) and the **Backend
 
 ## 🛠️ Technology Stack
 
-This project was carefully crafted using highly sought-after technologies in the modern software development market.
+This project was carefully crafted using highly sought-after technologies in the modern software development.
 
-### 💻 Frontend (Client Application)
+### Frontend (Client Application)
 The frontend is a progressive web app (PWA) and native mobile app utilizing the latest ecosystem tools.
 * **Framework**: [Angular 21](https://angular.io/)
 * **UI/UX**: [Ionic Framework 8](https://ionicframework.com/) for cross-platform components.
@@ -68,12 +68,13 @@ The frontend is a progressive web app (PWA) and native mobile app utilizing the 
 * **Language**: TypeScript 5.9
 * **State Management & Reactivity**: RxJS
 * **Testing**: Vitest for ultra-fast unit testing.
+* **Secure Authentication**: [Angular JWT](https://github.com/angular/angular-jwt)
 
-### ⚙️ Backend (API)
+### Backend (API)
 The backend is a highly decoupled REST API following SOLID principles.
 * **Core Framework**: [.NET 10](https://dotnet.microsoft.com/) & ASP.NET Core Minimal APIs
-* **Architecture**: Clean Architecture & Domain-Driven Design (DDD)
-* **Patterns**: CQRS (via [MediatR](https://github.com/jbogard/MediatR)), Repository Pattern
+* **Architecture**: Clean Architecture, Domain-Driven Design (DDD)
+* **Patterns**: CQRS (via [MediatR](https://github.com/jbogard/MediatR)), Repository Pattern, Dependency Injection
 * **Database (Relational)**: PostgreSQL 12+ & Entity Framework Core 9
 * **Database (NoSQL)**: MongoDB (for Audit Logs)
 * **Message Broker**: RabbitMQ (Asynchronous Events)
@@ -82,7 +83,7 @@ The backend is a highly decoupled REST API following SOLID principles.
 * **Testing**: xUnit (Unit, Integration, and Functional tests)
 * **API Documentation**: Scalar
 
-### 🚀 DevOps & CI/CD
+### DevOps & CI/CD
 * Docker & Containerization support
 * Configurable environments and automated migrations
 
