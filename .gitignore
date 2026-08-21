@@ -426,3 +426,4 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+/API/CHAT_INTEGRATION_GUIDE.md
