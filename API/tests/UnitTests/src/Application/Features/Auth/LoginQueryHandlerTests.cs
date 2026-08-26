@@ -1,8 +1,11 @@
+using PersonalFinanceAPI.Domain.Services;
+
 namespace UnitTests.Application.Features.Auth;
 
 public class LoginQueryHandlerTests
 {
 	private readonly Mock<IUserRepository> _mockUserRepository;
+	private readonly Mock<ICurrentUserService> _mockUserService;
 	private readonly Mock<ITokenService> _mockTokenService;
 	private readonly Mock<IPasswordHasher> _mockPasswordHasher;
 	private readonly LoginQueryHandler _handler;
@@ -10,9 +13,11 @@ public class LoginQueryHandlerTests
 	public LoginQueryHandlerTests()
 	{
 		_mockUserRepository = new Mock<IUserRepository>();
+		_mockUserService = new Mock<ICurrentUserService>();
 		_mockTokenService = new Mock<ITokenService>();
 		_mockPasswordHasher = new Mock<IPasswordHasher>();
-		_handler = new LoginQueryHandler(_mockUserRepository.Object, _mockTokenService.Object, _mockPasswordHasher.Object);
+		_handler = new LoginQueryHandler(_mockUserRepository.Object, _mockUserService.Object, 
+			_mockTokenService.Object, _mockPasswordHasher.Object);
 	}
 
 	[Fact]
@@ -39,14 +44,14 @@ public class LoginQueryHandlerTests
 		_mockUserRepository.Setup(r => r.UpdateAsync(user, It.IsAny<CancellationToken>()))
 			.Returns(Task.CompletedTask);
 
-		var query = new LoginQuery { Email = email, Password = password };
+		var query = new LoginQuery(email, password);
 
 		// Act
 		var result = await _handler.Handle(query, CancellationToken.None);
 
 		// Assert
 		Assert.NotNull(result);
-		Assert.Equal(user.Id, result.UserId);
+		Assert.Equal(user.Id, result.Id);
 		Assert.Equal(email, result.Email);
 		Assert.Equal("Test User", result.Nickname);
 		Assert.Equal("access_token", result.Token.AccessToken);
@@ -67,7 +72,7 @@ public class LoginQueryHandlerTests
 		_mockPasswordHasher.Setup(h => h.VerifyPassword(password, "hashed_password"))
 			.Returns(false);
 
-		var query = new LoginQuery { Email = email, Password = password };
+		var query = new LoginQuery(email, password);
 
 		// Act
 		var result = await _handler.Handle(query, CancellationToken.None);
@@ -86,7 +91,7 @@ public class LoginQueryHandlerTests
 		_mockUserRepository.Setup(r => r.GetByEmailAsync(email, It.IsAny<CancellationToken>()))
 			.ReturnsAsync((User?)null);
 
-		var query = new LoginQuery { Email = email, Password = password };
+		var query = new LoginQuery(email, password);
 
 		// Act
 		var result = await _handler.Handle(query, CancellationToken.None);
@@ -107,7 +112,7 @@ public class LoginQueryHandlerTests
 		_mockUserRepository.Setup(r => r.GetByEmailAsync(email, It.IsAny<CancellationToken>()))
 			.ReturnsAsync(user);
 
-		var query = new LoginQuery { Email = email, Password = password };
+		var query = new LoginQuery(email, password);
 
 		// Act
 		var result = await _handler.Handle(query, CancellationToken.None);
@@ -120,7 +125,7 @@ public class LoginQueryHandlerTests
 	public async Task Handle_WithEmptyEmail_ReturnsNull()
 	{
 		// Arrange
-		var query = new LoginQuery { Email = "", Password = "Password123!" };
+		var query = new LoginQuery("", "Password123!");
 
 		// Act
 		var result = await _handler.Handle(query, CancellationToken.None);
@@ -134,7 +139,7 @@ public class LoginQueryHandlerTests
 	public async Task Handle_WithEmptyPassword_ReturnsNull()
 	{
 		// Arrange
-		var query = new LoginQuery { Email = "test@example.com", Password = "" };
+		var query = new LoginQuery("test@example.com", "");
 
 		// Act
 		var result = await _handler.Handle(query, CancellationToken.None);
@@ -167,7 +172,7 @@ public class LoginQueryHandlerTests
 		_mockUserRepository.Setup(r => r.UpdateAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()))
 			.Returns(Task.CompletedTask);
 
-		var query = new LoginQuery { Email = email, Password = password };
+		var query = new LoginQuery(email, password);
 
 		// Act
 		await _handler.Handle(query, CancellationToken.None);
@@ -181,7 +186,7 @@ public class LoginQueryHandlerTests
 	{
 		// Act & Assert
 		var ex = Assert.Throws<ArgumentNullException>(() => 
-			new LoginQueryHandler(null!, _mockTokenService.Object, _mockPasswordHasher.Object));
+			new LoginQueryHandler(null!, _mockUserService.Object, _mockTokenService.Object, _mockPasswordHasher.Object));
 		Assert.Equal("userRepository", ex.ParamName);
 	}
 
@@ -190,7 +195,7 @@ public class LoginQueryHandlerTests
 	{
 		// Act & Assert
 		var ex = Assert.Throws<ArgumentNullException>(() => 
-			new LoginQueryHandler(_mockUserRepository.Object, null!, _mockPasswordHasher.Object));
+			new LoginQueryHandler(_mockUserRepository.Object, _mockUserService.Object, null!, _mockPasswordHasher.Object));
 		Assert.Equal("tokenService", ex.ParamName);
 	}
 
@@ -199,7 +204,7 @@ public class LoginQueryHandlerTests
 	{
 		// Act & Assert
 		var ex = Assert.Throws<ArgumentNullException>(() => 
-			new LoginQueryHandler(_mockUserRepository.Object, _mockTokenService.Object, null!));
+			new LoginQueryHandler(_mockUserRepository.Object, _mockUserService.Object, _mockTokenService.Object, null!));
 		Assert.Equal("passwordHasher", ex.ParamName);
 	}
 }

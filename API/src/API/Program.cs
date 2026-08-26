@@ -6,6 +6,7 @@ using MediatR;
 using PersonalFinanceAPI.Infrastructure.DependencyInjection;
 using PersonalFinanceAPI.API.Middleware;
 using PersonalFinanceAPI.API.Endpoints;
+using PersonalFinanceAPI.API.Hubs;
 using FluentValidation;
 using Scalar.AspNetCore;
 using PersonalFinanceAPI.Application.Features.Transactions.Commands;
@@ -40,7 +41,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateLifetime = true,
             ClockSkew = TimeSpan.Zero
         };
-        
+
         options.Events = new JwtBearerEvents
         {
             OnAuthenticationFailed = context =>
@@ -48,6 +49,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 context.Response.ContentType = "application/json";
                 return context.Response.WriteAsJsonAsync(new { error = "Authentication failed" });
+            },
+            // Suportar token JWT em query string para SignalR
+            OnMessageReceived = context =>
+            {
+                var accessToken = context.Request.Query["access_token"];
+                if (!string.IsNullOrEmpty(accessToken) && context.HttpContext.WebSockets.IsWebSocketRequest)
+                {
+                    context.Token = accessToken;
+                }
+                return Task.CompletedTask;
             }
         };
     });
@@ -59,14 +70,16 @@ builder.Services.AddAuthorizationBuilder()
 
 // Services
 builder.Services
-    .AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
-        typeof(CreateTransactionCommand).Assembly,
-        typeof(RegisterCommand).Assembly))
-    .AddValidatorsFromAssemblyContaining<CreateTransactionCommand>()
-    .AddInfrastructure(connectionString)
-    .AddRedis(builder.Configuration)
+	.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
+		typeof(CreateTransactionCommand).Assembly,
+		typeof(RegisterCommand).Assembly))
+	.AddValidatorsFromAssemblyContaining<CreateTransactionCommand>()
+	.AddInfrastructure(connectionString)
+	.AddRedis(builder.Configuration)
 	.AddMongoDB(builder.Configuration)
-	.AddMassTransit(builder.Configuration);
+	.AddMassTransit(builder.Configuration)
+	.AddSemanticKernel(builder.Configuration)
+	.AddSignalR();
 
 // CORS - Restrito ao domínio Angular
 builder.Services.AddCors(options =>
@@ -115,6 +128,9 @@ app.MapAuthEndpoints();
 app.MapTransactionEndpoints();
 app.MapCategoryEndpoints();
 app.MapFinanceEndpoints();
+
+// Map SignalR Hub para Chat
+app.MapHub<ChatHub>("/hubs/chat");
 
 app.MapGet("/health", () => Results.Ok(new { status = "healthy" }))
     .WithName("Health Check")
